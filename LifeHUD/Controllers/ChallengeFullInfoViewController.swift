@@ -104,10 +104,35 @@ class ChallengeFullInfoViewController: UIViewController {
             progressCounter.isHidden = true
             checkBoxTableView.isHidden = false
             doneButton.isHidden = true
+            setupCheckboxTableView()
         }
     }
-    
+
     private func fillDescriptionLabel(with description: String) {
         descriptionLabel.text = description
+    }
+    
+    private func setupCheckboxTableView() {
+        let bundle = Bundle.main
+        let toDoCellNib = UINib(nibName: "ToDoCell", bundle: bundle)
+        checkBoxTableView.register(toDoCellNib, forCellReuseIdentifier: ToDoCell.identifier)
+        checkBoxTableView.delegate = self
+        checkBoxTableView.dataSource = self
+    }
+}
+
+extension ChallengeFullInfoViewController: UITableViewDelegate {
+    
+}
+
+extension ChallengeFullInfoViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return challenge.toDos.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: ToDoCell.identifier) as! ToDoCell
+        cell.titleLabel.text = challenge.toDos[indexPath.row]
+        return cell
     }
 }
