@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -10,9 +10,11 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ChallengeFullInfoViewController" customModule="LifeHUD" customModuleProvider="target">
             <connections>
+                <outlet property="categoryLabel" destination="KMt-KO-b85" id="kKS-fH-zi6"/>
                 <outlet property="checkBoxTableView" destination="RoZ-MB-q2y" id="xgA-1w-YRR"/>
                 <outlet property="closeButton" destination="YzB-vt-zEz" id="8qz-BR-aqs"/>
                 <outlet property="descriptionLabel" destination="fSY-cP-lri" id="Ukx-gU-7C0"/>
+                <outlet property="difficultyLabel" destination="0Sf-5g-enS" id="XnJ-Up-tGg"/>
                 <outlet property="doneButton" destination="QVB-C4-87l" id="Vzx-tz-af9"/>
                 <outlet property="feeLabel" destination="ClU-L9-G8Z" id="jSS-fw-wTp"/>
                 <outlet property="iconView" destination="Y6a-zP-WOU" id="boL-vr-alc"/>
@@ -133,8 +135,8 @@
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Sf-5g-enS">
-                                    <rect key="frame" x="300.5" y="0.0" width="41.5" height="40"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Sf-5g-enS">
+                                    <rect key="frame" x="300" y="0.0" width="41.5" height="40"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>

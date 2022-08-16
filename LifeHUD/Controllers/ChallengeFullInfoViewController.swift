@@ -22,7 +22,9 @@ class ChallengeFullInfoViewController: UIViewController {
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var closeButton: UIButton!
     
-   
+    @IBOutlet weak var categoryLabel: UILabel!
+    
+    @IBOutlet weak var difficultyLabel: UILabel!
     @IBAction func closeButtonTapped(_ sender: Any) {
             dismiss(animated: true, completion: nil)
     }
@@ -40,8 +42,36 @@ class ChallengeFullInfoViewController: UIViewController {
         fillTitleLabel(with: challenge.title)
         fillDescriptionLabel(with: challenge.description)
         setupProgressController(with: challenge)
+        fillCategoryLabel(with: challenge.category)
+        fillDifficultyLabel(with: challenge.difficulty)
     }
     
+    private func fillDifficultyLabel(with difficulty: ChallengeDifficulty) {
+        switch difficulty {
+            
+        case .lowest:
+            difficultyLabel.text = "Не перетрудился?"
+        case .low:
+            difficultyLabel.text = "Вижу каплю пота"
+        case .average:
+            difficultyLabel.text = "Уже что-то!"
+        case .high:
+            difficultyLabel.text = "Умеешь, могёшь"
+        case .highest:
+            difficultyLabel.text = "КРАСАВЧИК!"
+        }
+    }
+    private func fillCategoryLabel(with category: ChallengeCategory) {
+        switch category {
+            case .health:
+            categoryLabel.text = "Здоровье"
+            case .discipline:
+            categoryLabel.text = "Дисциплина"
+            case .work:
+            categoryLabel.text = "Работа"
+        }
+        
+    }
     private func fillIconView(with category: ChallengeCategory) {
         switch category {
             case .health:
