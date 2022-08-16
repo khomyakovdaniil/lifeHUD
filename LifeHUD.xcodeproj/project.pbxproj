@@ -9,21 +9,35 @@
 /* Begin PBXBuildFile section */
 		5F88820B28AB5BAC006D5967 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F88820A28AB5BAC006D5967 /* AppDelegate.swift */; };
 		5F88820D28AB5BAC006D5967 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F88820C28AB5BAC006D5967 /* SceneDelegate.swift */; };
-		5F88820F28AB5BAC006D5967 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F88820E28AB5BAC006D5967 /* ViewController.swift */; };
+		5F88820F28AB5BAC006D5967 /* ChallengeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F88820E28AB5BAC006D5967 /* ChallengeViewController.swift */; };
 		5F88821228AB5BAC006D5967 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5F88821028AB5BAC006D5967 /* Main.storyboard */; };
 		5F88821428AB5BB1006D5967 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5F88821328AB5BB1006D5967 /* Assets.xcassets */; };
 		5F88821728AB5BB1006D5967 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5F88821528AB5BB1006D5967 /* LaunchScreen.storyboard */; };
+		5F88821F28AB5E34006D5967 /* DemoDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F88821E28AB5E34006D5967 /* DemoDatabase.swift */; };
+		5F88822828AB633C006D5967 /* ChallengeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F88822628AB633C006D5967 /* ChallengeCell.swift */; };
+		5F88822928AB633C006D5967 /* ChallengeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F88822728AB633C006D5967 /* ChallengeCell.xib */; };
+		5F88822B28AB65FD006D5967 /* ChallengesDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F88822A28AB65FD006D5967 /* ChallengesDataSource.swift */; };
+		5F88822D28AB6803006D5967 /* Challenge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F88822C28AB6803006D5967 /* Challenge.swift */; };
+		5F88823128AB8FE9006D5967 /* ChallengeFullInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F88822F28AB8FE9006D5967 /* ChallengeFullInfoViewController.swift */; };
+		5F88823228AB8FE9006D5967 /* ChallengeFullInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F88823028AB8FE9006D5967 /* ChallengeFullInfoViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		5F88820728AB5BAC006D5967 /* LifeHUD.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LifeHUD.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F88820A28AB5BAC006D5967 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5F88820C28AB5BAC006D5967 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		5F88820E28AB5BAC006D5967 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		5F88820E28AB5BAC006D5967 /* ChallengeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeViewController.swift; sourceTree = "<group>"; };
 		5F88821128AB5BAC006D5967 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5F88821328AB5BB1006D5967 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5F88821628AB5BB1006D5967 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5F88821828AB5BB1006D5967 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5F88821E28AB5E34006D5967 /* DemoDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoDatabase.swift; sourceTree = "<group>"; };
+		5F88822628AB633C006D5967 /* ChallengeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeCell.swift; sourceTree = "<group>"; };
+		5F88822728AB633C006D5967 /* ChallengeCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChallengeCell.xib; sourceTree = "<group>"; };
+		5F88822A28AB65FD006D5967 /* ChallengesDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengesDataSource.swift; sourceTree = "<group>"; };
+		5F88822C28AB6803006D5967 /* Challenge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Challenge.swift; sourceTree = "<group>"; };
+		5F88822F28AB8FE9006D5967 /* ChallengeFullInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeFullInfoViewController.swift; sourceTree = "<group>"; };
+		5F88823028AB8FE9006D5967 /* ChallengeFullInfoViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChallengeFullInfoViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,13 +72,44 @@
 			children = (
 				5F88820A28AB5BAC006D5967 /* AppDelegate.swift */,
 				5F88820C28AB5BAC006D5967 /* SceneDelegate.swift */,
-				5F88820E28AB5BAC006D5967 /* ViewController.swift */,
+				5F88822028AB5E45006D5967 /* Database */,
+				5F88822E28AB8FBD006D5967 /* Controllers */,
+				5F88822528AB62FC006D5967 /* Cells */,
 				5F88821028AB5BAC006D5967 /* Main.storyboard */,
 				5F88821328AB5BB1006D5967 /* Assets.xcassets */,
 				5F88821528AB5BB1006D5967 /* LaunchScreen.storyboard */,
 				5F88821828AB5BB1006D5967 /* Info.plist */,
 			);
 			path = LifeHUD;
+			sourceTree = "<group>";
+		};
+		5F88822028AB5E45006D5967 /* Database */ = {
+			isa = PBXGroup;
+			children = (
+				5F88821E28AB5E34006D5967 /* DemoDatabase.swift */,
+				5F88822A28AB65FD006D5967 /* ChallengesDataSource.swift */,
+				5F88822C28AB6803006D5967 /* Challenge.swift */,
+			);
+			path = Database;
+			sourceTree = "<group>";
+		};
+		5F88822528AB62FC006D5967 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				5F88822628AB633C006D5967 /* ChallengeCell.swift */,
+				5F88822728AB633C006D5967 /* ChallengeCell.xib */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		5F88822E28AB8FBD006D5967 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				5F88820E28AB5BAC006D5967 /* ChallengeViewController.swift */,
+				5F88822F28AB8FE9006D5967 /* ChallengeFullInfoViewController.swift */,
+				5F88823028AB8FE9006D5967 /* ChallengeFullInfoViewController.xib */,
+			);
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -126,6 +171,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				5F88821728AB5BB1006D5967 /* LaunchScreen.storyboard in Resources */,
+				5F88823228AB8FE9006D5967 /* ChallengeFullInfoViewController.xib in Resources */,
+				5F88822928AB633C006D5967 /* ChallengeCell.xib in Resources */,
 				5F88821428AB5BB1006D5967 /* Assets.xcassets in Resources */,
 				5F88821228AB5BAC006D5967 /* Main.storyboard in Resources */,
 			);
@@ -138,9 +185,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5F88820F28AB5BAC006D5967 /* ViewController.swift in Sources */,
+				5F88822D28AB6803006D5967 /* Challenge.swift in Sources */,
+				5F88823128AB8FE9006D5967 /* ChallengeFullInfoViewController.swift in Sources */,
+				5F88822828AB633C006D5967 /* ChallengeCell.swift in Sources */,
+				5F88820F28AB5BAC006D5967 /* ChallengeViewController.swift in Sources */,
+				5F88822B28AB65FD006D5967 /* ChallengesDataSource.swift in Sources */,
 				5F88820B28AB5BAC006D5967 /* AppDelegate.swift in Sources */,
 				5F88820D28AB5BAC006D5967 /* SceneDelegate.swift in Sources */,
+				5F88821F28AB5E34006D5967 /* DemoDatabase.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
