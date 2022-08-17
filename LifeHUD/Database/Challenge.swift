@@ -9,7 +9,7 @@ import Foundation
 import CoreText
 
 class Challenge: Codable {
-    var id: Int = 0
+    var id: String = ""
     var title: String = ""
     var duration: ChallengeDuration = .daily
     var category: ChallengeCategory = .health
@@ -23,34 +23,93 @@ class Challenge: Codable {
 }
 
 
-enum ChallengeCategory: Int, Codable {
+enum ChallengeCategory: Int, CaseIterable, Codable {
     case health
     case discipline
     case work
+    
+    func string() -> String {
+        switch self {
+        case .health:
+            return "Здоровье"
+        case .discipline:
+            return "Дисциплина"
+        case .work:
+            return "Работа"
+        }
+    }
 }
 
-enum ChallengeDifficulty: Int, Codable {
+enum ChallengeDifficulty: Int, CaseIterable, Codable {
     case lowest
     case low
     case average
     case high
     case highest
+    
+    func string() -> String {
+        switch self {
+        case .lowest:
+            return "Самый легкий"
+        case .low:
+            return "Легкий"
+        case .average:
+            return "Средний"
+        case .high:
+            return "Трудный"
+        case .highest:
+            return "Самый трудный"
+        }
+    }
 }
 
-enum ChallengeType: Int, Codable {
+enum ChallengeType: Int, CaseIterable, Codable {
     case singleAction
     case counter
     case checkbox
+    
+    func string() -> String {
+        switch self {
+        case .singleAction:
+            return "Одно действие"
+        case .counter:
+            return "Счетчик"
+        case .checkbox:
+            return "Список дел"
+        }
+    }
 }
  
-enum ChallengeFee: Int, Codable {
+enum ChallengeFee: Int, CaseIterable, Codable {
     case none
     case normal
     case critical
+    
+    func string() -> String {
+        switch self {
+        case .none:
+            return "Нет"
+        case .normal:
+            return "Обычный"
+        case .critical:
+            return "Критический"
+        }
+    }
 }
 
-enum ChallengeDuration: Int, Codable {
+enum ChallengeDuration: Int, CaseIterable, Codable {
     case daily
     case weekly
     case monthly
+    
+    func string() -> String {
+        switch self {
+        case .daily:
+            return "Ежедневное"
+        case .weekly:
+            return "На неделю"
+        case .monthly:
+            return "На месяц"
+        }
+    }
 }

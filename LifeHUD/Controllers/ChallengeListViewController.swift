@@ -7,16 +7,17 @@
 
 import UIKit
 
-class ChallengeViewController: UIViewController {
+class ChallengeListViewController: UIViewController {
     
     @IBOutlet weak var challengesTableView: UITableView!
     
-    let challengesDataSource = ChallengesDataSource()
+    let challengesDataSource = ChallengesDataSource.shared
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        challengesDataSource.challenges = DemoDatabase.getChallenges()
+        challengesDataSource.delegate = self
         setupChallengesTableView()
+        ChallengesRepository.loadChallenges()
     }
     
     // MARK: - private
@@ -31,7 +32,7 @@ class ChallengeViewController: UIViewController {
 
 }
 
-extension ChallengeViewController: UITableViewDelegate {
+extension ChallengeListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 80
     }
@@ -51,10 +52,15 @@ extension ChallengeViewController: UITableViewDelegate {
         default:
             break
         }
-        let challengeFullInfoVC = ChallengeFullInfoViewController()
-        challengeFullInfoVC.challenge = challenge
+        let challengeFullInfoVC = ChallengeFullInfoViewController(challenge: challenge, dataSource: challengesDataSource)
         challengeFullInfoVC.modalPresentationStyle = .fullScreen
         self.present(challengeFullInfoVC, animated: false)
     }
 
+}
+
+extension ChallengeListViewController: DataSourceDelegateProtocol {
+    func challengeListUpdated() {
+        challengesTableView.reloadData()
+    }
 }

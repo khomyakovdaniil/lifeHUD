@@ -9,7 +9,8 @@ import UIKit
 
 class ChallengeFullInfoViewController: UIViewController {
     
-    var challenge = Challenge()
+    var challenge: Challenge
+    var dataSource: ChallengesDataSource
     
     @IBOutlet weak var iconView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
@@ -25,6 +26,7 @@ class ChallengeFullInfoViewController: UIViewController {
     @IBOutlet weak var categoryLabel: UILabel!
     
     @IBOutlet weak var difficultyLabel: UILabel!
+    
     @IBAction func closeButtonTapped(_ sender: Any) {
             dismiss(animated: true, completion: nil)
     }
@@ -33,6 +35,16 @@ class ChallengeFullInfoViewController: UIViewController {
         super.viewDidLoad()
         
         fill(with: challenge)
+    }
+    
+    required init(challenge: Challenge, dataSource: ChallengesDataSource) {
+        self.challenge = challenge
+        self.dataSource = dataSource
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     func fill(with challenge: Challenge) {
@@ -70,7 +82,6 @@ class ChallengeFullInfoViewController: UIViewController {
             case .work:
             categoryLabel.text = "Работа"
         }
-        
     }
     private func fillIconView(with category: ChallengeCategory) {
         switch category {
@@ -120,20 +131,10 @@ class ChallengeFullInfoViewController: UIViewController {
     private func setupProgressController(with challenge: Challenge) {
         switch challenge.type {
         case .singleAction:
-            progressLabel.isHidden = true
-            progressCounter.isHidden = true
-            checkBoxTableView.isHidden = true
-            doneButton.isHidden = false
+            setupDoneButton()
         case .counter:
-            progressLabel.isHidden = false
-            progressCounter.isHidden = false
-            checkBoxTableView.isHidden = true
-            doneButton.isHidden = true
+            setupCounter()
         case .checkbox:
-            progressLabel.isHidden = true
-            progressCounter.isHidden = true
-            checkBoxTableView.isHidden = false
-            doneButton.isHidden = true
             setupCheckboxTableView()
         }
     }
@@ -142,7 +143,33 @@ class ChallengeFullInfoViewController: UIViewController {
         descriptionLabel.text = description
     }
     
+    private func setupDoneButton() {
+        progressLabel.isHidden = true
+        progressCounter.isHidden = true
+        checkBoxTableView.isHidden = true
+        doneButton.isHidden = false
+    }
+    
+    private func setupCounter() {
+        progressLabel.isHidden = false
+        progressCounter.isHidden = false
+        checkBoxTableView.isHidden = true
+        doneButton.isHidden = true
+        progressCounter.minimumValue = 0
+        progressCounter.maximumValue = Double(challenge.count)
+        if let progress = challenge.progress {
+            progressCounter.value = Double(progress.count)
+        } else {
+            progressCounter.value = progressCounter.minimumValue
+        }
+        progressLabel.text = String(Int(progressCounter.value))
+    }
+    
     private func setupCheckboxTableView() {
+        progressLabel.isHidden = true
+        progressCounter.isHidden = true
+        checkBoxTableView.isHidden = false
+        doneButton.isHidden = true
         let bundle = Bundle.main
         let toDoCellNib = UINib(nibName: "ToDoCell", bundle: bundle)
         checkBoxTableView.register(toDoCellNib, forCellReuseIdentifier: ToDoCell.identifier)
@@ -163,6 +190,21 @@ extension ChallengeFullInfoViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ToDoCell.identifier) as! ToDoCell
         cell.titleLabel.text = challenge.toDos[indexPath.row]
+        cell.indexPath = indexPath
+        cell.delegate = self
         return cell
+    }
+}
+
+extension ChallengeFullInfoViewController: ToDoCellDelegate {
+    func checkBoxSelected(at indexPath: IndexPath) {
+        let actionIndex = indexPath.row
+        challenge.progress?.append(actionIndex)
+    }
+    
+    func checkBoxUnselected(at indexPath: IndexPath) {
+        let actionIndex = indexPath.row
+        challenge.progress?.firstIndex(of: actionIndex)
+        challenge.progress?.remove(at: actionIndex)
     }
 }

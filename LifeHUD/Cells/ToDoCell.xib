@@ -25,6 +25,9 @@
                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                         <state key="normal" backgroundImage="square" catalog="system"/>
                         <state key="selected" backgroundImage="checkmark.square" catalog="system"/>
+                        <connections>
+                            <action selector="checkboxTapped:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="7b5-EA-PhA"/>
+                        </connections>
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="adH-Xq-XUV">
                         <rect key="frame" x="44" y="11.5" width="42" height="21"/>
@@ -43,6 +46,7 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="checkBox" destination="rLK-zB-2oq" id="YTB-WU-nvR"/>
                 <outlet property="titleLabel" destination="adH-Xq-XUV" id="Iqb-1R-zdy"/>
             </connections>
             <point key="canvasLocation" x="137.68115942028987" y="107.8125"/>

@@ -10,9 +10,15 @@ import UIKit
 
 class ChallengesDataSource: NSObject {
     
+    static let shared = ChallengesDataSource()
+    
+    weak var delegate: DataSourceDelegateProtocol?
+    
     var challenges: [Challenge] = [Challenge()] {
         didSet {
             sort(challenges)
+            ChallengesRepository.saveDatabase(challenges)
+            delegate?.challengeListUpdated()
         }
     }
     var dailyChallenges: [Challenge] = [Challenge()]
@@ -78,4 +84,8 @@ extension ChallengesDataSource: UITableViewDataSource {
         }
     }
 
+}
+
+protocol DataSourceDelegateProtocol: class {
+    func challengeListUpdated()
 }

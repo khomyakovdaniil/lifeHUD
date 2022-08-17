@@ -10,7 +10,7 @@
 		181E213C28A93F7E8EFDEF33 /* Pods_LifeHUD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B271C31CD6155A484D479C84 /* Pods_LifeHUD.framework */; };
 		5F88820B28AB5BAC006D5967 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F88820A28AB5BAC006D5967 /* AppDelegate.swift */; };
 		5F88820D28AB5BAC006D5967 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F88820C28AB5BAC006D5967 /* SceneDelegate.swift */; };
-		5F88820F28AB5BAC006D5967 /* ChallengeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F88820E28AB5BAC006D5967 /* ChallengeViewController.swift */; };
+		5F88820F28AB5BAC006D5967 /* ChallengeListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F88820E28AB5BAC006D5967 /* ChallengeListViewController.swift */; };
 		5F88821228AB5BAC006D5967 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5F88821028AB5BAC006D5967 /* Main.storyboard */; };
 		5F88821428AB5BB1006D5967 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5F88821328AB5BB1006D5967 /* Assets.xcassets */; };
 		5F88821728AB5BB1006D5967 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5F88821528AB5BB1006D5967 /* LaunchScreen.storyboard */; };
@@ -24,6 +24,8 @@
 		5F88823428ABCA28006D5967 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5F88823328ABCA28006D5967 /* GoogleService-Info.plist */; };
 		5F88825028ABDBAE006D5967 /* ToDoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F88824E28ABDBAE006D5967 /* ToDoCell.swift */; };
 		5F88825128ABDBAE006D5967 /* ToDoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F88824F28ABDBAE006D5967 /* ToDoCell.xib */; };
+		5F88825328ABF75F006D5967 /* ChallengesRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F88825228ABF75F006D5967 /* ChallengesRepository.swift */; };
+		5F88825528ACC9B5006D5967 /* ChallengeCreationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F88825428ACC9B5006D5967 /* ChallengeCreationViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,7 +33,7 @@
 		5F88820728AB5BAC006D5967 /* LifeHUD.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LifeHUD.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F88820A28AB5BAC006D5967 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5F88820C28AB5BAC006D5967 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		5F88820E28AB5BAC006D5967 /* ChallengeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeViewController.swift; sourceTree = "<group>"; };
+		5F88820E28AB5BAC006D5967 /* ChallengeListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeListViewController.swift; sourceTree = "<group>"; };
 		5F88821128AB5BAC006D5967 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5F88821328AB5BB1006D5967 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5F88821628AB5BB1006D5967 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -46,6 +48,8 @@
 		5F88823328ABCA28006D5967 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		5F88824E28ABDBAE006D5967 /* ToDoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoCell.swift; sourceTree = "<group>"; };
 		5F88824F28ABDBAE006D5967 /* ToDoCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ToDoCell.xib; sourceTree = "<group>"; };
+		5F88825228ABF75F006D5967 /* ChallengesRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengesRepository.swift; sourceTree = "<group>"; };
+		5F88825428ACC9B5006D5967 /* ChallengeCreationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeCreationViewController.swift; sourceTree = "<group>"; };
 		B271C31CD6155A484D479C84 /* Pods_LifeHUD.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LifeHUD.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA14240D0F82840386FCCFF6 /* Pods-LifeHUD.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LifeHUD.debug.xcconfig"; path = "Target Support Files/Pods-LifeHUD/Pods-LifeHUD.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -110,6 +114,7 @@
 			children = (
 				5F88821E28AB5E34006D5967 /* DemoDatabase.swift */,
 				5F88822A28AB65FD006D5967 /* ChallengesDataSource.swift */,
+				5F88825228ABF75F006D5967 /* ChallengesRepository.swift */,
 				5F88822C28AB6803006D5967 /* Challenge.swift */,
 			);
 			path = Database;
@@ -129,9 +134,10 @@
 		5F88822E28AB8FBD006D5967 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				5F88820E28AB5BAC006D5967 /* ChallengeViewController.swift */,
+				5F88820E28AB5BAC006D5967 /* ChallengeListViewController.swift */,
 				5F88822F28AB8FE9006D5967 /* ChallengeFullInfoViewController.swift */,
 				5F88823028AB8FE9006D5967 /* ChallengeFullInfoViewController.xib */,
+				5F88825428ACC9B5006D5967 /* ChallengeCreationViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -267,10 +273,12 @@
 				5F88822D28AB6803006D5967 /* Challenge.swift in Sources */,
 				5F88823128AB8FE9006D5967 /* ChallengeFullInfoViewController.swift in Sources */,
 				5F88822828AB633C006D5967 /* ChallengeCell.swift in Sources */,
-				5F88820F28AB5BAC006D5967 /* ChallengeViewController.swift in Sources */,
+				5F88820F28AB5BAC006D5967 /* ChallengeListViewController.swift in Sources */,
 				5F88822B28AB65FD006D5967 /* ChallengesDataSource.swift in Sources */,
 				5F88820B28AB5BAC006D5967 /* AppDelegate.swift in Sources */,
+				5F88825528ACC9B5006D5967 /* ChallengeCreationViewController.swift in Sources */,
 				5F88825028ABDBAE006D5967 /* ToDoCell.swift in Sources */,
+				5F88825328ABF75F006D5967 /* ChallengesRepository.swift in Sources */,
 				5F88820D28AB5BAC006D5967 /* SceneDelegate.swift in Sources */,
 				5F88821F28AB5E34006D5967 /* DemoDatabase.swift in Sources */,
 			);

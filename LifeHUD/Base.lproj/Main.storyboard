@@ -11,7 +11,7 @@
         <!--Задания-->
         <scene sceneID="UI3-Vg-SLw">
             <objects>
-                <viewController id="GPC-f3-b39" customClass="ChallengeViewController" customModule="LifeHUD" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="GPC-f3-b39" customClass="ChallengeListViewController" customModule="LifeHUD" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="cOb-Zl-5zp">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -65,21 +65,177 @@
             </objects>
             <point key="canvasLocation" x="-761" y="1367"/>
         </scene>
-        <!--Item-->
+        <!--Создание-->
         <scene sceneID="AU3-4k-Tmn">
             <objects>
-                <viewController id="tzQ-2c-gYg" sceneMemberID="viewController">
+                <viewController id="tzQ-2c-gYg" customClass="ChallengeCreationViewController" customModule="LifeHUD" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="3kf-AB-NDM">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleAspectFit" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="hFQ-rw-2XP">
+                                <rect key="frame" x="32" y="44" width="350" height="404"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="06f-xY-VJC">
+                                        <rect key="frame" x="0.0" y="0.0" width="350" height="81"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Категория" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hsy-pC-NQS">
+                                                <rect key="frame" x="0.0" y="30" width="82.5" height="20.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oBm-xb-Zuz">
+                                                <rect key="frame" x="175" y="0.0" width="175" height="81"/>
+                                            </pickerView>
+                                        </subviews>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="bottom" secondItem="oBm-xb-Zuz" secondAttribute="bottom" id="2ED-Cn-UEs"/>
+                                            <constraint firstItem="oBm-xb-Zuz" firstAttribute="leading" secondItem="06f-xY-VJC" secondAttribute="centerX" id="7Ta-qG-cDM"/>
+                                            <constraint firstItem="hsy-pC-NQS" firstAttribute="leading" secondItem="06f-xY-VJC" secondAttribute="leading" id="Aev-gK-FYh"/>
+                                            <constraint firstItem="oBm-xb-Zuz" firstAttribute="centerY" secondItem="06f-xY-VJC" secondAttribute="centerY" id="S79-pi-gfG"/>
+                                            <constraint firstItem="hsy-pC-NQS" firstAttribute="centerY" secondItem="06f-xY-VJC" secondAttribute="centerY" id="etw-me-Wyx"/>
+                                            <constraint firstAttribute="trailing" secondItem="oBm-xb-Zuz" secondAttribute="trailing" id="og9-9L-BSl"/>
+                                            <constraint firstItem="oBm-xb-Zuz" firstAttribute="top" secondItem="06f-xY-VJC" secondAttribute="top" id="sGo-RA-Wh1"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5sc-Uw-bF4">
+                                        <rect key="frame" x="0.0" y="81" width="350" height="80.5"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Длительность" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4QP-Gy-Rqj">
+                                                <rect key="frame" x="0.0" y="30" width="111.5" height="20.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yJK-aI-1g8">
+                                                <rect key="frame" x="175" y="0.0" width="175" height="80.5"/>
+                                            </pickerView>
+                                        </subviews>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <constraints>
+                                            <constraint firstItem="yJK-aI-1g8" firstAttribute="top" secondItem="5sc-Uw-bF4" secondAttribute="top" id="2Km-um-2JR"/>
+                                            <constraint firstItem="4QP-Gy-Rqj" firstAttribute="leading" secondItem="5sc-Uw-bF4" secondAttribute="leading" id="FID-WT-euq"/>
+                                            <constraint firstAttribute="trailing" secondItem="yJK-aI-1g8" secondAttribute="trailing" id="Hef-sL-Nmo"/>
+                                            <constraint firstItem="4QP-Gy-Rqj" firstAttribute="centerY" secondItem="5sc-Uw-bF4" secondAttribute="centerY" id="hhO-AW-LDb"/>
+                                            <constraint firstItem="yJK-aI-1g8" firstAttribute="leading" secondItem="5sc-Uw-bF4" secondAttribute="centerX" id="jz2-uf-SKT"/>
+                                            <constraint firstAttribute="bottom" secondItem="yJK-aI-1g8" secondAttribute="bottom" id="whj-Gx-610"/>
+                                            <constraint firstItem="yJK-aI-1g8" firstAttribute="centerY" secondItem="5sc-Uw-bF4" secondAttribute="centerY" id="ynr-io-ara"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xgi-fb-zIs">
+                                        <rect key="frame" x="0.0" y="161.5" width="350" height="81"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Сложность" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nA3-57-EMM">
+                                                <rect key="frame" x="0.0" y="30.5" width="88" height="20.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="45T-Ud-KOt">
+                                                <rect key="frame" x="175" y="0.0" width="175" height="81"/>
+                                            </pickerView>
+                                        </subviews>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <constraints>
+                                            <constraint firstItem="45T-Ud-KOt" firstAttribute="centerY" secondItem="xgi-fb-zIs" secondAttribute="centerY" id="0gJ-dI-t0a"/>
+                                            <constraint firstAttribute="trailing" secondItem="45T-Ud-KOt" secondAttribute="trailing" id="FDJ-Vc-4X5"/>
+                                            <constraint firstItem="nA3-57-EMM" firstAttribute="leading" secondItem="xgi-fb-zIs" secondAttribute="leading" id="H7q-eP-lwj"/>
+                                            <constraint firstAttribute="bottom" secondItem="45T-Ud-KOt" secondAttribute="bottom" id="JWQ-Gi-z8g"/>
+                                            <constraint firstItem="45T-Ud-KOt" firstAttribute="top" secondItem="xgi-fb-zIs" secondAttribute="top" id="PpV-fV-4sX"/>
+                                            <constraint firstItem="45T-Ud-KOt" firstAttribute="leading" secondItem="xgi-fb-zIs" secondAttribute="centerX" id="eK7-b4-wMF"/>
+                                            <constraint firstItem="nA3-57-EMM" firstAttribute="centerY" secondItem="xgi-fb-zIs" secondAttribute="centerY" id="slT-Rv-r2b"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="z5d-kA-aHE">
+                                        <rect key="frame" x="0.0" y="242.5" width="350" height="80.5"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Штраф" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lxF-iz-Zea">
+                                                <rect key="frame" x="0.0" y="30" width="55.5" height="20.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rXM-q3-dAw">
+                                                <rect key="frame" x="175" y="0.0" width="175" height="80.5"/>
+                                            </pickerView>
+                                        </subviews>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <constraints>
+                                            <constraint firstItem="lxF-iz-Zea" firstAttribute="leading" secondItem="z5d-kA-aHE" secondAttribute="leading" id="Ccd-sC-DEY"/>
+                                            <constraint firstItem="lxF-iz-Zea" firstAttribute="centerY" secondItem="z5d-kA-aHE" secondAttribute="centerY" id="DN1-yG-wav"/>
+                                            <constraint firstAttribute="bottom" secondItem="rXM-q3-dAw" secondAttribute="bottom" id="Hi4-CM-qoM"/>
+                                            <constraint firstItem="rXM-q3-dAw" firstAttribute="centerY" secondItem="z5d-kA-aHE" secondAttribute="centerY" id="JlT-rp-UfB"/>
+                                            <constraint firstItem="rXM-q3-dAw" firstAttribute="leading" secondItem="z5d-kA-aHE" secondAttribute="centerX" id="SM8-q7-1bf"/>
+                                            <constraint firstAttribute="trailing" secondItem="rXM-q3-dAw" secondAttribute="trailing" id="igJ-no-YO2"/>
+                                            <constraint firstItem="rXM-q3-dAw" firstAttribute="top" secondItem="z5d-kA-aHE" secondAttribute="top" id="rQB-Ja-OwB"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dVA-VJ-4Pj">
+                                        <rect key="frame" x="0.0" y="323" width="350" height="81"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Тип" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2tz-X8-nKN">
+                                                <rect key="frame" x="0.0" y="30.5" width="29" height="20.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="a3d-wo-VB2">
+                                                <rect key="frame" x="175" y="0.0" width="175" height="81"/>
+                                            </pickerView>
+                                        </subviews>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <constraints>
+                                            <constraint firstItem="a3d-wo-VB2" firstAttribute="top" secondItem="dVA-VJ-4Pj" secondAttribute="top" id="1e9-8J-TTQ"/>
+                                            <constraint firstItem="2tz-X8-nKN" firstAttribute="leading" secondItem="dVA-VJ-4Pj" secondAttribute="leading" id="1uz-oH-xmn"/>
+                                            <constraint firstItem="a3d-wo-VB2" firstAttribute="leading" secondItem="dVA-VJ-4Pj" secondAttribute="centerX" id="6f1-Fm-0Cy"/>
+                                            <constraint firstAttribute="bottom" secondItem="a3d-wo-VB2" secondAttribute="bottom" id="J4A-hw-sWu"/>
+                                            <constraint firstItem="2tz-X8-nKN" firstAttribute="centerY" secondItem="dVA-VJ-4Pj" secondAttribute="centerY" id="Qhe-1x-ooa"/>
+                                            <constraint firstAttribute="trailing" secondItem="a3d-wo-VB2" secondAttribute="trailing" id="ihZ-av-OaM"/>
+                                            <constraint firstItem="a3d-wo-VB2" firstAttribute="centerY" secondItem="dVA-VJ-4Pj" secondAttribute="centerY" id="pO3-U5-RBX"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="06f-xY-VJC" secondAttribute="trailing" id="7a1-5T-Ivp"/>
+                                    <constraint firstItem="06f-xY-VJC" firstAttribute="leading" secondItem="hFQ-rw-2XP" secondAttribute="leading" id="W3V-WF-TvU"/>
+                                </constraints>
+                            </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y9D-Nn-Gsg">
+                                <rect key="frame" x="167" y="730" width="80" height="31"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Создать"/>
+                                <connections>
+                                    <action selector="createButtonTapped:" destination="tzQ-2c-gYg" eventType="touchUpInside" id="iLS-YP-MeV"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="eTT-Ip-uTj"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="eTT-Ip-uTj" firstAttribute="trailing" secondItem="hFQ-rw-2XP" secondAttribute="trailing" constant="32" id="1NK-T1-NyA"/>
+                            <constraint firstItem="Y9D-Nn-Gsg" firstAttribute="centerX" secondItem="3kf-AB-NDM" secondAttribute="centerX" id="F1A-0q-ptL"/>
+                            <constraint firstItem="eTT-Ip-uTj" firstAttribute="bottom" secondItem="Y9D-Nn-Gsg" secondAttribute="bottom" constant="52" id="JU2-4d-X0O"/>
+                            <constraint firstItem="hFQ-rw-2XP" firstAttribute="centerX" secondItem="3kf-AB-NDM" secondAttribute="centerX" id="LlG-63-IXf"/>
+                            <constraint firstItem="eTT-Ip-uTj" firstAttribute="top" relation="lessThanOrEqual" secondItem="hFQ-rw-2XP" secondAttribute="top" id="QwY-wo-LIK"/>
+                            <constraint firstItem="hFQ-rw-2XP" firstAttribute="leading" secondItem="eTT-Ip-uTj" secondAttribute="leading" constant="32" id="aqR-p3-ayH"/>
+                            <constraint firstItem="hFQ-rw-2XP" firstAttribute="bottom" secondItem="3kf-AB-NDM" secondAttribute="centerY" id="v8j-s7-wQy"/>
+                        </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item" id="h5Z-Hl-A72"/>
+                    <tabBarItem key="tabBarItem" title="Создание" id="h5Z-Hl-A72"/>
+                    <connections>
+                        <outlet property="categoryPicker" destination="oBm-xb-Zuz" id="R2c-eq-87D"/>
+                        <outlet property="createButton" destination="Y9D-Nn-Gsg" id="HHT-qT-BpP"/>
+                        <outlet property="difficultyPicker" destination="45T-Ud-KOt" id="dya-6f-AaX"/>
+                        <outlet property="durationPicker" destination="yJK-aI-1g8" id="sR6-Ng-10U"/>
+                        <outlet property="failFeePicker" destination="rXM-q3-dAw" id="sec-mb-Bxl"/>
+                        <outlet property="typePicker" destination="a3d-wo-VB2" id="Nxg-p1-Ppc"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UGg-18-pJW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="19" y="1367"/>
+            <point key="canvasLocation" x="18.840579710144929" y="1366.7410714285713"/>
         </scene>
         <!--Item-->
         <scene sceneID="FHl-za-swr">
