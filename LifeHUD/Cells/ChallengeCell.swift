@@ -82,11 +82,13 @@ class ChallengeCell: UITableViewCell {
         case .singleAction:
             progressView.isHidden = true
         case .counter:
+            progressView.isHidden = false
             goalLabel.text = String(challenge.count)
             let maximum = Float(challenge.count)
             let progress = current/maximum
             progressBar.setProgress(progress, animated: true)
         case .checkbox:
+            progressView.isHidden = false
             goalLabel.text = String(challenge.toDos.count)
             let maximum = Float(challenge.toDos.count)
             let progress = current/maximum

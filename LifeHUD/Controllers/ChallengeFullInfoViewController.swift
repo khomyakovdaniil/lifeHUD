@@ -9,8 +9,22 @@ import UIKit
 
 class ChallengeFullInfoViewController: UIViewController {
     
+    // MARK: - Properties
+    
     var challenge: Challenge
     var dataSource: ChallengesDataSource
+    
+    private var progress: [Int] {
+        didSet {
+            if challenge.type == .counter, progress.count == challenge.count {
+                challengeCompleted()
+            } else if challenge.type == .checkbox, progress.count == challenge.toDos.count {
+                challengeCompleted()
+            }
+        }
+    }
+    
+    // MARK: - Outlets
     
     @IBOutlet weak var iconView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
@@ -27,25 +41,49 @@ class ChallengeFullInfoViewController: UIViewController {
     
     @IBOutlet weak var difficultyLabel: UILabel!
     
+    // MARK: - Actions
+    
     @IBAction func closeButtonTapped(_ sender: Any) {
             dismiss(animated: true, completion: nil)
     }
     
+    @IBAction func doneButtonTapped(_ sender: Any) {
+        challengeCompleted()
+    }
+    
+    @IBAction func progressChanged(_ sender: Any) {
+        progressLabel.text = String(Int(progressCounter.value))
+        progress.append(Int(progressCounter.value))
+    }
+    
+    // MARK: - ViewLifeCycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         fill(with: challenge)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        challenge.progress = progress
+        guard let index = dataSource.challenges.firstIndex(where: { $0.id == challenge.id }) else { return }
+        dataSource.challenges.remove(at: index)
+        dataSource.challenges.insert(challenge, at: index)
+        ChallengesRepository.createChallenge(challenge)
     }
     
     required init(challenge: Challenge, dataSource: ChallengesDataSource) {
         self.challenge = challenge
         self.dataSource = dataSource
+        self.progress = challenge.progress ?? []
         super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    // MARK: - UISetup
     
     func fill(with challenge: Challenge) {
         fillIconView(with: challenge.category)
@@ -176,6 +214,20 @@ class ChallengeFullInfoViewController: UIViewController {
         checkBoxTableView.delegate = self
         checkBoxTableView.dataSource = self
     }
+    
+    private func challengeCompleted() {
+        let alert = UIAlertController(title: "Ура", message: "Задача выполнена", preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title: "ок", style: UIAlertAction.Style.default, handler: { (_: UIAlertAction!) -> Void in
+            let index = self.dataSource.challenges.firstIndex(where: { $0.id == self.challenge.id })!
+            UserStats.addXP(from: self.challenge)
+            ChallengesRepository.removeChallenge(self.challenge.id)
+            self.dataSource.challenges.remove(at: index)
+            self.dismiss(animated: true, completion: nil)
+                                         }))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    
 }
 
 extension ChallengeFullInfoViewController: UITableViewDelegate {
@@ -192,6 +244,9 @@ extension ChallengeFullInfoViewController: UITableViewDataSource {
         cell.titleLabel.text = challenge.toDos[indexPath.row]
         cell.indexPath = indexPath
         cell.delegate = self
+        if challenge.progress != nil {
+            cell.checkBox.isSelected = challenge.progress!.contains(indexPath.row)
+        }
         return cell
     }
 }
@@ -199,12 +254,12 @@ extension ChallengeFullInfoViewController: UITableViewDataSource {
 extension ChallengeFullInfoViewController: ToDoCellDelegate {
     func checkBoxSelected(at indexPath: IndexPath) {
         let actionIndex = indexPath.row
-        challenge.progress?.append(actionIndex)
+        progress.append(actionIndex)
     }
     
     func checkBoxUnselected(at indexPath: IndexPath) {
         let actionIndex = indexPath.row
-        challenge.progress?.firstIndex(of: actionIndex)
-        challenge.progress?.remove(at: actionIndex)
+        guard let index = progress.firstIndex(of: actionIndex) else { return  }
+        progress.remove(at: index)
     }
 }

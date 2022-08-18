@@ -26,6 +26,8 @@
 		5F88825128ABDBAE006D5967 /* ToDoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F88824F28ABDBAE006D5967 /* ToDoCell.xib */; };
 		5F88825328ABF75F006D5967 /* ChallengesRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F88825228ABF75F006D5967 /* ChallengesRepository.swift */; };
 		5F88825528ACC9B5006D5967 /* ChallengeCreationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F88825428ACC9B5006D5967 /* ChallengeCreationViewController.swift */; };
+		5F88825728AE3DA8006D5967 /* UserStatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F88825628AE3DA8006D5967 /* UserStatsViewController.swift */; };
+		5F88825928AE3EB7006D5967 /* UserStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F88825828AE3EB7006D5967 /* UserStats.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,6 +52,8 @@
 		5F88824F28ABDBAE006D5967 /* ToDoCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ToDoCell.xib; sourceTree = "<group>"; };
 		5F88825228ABF75F006D5967 /* ChallengesRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengesRepository.swift; sourceTree = "<group>"; };
 		5F88825428ACC9B5006D5967 /* ChallengeCreationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeCreationViewController.swift; sourceTree = "<group>"; };
+		5F88825628AE3DA8006D5967 /* UserStatsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStatsViewController.swift; sourceTree = "<group>"; };
+		5F88825828AE3EB7006D5967 /* UserStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStats.swift; sourceTree = "<group>"; };
 		B271C31CD6155A484D479C84 /* Pods_LifeHUD.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LifeHUD.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA14240D0F82840386FCCFF6 /* Pods-LifeHUD.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LifeHUD.debug.xcconfig"; path = "Target Support Files/Pods-LifeHUD/Pods-LifeHUD.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -116,6 +120,7 @@
 				5F88822A28AB65FD006D5967 /* ChallengesDataSource.swift */,
 				5F88825228ABF75F006D5967 /* ChallengesRepository.swift */,
 				5F88822C28AB6803006D5967 /* Challenge.swift */,
+				5F88825828AE3EB7006D5967 /* UserStats.swift */,
 			);
 			path = Database;
 			sourceTree = "<group>";
@@ -138,6 +143,7 @@
 				5F88822F28AB8FE9006D5967 /* ChallengeFullInfoViewController.swift */,
 				5F88823028AB8FE9006D5967 /* ChallengeFullInfoViewController.xib */,
 				5F88825428ACC9B5006D5967 /* ChallengeCreationViewController.swift */,
+				5F88825628AE3DA8006D5967 /* UserStatsViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -270,11 +276,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5F88825928AE3EB7006D5967 /* UserStats.swift in Sources */,
 				5F88822D28AB6803006D5967 /* Challenge.swift in Sources */,
 				5F88823128AB8FE9006D5967 /* ChallengeFullInfoViewController.swift in Sources */,
 				5F88822828AB633C006D5967 /* ChallengeCell.swift in Sources */,
 				5F88820F28AB5BAC006D5967 /* ChallengeListViewController.swift in Sources */,
 				5F88822B28AB65FD006D5967 /* ChallengesDataSource.swift in Sources */,
+				5F88825728AE3DA8006D5967 /* UserStatsViewController.swift in Sources */,
 				5F88820B28AB5BAC006D5967 /* AppDelegate.swift in Sources */,
 				5F88825528ACC9B5006D5967 /* ChallengeCreationViewController.swift in Sources */,
 				5F88825028ABDBAE006D5967 /* ToDoCell.swift in Sources */,

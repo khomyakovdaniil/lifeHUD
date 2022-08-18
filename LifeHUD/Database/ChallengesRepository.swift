@@ -27,6 +27,10 @@ class ChallengesRepository {
         }
     }
     
+    static func removeChallenge(_ id: String) {
+        database.child("\(id)").setValue(nil)
+    }
+    
     static func loadChallenges() {
         database.child("list").observeSingleEvent(of: .value) { snapshot in
             guard let values = snapshot.value as? [String] else {
@@ -90,17 +94,19 @@ class ChallengesRepository {
         newChallenge.difficulty = ChallengeDifficulty(rawValue: template["difficulty"] as! Int)!
         newChallenge.description = template["description"] as? String ?? ""
         newChallenge.type = ChallengeType(rawValue: template["type"] as! Int)!
-        newChallenge.count = template["description"] as? Int ?? 0
+        newChallenge.count = template["count"] as? Int ?? 0
         newChallenge.failFee = ChallengeFee(rawValue: template["failFee"] as! Int)!
+        newChallenge.toDos = template["toDos"] as? [String] ?? []
+        newChallenge.progress = template["progress"] as? [Int] ?? []
         return newChallenge
     }
     
     private static func makeObjectWith(_ challenge: Challenge) -> [String: Any] {
         
-        var progress = ""
+        var progress: [Int] = []
         if challenge.progress != nil {
             for step in challenge.progress! {
-                progress.append(String(step))
+                progress.append(step)
             }
         }
         

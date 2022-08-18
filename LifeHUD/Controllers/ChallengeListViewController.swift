@@ -12,12 +12,16 @@ class ChallengeListViewController: UIViewController {
     @IBOutlet weak var challengesTableView: UITableView!
     
     let challengesDataSource = ChallengesDataSource.shared
+    private let refreshControl = UIRefreshControl()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         challengesDataSource.delegate = self
         setupChallengesTableView()
         ChallengesRepository.loadChallenges()
+        refreshControl.attributedTitle = NSAttributedString(string: "Обновить")
+        refreshControl.addTarget(self, action: #selector(self.refresh(_:)), for: .valueChanged)
+        challengesTableView.addSubview(refreshControl)
     }
     
     // MARK: - private
@@ -28,6 +32,12 @@ class ChallengeListViewController: UIViewController {
         challengesTableView.register(challengeCellNib, forCellReuseIdentifier: ChallengeCell.identifier)
         challengesTableView.dataSource = challengesDataSource
         challengesTableView.delegate = self
+    }
+    
+    @objc func refresh(_ sender: AnyObject) {
+        ChallengesRepository.loadChallenges()
+        challengesTableView.reloadData()
+        refreshControl.endRefreshing()
     }
 
 }

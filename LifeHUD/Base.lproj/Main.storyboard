@@ -3,6 +3,7 @@
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -49,21 +50,79 @@
             </objects>
             <point key="canvasLocation" x="-1487" y="1367"/>
         </scene>
-        <!--Item-->
+        <!--Прогресс-->
         <scene sceneID="VcW-dE-rmK">
             <objects>
-                <viewController id="ZEQ-xk-Ijz" sceneMemberID="viewController">
+                <viewController id="ZEQ-xk-Ijz" customClass="UserStatsViewController" customModule="LifeHUD" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="4ur-mu-7ak">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bt9-2C-aRY">
+                                <rect key="frame" x="186" y="380" width="42" height="21"/>
+                                <color key="tintColor" name="AccentColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" name="AccentColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Здоровье" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6FK-gA-jxF">
+                                <rect key="frame" x="168.5" y="351" width="77" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T4P-tg-cuh">
+                                <rect key="frame" x="186" y="495.5" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" name="AccentColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Дисциплина" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ojF-Kr-HT0">
+                                <rect key="frame" x="157.5" y="409" width="99" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="akf-Rg-M8M">
+                                <rect key="frame" x="186" y="438" width="42" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" name="AccentColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Работа" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b2Q-VM-zFP">
+                                <rect key="frame" x="179" y="466.5" width="56" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="KG3-Cl-BSD"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="T4P-tg-cuh" firstAttribute="top" secondItem="b2Q-VM-zFP" secondAttribute="bottom" constant="8" id="5tw-wZ-r1b"/>
+                            <constraint firstItem="6FK-gA-jxF" firstAttribute="centerX" secondItem="4ur-mu-7ak" secondAttribute="centerX" id="6CW-OP-r1W"/>
+                            <constraint firstItem="Bt9-2C-aRY" firstAttribute="top" secondItem="6FK-gA-jxF" secondAttribute="bottom" constant="8" id="8o7-fK-s1I"/>
+                            <constraint firstItem="akf-Rg-M8M" firstAttribute="top" secondItem="ojF-Kr-HT0" secondAttribute="bottom" constant="8" id="GEA-p7-bU4"/>
+                            <constraint firstItem="ojF-Kr-HT0" firstAttribute="centerX" secondItem="4ur-mu-7ak" secondAttribute="centerX" id="c3I-I3-zbG"/>
+                            <constraint firstItem="akf-Rg-M8M" firstAttribute="centerY" secondItem="4ur-mu-7ak" secondAttribute="centerY" id="cON-GW-GgE"/>
+                            <constraint firstItem="b2Q-VM-zFP" firstAttribute="top" secondItem="akf-Rg-M8M" secondAttribute="bottom" constant="8" id="hLg-Qi-1cc"/>
+                            <constraint firstItem="T4P-tg-cuh" firstAttribute="centerX" secondItem="4ur-mu-7ak" secondAttribute="centerX" id="mFq-8D-wne"/>
+                            <constraint firstItem="akf-Rg-M8M" firstAttribute="centerX" secondItem="4ur-mu-7ak" secondAttribute="centerX" id="qcZ-Nf-rti"/>
+                            <constraint firstItem="b2Q-VM-zFP" firstAttribute="centerX" secondItem="4ur-mu-7ak" secondAttribute="centerX" id="taP-s9-TAc"/>
+                            <constraint firstItem="ojF-Kr-HT0" firstAttribute="top" secondItem="Bt9-2C-aRY" secondAttribute="bottom" constant="8" id="yD1-2j-pmC"/>
+                            <constraint firstItem="Bt9-2C-aRY" firstAttribute="centerX" secondItem="4ur-mu-7ak" secondAttribute="centerX" id="zQ5-4P-W3K"/>
+                        </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item" id="jlw-Is-LC4"/>
+                    <tabBarItem key="tabBarItem" title="Прогресс" id="jlw-Is-LC4"/>
+                    <connections>
+                        <outlet property="disciplineLabel" destination="akf-Rg-M8M" id="Zoa-uz-KnN"/>
+                        <outlet property="healthLabel" destination="Bt9-2C-aRY" id="vk2-eN-YCi"/>
+                        <outlet property="workLabel" destination="T4P-tg-cuh" id="drz-GH-JdE"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0Uh-yk-IST" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-761" y="1367"/>
+            <point key="canvasLocation" x="-762.31884057971024" y="1366.7410714285713"/>
         </scene>
         <!--Создание-->
         <scene sceneID="AU3-4k-Tmn">
@@ -210,26 +269,69 @@
                                     <action selector="createButtonTapped:" destination="tzQ-2c-gYg" eventType="touchUpInside" id="iLS-YP-MeV"/>
                                 </connections>
                             </button>
+                            <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Введите название" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="MZ9-yd-o24">
+                                <rect key="frame" x="16" y="480" width="382" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Введите описание" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="EfB-fX-sY6">
+                                <rect key="frame" x="16" y="626" width="382" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="ezR-U7-xls"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GZh-g5-DuW">
+                                <rect key="frame" x="16" y="684" width="382" height="42"/>
+                                <subviews>
+                                    <textField hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="UB1-2T-lwD">
+                                        <rect key="frame" x="4" y="4" width="374" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="UB1-2T-lwD" secondAttribute="trailing" constant="4" id="Nx7-Ii-C5j"/>
+                                    <constraint firstItem="UB1-2T-lwD" firstAttribute="leading" secondItem="GZh-g5-DuW" secondAttribute="leading" constant="4" id="ViF-pe-u0z"/>
+                                    <constraint firstAttribute="bottom" secondItem="UB1-2T-lwD" secondAttribute="bottom" constant="4" id="Xb8-ym-NFT"/>
+                                    <constraint firstItem="UB1-2T-lwD" firstAttribute="top" secondItem="GZh-g5-DuW" secondAttribute="top" constant="4" id="a2t-Ox-E04"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="eTT-Ip-uTj"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="eTT-Ip-uTj" firstAttribute="trailing" secondItem="hFQ-rw-2XP" secondAttribute="trailing" constant="32" id="1NK-T1-NyA"/>
                             <constraint firstItem="Y9D-Nn-Gsg" firstAttribute="centerX" secondItem="3kf-AB-NDM" secondAttribute="centerX" id="F1A-0q-ptL"/>
+                            <constraint firstItem="Y9D-Nn-Gsg" firstAttribute="top" secondItem="GZh-g5-DuW" secondAttribute="bottom" constant="4" id="JT5-vI-A7j"/>
                             <constraint firstItem="eTT-Ip-uTj" firstAttribute="bottom" secondItem="Y9D-Nn-Gsg" secondAttribute="bottom" constant="52" id="JU2-4d-X0O"/>
                             <constraint firstItem="hFQ-rw-2XP" firstAttribute="centerX" secondItem="3kf-AB-NDM" secondAttribute="centerX" id="LlG-63-IXf"/>
                             <constraint firstItem="eTT-Ip-uTj" firstAttribute="top" relation="lessThanOrEqual" secondItem="hFQ-rw-2XP" secondAttribute="top" id="QwY-wo-LIK"/>
+                            <constraint firstItem="GZh-g5-DuW" firstAttribute="top" secondItem="EfB-fX-sY6" secondAttribute="bottom" constant="8" symbolic="YES" id="T5u-pl-Dst"/>
+                            <constraint firstItem="eTT-Ip-uTj" firstAttribute="trailing" secondItem="GZh-g5-DuW" secondAttribute="trailing" constant="16" id="TXB-Ib-OHd"/>
+                            <constraint firstItem="eTT-Ip-uTj" firstAttribute="trailing" secondItem="EfB-fX-sY6" secondAttribute="trailing" constant="16" id="VwV-ss-I4f"/>
                             <constraint firstItem="hFQ-rw-2XP" firstAttribute="leading" secondItem="eTT-Ip-uTj" secondAttribute="leading" constant="32" id="aqR-p3-ayH"/>
+                            <constraint firstItem="eTT-Ip-uTj" firstAttribute="trailing" secondItem="MZ9-yd-o24" secondAttribute="trailing" constant="16" id="ehF-M2-J2E"/>
+                            <constraint firstItem="MZ9-yd-o24" firstAttribute="top" relation="greaterThanOrEqual" secondItem="hFQ-rw-2XP" secondAttribute="bottom" constant="4" id="ioM-WT-F6Z"/>
+                            <constraint firstItem="GZh-g5-DuW" firstAttribute="leading" secondItem="eTT-Ip-uTj" secondAttribute="leading" constant="16" id="k19-7H-T5a"/>
+                            <constraint firstItem="MZ9-yd-o24" firstAttribute="leading" secondItem="eTT-Ip-uTj" secondAttribute="leading" constant="16" id="oSh-wR-adM"/>
                             <constraint firstItem="hFQ-rw-2XP" firstAttribute="bottom" secondItem="3kf-AB-NDM" secondAttribute="centerY" id="v8j-s7-wQy"/>
+                            <constraint firstItem="EfB-fX-sY6" firstAttribute="top" relation="greaterThanOrEqual" secondItem="MZ9-yd-o24" secondAttribute="bottom" constant="8" id="vhu-a4-TAT"/>
+                            <constraint firstItem="EfB-fX-sY6" firstAttribute="leading" secondItem="eTT-Ip-uTj" secondAttribute="leading" constant="16" id="wBm-GI-FUE"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Создание" id="h5Z-Hl-A72"/>
                     <connections>
                         <outlet property="categoryPicker" destination="oBm-xb-Zuz" id="R2c-eq-87D"/>
                         <outlet property="createButton" destination="Y9D-Nn-Gsg" id="HHT-qT-BpP"/>
+                        <outlet property="descriptionField" destination="EfB-fX-sY6" id="tFh-7R-VvS"/>
                         <outlet property="difficultyPicker" destination="45T-Ud-KOt" id="dya-6f-AaX"/>
                         <outlet property="durationPicker" destination="yJK-aI-1g8" id="sR6-Ng-10U"/>
                         <outlet property="failFeePicker" destination="rXM-q3-dAw" id="sec-mb-Bxl"/>
+                        <outlet property="tasksField" destination="UB1-2T-lwD" id="bEA-OP-9tL"/>
+                        <outlet property="titleField" destination="MZ9-yd-o24" id="HXF-zp-TTY"/>
                         <outlet property="typePicker" destination="a3d-wo-VB2" id="Nxg-p1-Ppc"/>
                     </connections>
                 </viewController>
@@ -275,6 +377,9 @@
         </scene>
     </scenes>
     <resources>
+        <namedColor name="AccentColor">
+            <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
