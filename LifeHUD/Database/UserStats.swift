@@ -30,6 +30,8 @@ class UserStats {
             addDisciplineXP(reward)
         case .work:
             addWorkXP(reward)
+        case .home:
+            addHomeXP(reward)
         }
     }
     
@@ -50,7 +52,15 @@ class UserStats {
             removeDisciplineXP(fee)
         case .work:
             removeWorkXP(fee)
+        case .home:
+            removeHomeXP(fee)
         }
+    }
+    
+    static func addHomeXP(_ xp: Int) {
+        let oldXp = getHomeXP()
+        let newXp = oldXp + xp
+        setHomeXP(newXp)
     }
     
     static func addWorkXP(_ xp: Int) {
@@ -71,6 +81,12 @@ class UserStats {
         setHealthXP(newXp)
     }
     
+    static func removeHomeXP(_ xp: Int) {
+        let oldXp = getHomeXP()
+        let newXp = oldXp - xp
+        setHomeXP(newXp)
+    }
+    
     static func removeWorkXP(_ xp: Int) {
         let oldXp = getWorkXP()
         let newXp = oldXp - xp
@@ -87,6 +103,12 @@ class UserStats {
         let oldXp = getHealthXP()
         let newXp = oldXp - xp
         setHealthXP(newXp)
+    }
+    
+    static func setHomeXP(_ xp: Int) {
+        let defaults = UserDefaults.standard
+        defaults.setValue(xp, forKey: "homeXP")
+        defaults.synchronize()
     }
     
     static func setWorkXP(_ xp: Int) {
@@ -107,9 +129,14 @@ class UserStats {
         defaults.synchronize()
     }
     
+    static func getHomeXP() -> Int {
+        return UserDefaults.standard.value(forKey: "homeXP") as? Int ?? 0
+    }
+    
     static func getWorkXP() -> Int {
         return UserDefaults.standard.value(forKey: "workXP") as? Int ?? 0
     }
+    
     static func getDisciplineXP() -> Int {
         return UserDefaults.standard.value(forKey: "disciplineXP") as? Int ?? 0
     }

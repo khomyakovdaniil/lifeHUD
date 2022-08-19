@@ -89,6 +89,18 @@
                                 <color key="textColor" name="AccentColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Дом" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rRp-4L-Egf">
+                                <rect key="frame" x="190" y="524.5" width="34.5" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U4u-wH-Zdz">
+                                <rect key="frame" x="186" y="553.5" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" name="AccentColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Работа" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b2Q-VM-zFP">
                                 <rect key="frame" x="179" y="466.5" width="56" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -103,6 +115,10 @@
                             <constraint firstItem="6FK-gA-jxF" firstAttribute="centerX" secondItem="4ur-mu-7ak" secondAttribute="centerX" id="6CW-OP-r1W"/>
                             <constraint firstItem="Bt9-2C-aRY" firstAttribute="top" secondItem="6FK-gA-jxF" secondAttribute="bottom" constant="8" id="8o7-fK-s1I"/>
                             <constraint firstItem="akf-Rg-M8M" firstAttribute="top" secondItem="ojF-Kr-HT0" secondAttribute="bottom" constant="8" id="GEA-p7-bU4"/>
+                            <constraint firstItem="rRp-4L-Egf" firstAttribute="top" secondItem="T4P-tg-cuh" secondAttribute="bottom" constant="8" id="TZZ-kw-lkR"/>
+                            <constraint firstItem="U4u-wH-Zdz" firstAttribute="top" secondItem="rRp-4L-Egf" secondAttribute="bottom" constant="8" id="VP8-ta-a2B"/>
+                            <constraint firstItem="U4u-wH-Zdz" firstAttribute="centerX" secondItem="4ur-mu-7ak" secondAttribute="centerX" id="Xdt-iX-ohL"/>
+                            <constraint firstItem="rRp-4L-Egf" firstAttribute="centerX" secondItem="4ur-mu-7ak" secondAttribute="centerX" id="aRZ-p4-Vl4"/>
                             <constraint firstItem="ojF-Kr-HT0" firstAttribute="centerX" secondItem="4ur-mu-7ak" secondAttribute="centerX" id="c3I-I3-zbG"/>
                             <constraint firstItem="akf-Rg-M8M" firstAttribute="centerY" secondItem="4ur-mu-7ak" secondAttribute="centerY" id="cON-GW-GgE"/>
                             <constraint firstItem="b2Q-VM-zFP" firstAttribute="top" secondItem="akf-Rg-M8M" secondAttribute="bottom" constant="8" id="hLg-Qi-1cc"/>
@@ -117,6 +133,7 @@
                     <connections>
                         <outlet property="disciplineLabel" destination="akf-Rg-M8M" id="Zoa-uz-KnN"/>
                         <outlet property="healthLabel" destination="Bt9-2C-aRY" id="vk2-eN-YCi"/>
+                        <outlet property="homeLabel" destination="U4u-wH-Zdz" id="yY6-WW-g3x"/>
                         <outlet property="workLabel" destination="T4P-tg-cuh" id="drz-GH-JdE"/>
                     </connections>
                 </viewController>

@@ -36,6 +36,8 @@ class ChallengeCell: UITableViewCell {
                 iconView.image = UIImage(named: "DisciplineIcon")
             case .work:
                 iconView.image = UIImage(named: "WorkIcon")
+        case .home:
+            iconView.image = UIImage(named: "HomeIcon")
         }
     }
     

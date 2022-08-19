@@ -70,7 +70,7 @@ class ChallengeFullInfoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        fill(with: challenge)
+        fill()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -94,85 +94,16 @@ class ChallengeFullInfoViewController: UIViewController {
     
     // MARK: - UISetup
     
-    func fill(with challenge: Challenge) {
-        fillIconView(with: challenge.category)
-        fillRewardLabel(with: challenge.difficulty)
-        fillFeeLabel(with: challenge.failFee)
-        fillTitleLabel(with: challenge.title)
-        fillDescriptionLabel(with: challenge.description)
+    func fill() {
+        difficultyLabel.text = challenge.difficulty.string()
+        categoryLabel.text = challenge.category.string()
+        iconView.image = challenge.category.image()
+        rewardLabel.text = "+ \(challenge.difficulty.reward()) XP"
+        feeLabel.text = "- \(challenge.failFee.fee()) XP"
+        feeLabel.isHidden = challenge.failFee == .none
+        titleLabel.text = challenge.title
+        descriptionLabel.text = challenge.description
         setupProgressController(with: challenge)
-        fillCategoryLabel(with: challenge.category)
-        fillDifficultyLabel(with: challenge.difficulty)
-    }
-    
-    private func fillDifficultyLabel(with difficulty: ChallengeDifficulty) {
-        switch difficulty {
-            
-        case .lowest:
-            difficultyLabel.text = "Не перетрудился?"
-        case .low:
-            difficultyLabel.text = "Вижу каплю пота"
-        case .average:
-            difficultyLabel.text = "Уже что-то!"
-        case .high:
-            difficultyLabel.text = "Умеешь, могёшь"
-        case .highest:
-            difficultyLabel.text = "КРАСАВЧИК!"
-        }
-    }
-    private func fillCategoryLabel(with category: ChallengeCategory) {
-        switch category {
-            case .health:
-            categoryLabel.text = "Здоровье"
-            case .discipline:
-            categoryLabel.text = "Дисциплина"
-            case .work:
-            categoryLabel.text = "Работа"
-        }
-    }
-    private func fillIconView(with category: ChallengeCategory) {
-        switch category {
-            case .health:
-                iconView.image = UIImage(named: "HealthIcon")
-            case .discipline:
-                iconView.image = UIImage(named: "DisciplineIcon")
-            case .work:
-                iconView.image = UIImage(named: "WorkIcon")
-        }
-    }
-    
-    private func fillRewardLabel(with difficulty: ChallengeDifficulty) {
-        var reward = 0
-        switch difficulty {
-            case .lowest:
-                reward = 5
-            case .low:
-                reward = 10
-            case .average:
-                reward = 50
-            case .high:
-                reward = 200
-            case .highest:
-                reward = 500
-        }
-        rewardLabel.text = "+ \(reward) XP"
-    }
-    
-    private func fillFeeLabel(with failFee: ChallengeFee) {
-        var fee = 0
-        switch failFee {
-        case .none:
-            feeLabel.isHidden = true
-        case .normal:
-            fee = 50
-        case .critical:
-            fee = 500
-        }
-        feeLabel.text = "- \(fee) XP"
-    }
-    
-    private func fillTitleLabel(with title: String) {
-        titleLabel.text = title
     }
     
     private func setupProgressController(with challenge: Challenge) {
@@ -184,10 +115,6 @@ class ChallengeFullInfoViewController: UIViewController {
         case .checkbox:
             setupCheckboxTableView()
         }
-    }
-
-    private func fillDescriptionLabel(with description: String) {
-        descriptionLabel.text = description
     }
     
     private func setupDoneButton() {

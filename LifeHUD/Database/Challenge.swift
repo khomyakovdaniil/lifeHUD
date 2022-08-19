@@ -7,6 +7,7 @@
 
 import Foundation
 import CoreText
+import UIKit
 
 class Challenge: Codable {
     var id: String = ""
@@ -27,6 +28,7 @@ enum ChallengeCategory: Int, CaseIterable, Codable {
     case health
     case discipline
     case work
+    case home
     
     func string() -> String {
         switch self {
@@ -36,6 +38,21 @@ enum ChallengeCategory: Int, CaseIterable, Codable {
             return "Дисциплина"
         case .work:
             return "Работа"
+        case .home:
+            return "Дом"
+        }
+    }
+    
+    func image() -> UIImage? {
+        switch self {
+        case .health:
+            return UIImage(named: "HealthIcon")
+        case .discipline:
+            return UIImage(named: "DisciplineIcon")
+        case .work:
+            return UIImage(named: "WorkIcon")
+        case .home:
+            return UIImage(named: "HomeIcon")
         }
     }
 }
@@ -59,6 +76,21 @@ enum ChallengeDifficulty: Int, CaseIterable, Codable {
             return "Трудный"
         case .highest:
             return "Самый трудный"
+        }
+    }
+    
+    func reward() -> Int {
+        switch self {
+        case .lowest:
+            return 5
+        case .low:
+            return 10
+        case .average:
+            return 50
+        case .high:
+            return 200
+        case .highest:
+            return 500
         }
     }
 }
@@ -93,6 +125,17 @@ enum ChallengeFee: Int, CaseIterable, Codable {
             return "Обычный"
         case .critical:
             return "Критический"
+        }
+    }
+    
+    func fee() -> Int {
+        switch self {
+        case .none:
+            return 0
+        case .normal:
+            return 50
+        case .critical:
+            return 500
         }
     }
 }
