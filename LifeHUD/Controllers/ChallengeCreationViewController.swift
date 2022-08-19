@@ -20,10 +20,15 @@ class ChallengeCreationViewController: UIViewController {
     @IBOutlet weak var titleField: UITextField!
     @IBOutlet weak var descriptionField: UITextField!
     @IBOutlet weak var tasksField: UITextField!
+    @IBOutlet weak var scrollView: UIScrollView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupPickerViews()
+        
+        let contentWidth = self.view.bounds.width
+        let contentHeight = self.view.bounds.height * 3
+        scrollView.contentSize = CGSize(width: contentWidth, height: contentHeight)
     }
     
     private func setupPickerViews() {
@@ -97,9 +102,9 @@ class ChallengeCreationViewController: UIViewController {
     private func showAlert() {
         let alert = UIAlertController(title: "Ура", message: "Задача создана", preferredStyle: UIAlertController.Style.alert)
         alert.addAction(UIAlertAction(title: "ок", style: UIAlertAction.Style.default, handler: { (_: UIAlertAction!) -> Void in
-            self.titleField.reloadInputViews()
-            self.descriptionField.reloadInputViews()
-            self.tasksField.reloadInputViews()
+            self.titleField.text = nil
+            self.descriptionField.text = nil
+            self.tasksField.text = nil
             
                                          }))
         self.present(alert, animated: true, completion: nil)
@@ -157,12 +162,12 @@ extension ChallengeCreationViewController: UIPickerViewDataSource, UIPickerViewD
             case 0:
                 tasksField.isHidden = true
             case 1:
-                self.tasksField.reloadInputViews()
+                self.tasksField.text = nil
                 tasksField.placeholder = "Введите количество повторений"
                 tasksField.keyboardType = .numberPad
                 tasksField.isHidden = false
             case 2:
-                self.tasksField.reloadInputViews()
+                self.tasksField.text = nil
                 tasksField.placeholder = "Введите задачи через запятую"
                 tasksField.keyboardType = .default
                 tasksField.isHidden = false

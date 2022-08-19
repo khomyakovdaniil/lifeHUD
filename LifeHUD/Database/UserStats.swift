@@ -33,6 +33,26 @@ class UserStats {
         }
     }
     
+    static func removeXP(from challenge: Challenge) {
+        var fee = 0
+        switch challenge.failFee {
+        case .none:
+            fee = 0
+        case .normal:
+            fee = 50
+        case .critical:
+            fee = 500
+        }
+        switch challenge.category {
+        case .health:
+            removeHealthXP(fee)
+        case .discipline:
+            removeDisciplineXP(fee)
+        case .work:
+            removeWorkXP(fee)
+        }
+    }
+    
     static func addWorkXP(_ xp: Int) {
         let oldXp = getWorkXP()
         let newXp = oldXp + xp
@@ -48,6 +68,24 @@ class UserStats {
     static func addHealthXP(_ xp: Int) {
         let oldXp = getHealthXP()
         let newXp = oldXp + xp
+        setHealthXP(newXp)
+    }
+    
+    static func removeWorkXP(_ xp: Int) {
+        let oldXp = getWorkXP()
+        let newXp = oldXp - xp
+        setWorkXP(newXp)
+    }
+    
+    static func removeDisciplineXP(_ xp: Int) {
+        let oldXp = getDisciplineXP()
+        let newXp = oldXp - xp
+        setDisciplineXP(newXp)
+    }
+    
+    static func removeHealthXP(_ xp: Int) {
+        let oldXp = getHealthXP()
+        let newXp = oldXp - xp
         setHealthXP(newXp)
     }
     

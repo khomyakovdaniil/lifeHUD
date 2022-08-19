@@ -31,12 +31,13 @@ class ChallengeFullInfoViewController: UIViewController {
     @IBOutlet weak var rewardLabel: UILabel!
     @IBOutlet weak var feeLabel: UILabel!
     @IBOutlet weak var doneButton: UIButton!
+    @IBOutlet weak var failButton: UIButton!
+    @IBOutlet weak var deleteButton: UIButton!
     @IBOutlet weak var progressCounter: UIStepper!
     @IBOutlet weak var progressLabel: UILabel!
     @IBOutlet weak var checkBoxTableView: UITableView!
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var closeButton: UIButton!
-    
     @IBOutlet weak var categoryLabel: UILabel!
     
     @IBOutlet weak var difficultyLabel: UILabel!
@@ -49,6 +50,14 @@ class ChallengeFullInfoViewController: UIViewController {
     
     @IBAction func doneButtonTapped(_ sender: Any) {
         challengeCompleted()
+    }
+    
+    @IBAction func failButtonTapped(_ sender: Any) {
+        challengeFailed()
+    }
+    
+    @IBAction func deleteButtonTapped(_ sender: Any) {
+        deleteChallenge()
     }
     
     @IBAction func progressChanged(_ sender: Any) {
@@ -218,8 +227,25 @@ class ChallengeFullInfoViewController: UIViewController {
     private func challengeCompleted() {
         let alert = UIAlertController(title: "Ура", message: "Задача выполнена", preferredStyle: UIAlertController.Style.alert)
         alert.addAction(UIAlertAction(title: "ок", style: UIAlertAction.Style.default, handler: { (_: UIAlertAction!) -> Void in
-            let index = self.dataSource.challenges.firstIndex(where: { $0.id == self.challenge.id })!
             UserStats.addXP(from: self.challenge)
+            self.dismiss(animated: true, completion: nil)
+                                         }))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    private func challengeFailed() {
+        let alert = UIAlertController(title: "Ура", message: "Задача выполнена", preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title: "ок", style: UIAlertAction.Style.default, handler: { (_: UIAlertAction!) -> Void in
+            UserStats.removeXP(from: self.challenge)
+            self.dismiss(animated: true, completion: nil)
+                                         }))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    private func deleteChallenge() {
+        let alert = UIAlertController(title: "Ура", message: "Задача выполнена", preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title: "ок", style: UIAlertAction.Style.default, handler: { (_: UIAlertAction!) -> Void in
+            let index = self.dataSource.challenges.firstIndex(where: { $0.id == self.challenge.id })!
             ChallengesRepository.removeChallenge(self.challenge.id)
             self.dataSource.challenges.remove(at: index)
             self.dismiss(animated: true, completion: nil)

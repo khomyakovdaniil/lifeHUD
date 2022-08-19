@@ -13,9 +13,11 @@
                 <outlet property="categoryLabel" destination="KMt-KO-b85" id="kKS-fH-zi6"/>
                 <outlet property="checkBoxTableView" destination="RoZ-MB-q2y" id="xgA-1w-YRR"/>
                 <outlet property="closeButton" destination="YzB-vt-zEz" id="8qz-BR-aqs"/>
+                <outlet property="deleteButton" destination="Nqp-wk-VX7" id="drq-dK-5sk"/>
                 <outlet property="descriptionLabel" destination="fSY-cP-lri" id="Ukx-gU-7C0"/>
                 <outlet property="difficultyLabel" destination="0Sf-5g-enS" id="XnJ-Up-tGg"/>
                 <outlet property="doneButton" destination="QVB-C4-87l" id="Vzx-tz-af9"/>
+                <outlet property="failButton" destination="3MO-B9-dXc" id="bnr-TE-J1c"/>
                 <outlet property="feeLabel" destination="ClU-L9-G8Z" id="jSS-fw-wTp"/>
                 <outlet property="iconView" destination="Y6a-zP-WOU" id="boL-vr-alc"/>
                 <outlet property="progressCounter" destination="K4w-OX-s9G" id="TbE-ha-rsy"/>
@@ -219,6 +221,22 @@
                         <constraint firstItem="RoZ-MB-q2y" firstAttribute="top" secondItem="dxc-88-Fjz" secondAttribute="top" constant="8" id="z52-rJ-Fua"/>
                     </constraints>
                 </view>
+                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3MO-B9-dXc">
+                    <rect key="frame" x="20" y="119" width="99" height="31"/>
+                    <state key="normal" title="Button"/>
+                    <buttonConfiguration key="configuration" style="plain" title="Провалено"/>
+                    <connections>
+                        <action selector="failButtonTapped:" destination="-1" eventType="touchUpInside" id="5gK-du-nYC"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nqp-wk-VX7">
+                    <rect key="frame" x="315" y="119" width="79" height="31"/>
+                    <state key="normal" title="Button"/>
+                    <buttonConfiguration key="configuration" style="plain" title="Удалить"/>
+                    <connections>
+                        <action selector="deleteButtonTapped:" destination="-1" eventType="touchUpInside" id="6X4-NH-DDG"/>
+                    </connections>
+                </button>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -231,6 +249,7 @@
                 <constraint firstItem="lKp-Ft-iYX" firstAttribute="top" secondItem="Y6a-zP-WOU" secondAttribute="bottom" constant="8" symbolic="YES" id="FzI-XT-y2j"/>
                 <constraint firstItem="fSY-cP-lri" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="32" id="GWX-SD-QhL"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="fSY-cP-lri" secondAttribute="trailing" constant="32" id="Qbb-It-fPD"/>
+                <constraint firstItem="Nqp-wk-VX7" firstAttribute="centerY" secondItem="3MO-B9-dXc" secondAttribute="centerY" id="QmP-ag-9K8"/>
                 <constraint firstItem="Y6a-zP-WOU" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Qwq-il-Ib7"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="dxc-88-Fjz" secondAttribute="trailing" constant="32" id="ROr-yw-D2X"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="aWH-0e-m4U" secondAttribute="trailing" constant="32" id="TwG-wR-Pul"/>
@@ -238,8 +257,11 @@
                 <constraint firstItem="Y6a-zP-WOU" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="20" id="V7w-7g-ecF"/>
                 <constraint firstItem="lKp-Ft-iYX" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="XoW-7C-ewU"/>
                 <constraint firstItem="aWH-0e-m4U" firstAttribute="top" relation="greaterThanOrEqual" secondItem="lKp-Ft-iYX" secondAttribute="bottom" constant="8" id="Y1f-il-gxV"/>
+                <constraint firstItem="Y6a-zP-WOU" firstAttribute="centerY" secondItem="3MO-B9-dXc" secondAttribute="centerY" id="blc-oF-h4v"/>
                 <constraint firstItem="dxc-88-Fjz" firstAttribute="top" secondItem="fSY-cP-lri" secondAttribute="bottom" constant="8" symbolic="YES" id="e0T-06-iwl"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Nqp-wk-VX7" secondAttribute="trailing" constant="20" id="hOr-ll-HrG"/>
                 <constraint firstItem="YzB-vt-zEz" firstAttribute="top" secondItem="dxc-88-Fjz" secondAttribute="bottom" constant="8" id="oSu-cT-KLl"/>
+                <constraint firstItem="3MO-B9-dXc" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="zaK-ka-bvm"/>
             </constraints>
             <point key="canvasLocation" x="137.68115942028987" y="114.50892857142857"/>
         </view>
