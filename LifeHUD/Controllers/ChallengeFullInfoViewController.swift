@@ -161,7 +161,7 @@ class ChallengeFullInfoViewController: UIViewController {
     }
     
     private func challengeFailed() {
-        let alert = UIAlertController(title: "Ура", message: "Задача выполнена", preferredStyle: UIAlertController.Style.alert)
+        let alert = UIAlertController(title: "Увы", message: "Задача провалена", preferredStyle: UIAlertController.Style.alert)
         alert.addAction(UIAlertAction(title: "ок", style: UIAlertAction.Style.default, handler: { (_: UIAlertAction!) -> Void in
             UserStats.removeXP(from: self.challenge)
             self.dismiss(animated: true, completion: nil)
@@ -170,7 +170,7 @@ class ChallengeFullInfoViewController: UIViewController {
     }
     
     private func deleteChallenge() {
-        let alert = UIAlertController(title: "Ура", message: "Задача выполнена", preferredStyle: UIAlertController.Style.alert)
+        let alert = UIAlertController(title: "Удаление", message: "Задача удалена", preferredStyle: UIAlertController.Style.alert)
         alert.addAction(UIAlertAction(title: "ок", style: UIAlertAction.Style.default, handler: { (_: UIAlertAction!) -> Void in
             let index = self.dataSource.challenges.firstIndex(where: { $0.id == self.challenge.id })!
             ChallengesRepository.removeChallenge(self.challenge.id)

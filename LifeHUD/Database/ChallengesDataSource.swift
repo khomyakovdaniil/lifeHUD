@@ -8,9 +8,15 @@
 import Foundation
 import UIKit
 
+protocol DataSourceDelegateProtocol: AnyObject {
+    func challengeListUpdated()
+}
+
 class ChallengesDataSource: NSObject {
     
     static let shared = ChallengesDataSource()
+    
+    // MARK: - Properties
     
     weak var delegate: DataSourceDelegateProtocol?
     
@@ -25,28 +31,24 @@ class ChallengesDataSource: NSObject {
     var weeklyChallenges: [Challenge] = [Challenge()]
     var monthlyChallenges: [Challenge] = [Challenge()]
     
-    private func challenge(for indexPath: IndexPath) -> Challenge {
-        let index = indexPath.row
-        switch indexPath.section {
-        case 0:
-            return dailyChallenges[index]
-        case 1:
-            return weeklyChallenges[index]
-        case 2:
-            return monthlyChallenges[index]
-        default:
-            return Challenge()
-        }
-    }
+    // MARK: - Private functions
     
     private func sort(_ challenges: [Challenge]) {
         dailyChallenges = challenges.filter() { $0.duration == .daily }
         weeklyChallenges = challenges.filter() { $0.duration == .weekly }
         monthlyChallenges = challenges.filter() { $0.duration == .monthly }
     }
+    
+    // MARK: - Literals
+    let dailyTasksSectionHeader = "Ежедневные задания"
+    let weeklyTasksSectionHeader = "Задания на неделю"
+    let monthlyTasksSectionHeader = "Задания на месяц"
 }
 
+    // MARK: - TableView datasource
+
 extension ChallengesDataSource: UITableViewDataSource {
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 3
     }
@@ -71,21 +73,31 @@ extension ChallengesDataSource: UITableViewDataSource {
         return cell
     }
     
+    private func challenge(for indexPath: IndexPath) -> Challenge {
+        let index = indexPath.row
+        switch indexPath.section {
+        case 0:
+            return dailyChallenges[index]
+        case 1:
+            return weeklyChallenges[index]
+        case 2:
+            return monthlyChallenges[index]
+        default:
+            return Challenge()
+        }
+    }
+    
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
         case 0:
-            return "Ежедневные задания"
+            return dailyTasksSectionHeader
         case 1:
-            return "Задания на неделю"
+            return weeklyTasksSectionHeader
         case 2:
-            return "Задания на месяц"
+            return monthlyTasksSectionHeader
         default:
             return ""
         }
     }
 
-}
-
-protocol DataSourceDelegateProtocol: class {
-    func challengeListUpdated()
 }
