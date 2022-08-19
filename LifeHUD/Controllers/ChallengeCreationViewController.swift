@@ -25,10 +25,20 @@ class ChallengeCreationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupPickerViews()
-        
+        setupScrollView()
+        setupKeyboardDissmisal()
+    }
+    
+    private func setupScrollView() {
         let contentWidth = self.view.bounds.width
         let contentHeight = self.view.bounds.height * 3
         scrollView.contentSize = CGSize(width: contentWidth, height: contentHeight)
+    }
+    
+    private func setupKeyboardDissmisal() {
+        let tap = UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
     }
     
     private func setupPickerViews() {
