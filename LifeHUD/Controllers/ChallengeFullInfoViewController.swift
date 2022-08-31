@@ -18,7 +18,7 @@ class ChallengeFullInfoViewController: UIViewController {
         didSet {
             if challenge.type == .counter, progress.count == challenge.count {
                 challengeCompleted()
-            } else if challenge.type == .checkbox, progress.count == challenge.toDos.count {
+            } else if challenge.type == .checkbox, progress.count == challenge.toDos?.count {
                 challengeCompleted()
             }
         }
@@ -78,7 +78,7 @@ class ChallengeFullInfoViewController: UIViewController {
         guard let index = dataSource.challenges.firstIndex(where: { $0.id == challenge.id }) else { return }
         dataSource.challenges.remove(at: index)
         dataSource.challenges.insert(challenge, at: index)
-        ChallengesRepository.createChallenge(challenge)
+        ChallengesRepository.updateChallenge(challenge)
     }
     
     required init(challenge: Challenge, dataSource: ChallengesDataSource) {
@@ -131,11 +131,7 @@ class ChallengeFullInfoViewController: UIViewController {
         doneButton.isHidden = true
         progressCounter.minimumValue = 0
         progressCounter.maximumValue = Double(challenge.count)
-        if let progress = challenge.progress {
-            progressCounter.value = Double(progress.count)
-        } else {
-            progressCounter.value = progressCounter.minimumValue
-        }
+        progressCounter.value = Double(progress.count)
         progressLabel.text = String(Int(progressCounter.value))
     }
     
@@ -155,6 +151,7 @@ class ChallengeFullInfoViewController: UIViewController {
         let alert = UIAlertController(title: "Ура", message: "Задача выполнена", preferredStyle: UIAlertController.Style.alert)
         alert.addAction(UIAlertAction(title: "ок", style: UIAlertAction.Style.default, handler: { (_: UIAlertAction!) -> Void in
             UserStats.addXP(from: self.challenge)
+            self.updateStartDate()
             self.dismiss(animated: true, completion: nil)
                                          }))
         self.present(alert, animated: true, completion: nil)
@@ -180,6 +177,18 @@ class ChallengeFullInfoViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
+    private func updateStartDate() {
+            switch challenge.duration {
+            case .daily:
+                challenge.startDate = Date().endOfDay
+            case .weekly:
+                challenge.startDate = Date().endOfWeek!
+            case .monthly:
+                challenge.startDate = Date().endOfMonth
+            }
+            ChallengesRepository.updateChallenge(challenge)
+    }
+    
     
 }
 
@@ -189,12 +198,12 @@ extension ChallengeFullInfoViewController: UITableViewDelegate {
 
 extension ChallengeFullInfoViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return challenge.toDos.count
+        return challenge.toDos?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ToDoCell.identifier) as! ToDoCell
-        cell.titleLabel.text = challenge.toDos[indexPath.row]
+        cell.titleLabel.text = challenge.toDos?[indexPath.row]
         cell.indexPath = indexPath
         cell.delegate = self
         if challenge.progress != nil {

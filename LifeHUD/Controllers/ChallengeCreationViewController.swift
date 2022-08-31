@@ -21,6 +21,8 @@ class ChallengeCreationViewController: UIViewController {
     @IBOutlet weak var descriptionField: UITextField!
     @IBOutlet weak var tasksField: UITextField!
     @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var startDatePicker: UIDatePicker!
+    @IBOutlet weak var endDatePicker: UIDatePicker!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -93,6 +95,17 @@ class ChallengeCreationViewController: UIViewController {
         } else if type == .checkbox {
             toDos = tasksField.text?.components(separatedBy: ",") ?? [""]
         }
+        let startDate = startDatePicker.date
+        let endDate = endDatePicker.date
+        var dueDate = Date()
+        switch duration {
+        case .daily:
+            dueDate = startDate.endOfDay
+        case .weekly:
+            dueDate = startDate.endOfWeek!
+        case .monthly:
+            dueDate = startDate.endOfMonth
+        }
         
         challenge.category = category
         challenge.duration = duration
@@ -104,6 +117,9 @@ class ChallengeCreationViewController: UIViewController {
         challenge.description = description
         challenge.count = count
         challenge.toDos = toDos
+        challenge.startDate = startDate
+        challenge.endDate = endDate
+        challenge.dueDate = dueDate
         
         ChallengesRepository.createChallenge(challenge)
         showAlert()

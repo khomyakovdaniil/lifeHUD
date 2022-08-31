@@ -17,6 +17,7 @@ class ChallengeCell: UITableViewCell {
     @IBOutlet weak var feeLabel: UILabel!
     @IBOutlet weak var progressBar: UIProgressView!
     @IBOutlet weak var goalLabel: UILabel!
+    @IBOutlet weak var progressLabel: UILabel!
     @IBOutlet weak var progressView: UIView!
     
     
@@ -77,9 +78,8 @@ class ChallengeCell: UITableViewCell {
     
     private func setupProgressView(with challenge: Challenge) {
         var current = Float(0)
-        if let progress = challenge.progress {
-            current = Float(progress.count)
-        }
+        let progress = challenge.progress ?? []
+        current = Float(progress.count)
         switch challenge.type {
         case .singleAction:
             progressView.isHidden = true
@@ -91,8 +91,9 @@ class ChallengeCell: UITableViewCell {
             progressBar.setProgress(progress, animated: true)
         case .checkbox:
             progressView.isHidden = false
-            goalLabel.text = String(challenge.toDos.count)
-            let maximum = Float(challenge.toDos.count)
+            let toDos = challenge.toDos ?? []
+            goalLabel.text = String(toDos.count)
+            let maximum = Float(toDos.count)
             let progress = current/maximum
             progressBar.setProgress(progress, animated: true)
         }

@@ -9,7 +9,7 @@ import Foundation
 import CoreText
 import UIKit
 
-class Challenge: Codable {
+struct Challenge: Codable {
     var id: String = ""
     var title: String = ""
     var duration: ChallengeDuration = .daily
@@ -19,10 +19,12 @@ class Challenge: Codable {
     var failFee: ChallengeFee = .none
     var description: String = ""
     var count: Int = 0
-    var toDos: [String] = [""]
-    var progress: [Int]? 
+    var toDos: [String]? = []
+    var progress: [Int]? = []
+    var startDate = Date()
+    var endDate = Date()
+    var dueDate = Date()
 }
-
 
 enum ChallengeCategory: Int, CaseIterable, Codable {
     case health

@@ -7,5 +7,6 @@ target 'LifeHUD' do
 
 pod 'Firebase/Core'
 pod 'Firebase/Database'
+pod 'Alamofire' 
 
 end

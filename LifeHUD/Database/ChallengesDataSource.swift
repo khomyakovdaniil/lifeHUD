@@ -22,9 +22,10 @@ class ChallengesDataSource: NSObject {
     
     var challenges: [Challenge] = [Challenge()] {
         didSet {
-            sort(challenges)
-            ChallengesRepository.saveDatabase(challenges)
-            delegate?.challengeListUpdated()
+            let activeChallenges = filter(challenges) // checks for active and failed challenges
+            sort(activeChallenges) // Sorts challenges for tableView
+            ChallengesRepository.saveDatabase(challenges) //  Synchronises with remote database
+            delegate?.challengeListUpdated() // Udpates the tableView
         }
     }
     var dailyChallenges: [Challenge] = [Challenge()]
@@ -37,6 +38,42 @@ class ChallengesDataSource: NSObject {
         dailyChallenges = challenges.filter() { $0.duration == .daily }
         weeklyChallenges = challenges.filter() { $0.duration == .weekly }
         monthlyChallenges = challenges.filter() { $0.duration == .monthly }
+    }
+    
+    private func filter(_ challenges: [Challenge]) -> [Challenge] {
+        var active = challenges.filter() { challenge in
+            challenge.startDate < Date()
+        }
+        let failed = active.filter() { challenge in
+            challenge.dueDate < Date() && challenge.startDate < Date()
+        }
+        let restarted = failed.map() {
+            updateDueDate($0)
+        }
+        let expired = active.filter() { challenge in
+            challenge.endDate < Date()
+        }
+        for challenge in failed {
+            UserStats.removeXP(from: challenge)
+        }
+        for challenge in expired {
+            ChallengesRepository.removeChallenge(challenge.id)
+        }
+        return active
+    }
+    
+    private func updateDueDate(_ challenge: Challenge) -> Challenge {
+        var newChallenge = challenge
+        switch challenge.duration {
+        case .daily:
+            newChallenge.dueDate = Calendar.current.date(byAdding: .day, value: 1, to: challenge.dueDate)!
+        case .weekly:
+            newChallenge.dueDate = Calendar.current.date(byAdding: .weekOfYear, value: 1, to: challenge.dueDate)!
+        case .monthly:
+            newChallenge.dueDate = Calendar.current.date(byAdding: .month, value: 1, to: challenge.dueDate)!
+        }
+        ChallengesRepository.updateChallenge(newChallenge)
+        return newChallenge
     }
     
     // MARK: - Literals
@@ -69,7 +106,7 @@ extension ChallengesDataSource: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ChallengeCell.identifier) as! ChallengeCell
         let challenge = challenge(for: indexPath)
-        cell.fill(with: challenge)
+        cell.fill(with: challenge) // Fills the cell with challenge info
         return cell
     }
     
