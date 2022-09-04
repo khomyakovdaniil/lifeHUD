@@ -150,8 +150,7 @@ class ChallengeFullInfoViewController: UIViewController {
     private func challengeCompleted() {
         let alert = UIAlertController(title: "Ура", message: "Задача выполнена", preferredStyle: UIAlertController.Style.alert)
         alert.addAction(UIAlertAction(title: "ок", style: UIAlertAction.Style.default, handler: { (_: UIAlertAction!) -> Void in
-            UserStats.addXP(from: self.challenge)
-            self.updateStartDateAndProgress()
+            ChallengesRepository.completeChallenge(self.challenge)
             self.dismiss(animated: true, completion: nil)
                                          }))
         self.present(alert, animated: true, completion: nil)
@@ -175,22 +174,6 @@ class ChallengeFullInfoViewController: UIViewController {
             self.dismiss(animated: true, completion: nil)
                                          }))
         self.present(alert, animated: true, completion: nil)
-    }
-    
-    private func updateStartDateAndProgress() {
-        
-        challenge.progress = []
-        
-        switch challenge.duration {
-        case .daily:
-            challenge.startDate = Date().endOfDay
-        case .weekly:
-            challenge.startDate = Date().endOfWeek!
-        case .monthly:
-            challenge.startDate = Date().endOfMonth
-        }
-        
-        ChallengesRepository.updateChallenge(challenge)
     }
     
 }

@@ -90,4 +90,26 @@ class ChallengesRepository {
         }
     }
     
+    static func completeChallenge(_ challenge: Challenge) {
+        UserStats.addXP(from: challenge)
+        self.updateStartDateAndProgress(challenge)
+    }
+    
+    private static func updateStartDateAndProgress(_ challenge: Challenge) {
+        
+        var newChallenge = challenge
+        
+        newChallenge.progress = []
+        
+        switch newChallenge.duration {
+        case .daily:
+            newChallenge.startDate = Date().endOfDay
+        case .weekly:
+            newChallenge.startDate = Date().endOfWeek!
+        case .monthly:
+            newChallenge.startDate = Date().endOfMonth
+        }
+        
+        ChallengesRepository.updateChallenge(newChallenge)
+    }
 }
