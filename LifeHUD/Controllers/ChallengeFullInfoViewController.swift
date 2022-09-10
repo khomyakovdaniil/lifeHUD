@@ -45,7 +45,8 @@ class ChallengeFullInfoViewController: UIViewController {
     // MARK: - Actions
     
     @IBAction func closeButtonTapped(_ sender: Any) {
-            dismiss(animated: true, completion: nil)
+        saveProgress()
+        dismiss(animated: true, completion: nil)
     }
     
     @IBAction func doneButtonTapped(_ sender: Any) {
@@ -74,11 +75,6 @@ class ChallengeFullInfoViewController: UIViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        challenge.progress = progress
-        guard let index = dataSource.challenges.firstIndex(where: { $0.id == challenge.id }) else { return }
-        dataSource.challenges.remove(at: index)
-        dataSource.challenges.insert(challenge, at: index)
-        ChallengesRepository.updateChallenge(challenge)
     }
     
     required init(challenge: Challenge, dataSource: ChallengesDataSource) {
@@ -150,7 +146,7 @@ class ChallengeFullInfoViewController: UIViewController {
     private func challengeCompleted() {
         let alert = UIAlertController(title: "Ура", message: "Задача выполнена", preferredStyle: UIAlertController.Style.alert)
         alert.addAction(UIAlertAction(title: "ок", style: UIAlertAction.Style.default, handler: { (_: UIAlertAction!) -> Void in
-            ChallengesRepository.completeChallenge(self.challenge)
+            ChallengesDataSource.shared.completeChallenge(self.challenge)
             self.dismiss(animated: true, completion: nil)
                                          }))
         self.present(alert, animated: true, completion: nil)
@@ -159,7 +155,7 @@ class ChallengeFullInfoViewController: UIViewController {
     private func challengeFailed() {
         let alert = UIAlertController(title: "Увы", message: "Задача провалена", preferredStyle: UIAlertController.Style.alert)
         alert.addAction(UIAlertAction(title: "ок", style: UIAlertAction.Style.default, handler: { (_: UIAlertAction!) -> Void in
-            UserStats.removeXP(from: self.challenge)
+            ChallengesDataSource.shared.failChallenge(self.challenge)
             self.dismiss(animated: true, completion: nil)
                                          }))
         self.present(alert, animated: true, completion: nil)
@@ -175,6 +171,13 @@ class ChallengeFullInfoViewController: UIViewController {
                                          }))
         self.present(alert, animated: true, completion: nil)
     }
+    
+    private func saveProgress() {
+        challenge.progress = progress
+        guard let index = dataSource.challenges.firstIndex(where: { $0.id == challenge.id }) else { return }
+        dataSource.challenges.remove(at: index)
+        dataSource.challenges.insert(challenge, at: index)
+            }
     
 }
 

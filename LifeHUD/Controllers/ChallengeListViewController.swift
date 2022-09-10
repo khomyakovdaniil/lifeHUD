@@ -16,12 +16,9 @@ class ChallengeListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        ChallengesRepository.loadChallenges()
         challengesDataSource.delegate = self
         setupChallengesTableView()
-        ChallengesRepository.loadChallenges()
-        refreshControl.attributedTitle = NSAttributedString(string: "Обновить")
-        refreshControl.addTarget(self, action: #selector(self.refresh(_:)), for: .valueChanged)
-        challengesTableView.addSubview(refreshControl)
     }
     
     // MARK: - private
@@ -32,6 +29,9 @@ class ChallengeListViewController: UIViewController {
         challengesTableView.register(challengeCellNib, forCellReuseIdentifier: ChallengeCell.identifier)
         challengesTableView.dataSource = challengesDataSource
         challengesTableView.delegate = self
+        refreshControl.attributedTitle = NSAttributedString(string: "Обновить")
+        refreshControl.addTarget(self, action: #selector(self.refresh(_:)), for: .valueChanged)
+        challengesTableView.addSubview(refreshControl)
     }
     
     @objc func refresh(_ sender: AnyObject) {

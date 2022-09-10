@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		181E213C28A93F7E8EFDEF33 /* Pods_LifeHUD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B271C31CD6155A484D479C84 /* Pods_LifeHUD.framework */; };
+		5F062D6628CB47B3000D4BAA /* UserHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F062D6528CB47B3000D4BAA /* UserHistory.swift */; };
 		5F88820B28AB5BAC006D5967 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F88820A28AB5BAC006D5967 /* AppDelegate.swift */; };
 		5F88820D28AB5BAC006D5967 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F88820C28AB5BAC006D5967 /* SceneDelegate.swift */; };
 		5F88820F28AB5BAC006D5967 /* ChallengeListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F88820E28AB5BAC006D5967 /* ChallengeListViewController.swift */; };
@@ -34,6 +35,7 @@
 
 /* Begin PBXFileReference section */
 		2B0DF3D0A766B377955DCD8D /* Pods-LifeHUD.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LifeHUD.release.xcconfig"; path = "Target Support Files/Pods-LifeHUD/Pods-LifeHUD.release.xcconfig"; sourceTree = "<group>"; };
+		5F062D6528CB47B3000D4BAA /* UserHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserHistory.swift; sourceTree = "<group>"; };
 		5F88820728AB5BAC006D5967 /* LifeHUD.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LifeHUD.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F88820A28AB5BAC006D5967 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5F88820C28AB5BAC006D5967 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -122,6 +124,7 @@
 		5F88822028AB5E45006D5967 /* Database */ = {
 			isa = PBXGroup;
 			children = (
+				5F062D6528CB47B3000D4BAA /* UserHistory.swift */,
 				5F88821E28AB5E34006D5967 /* DemoDatabase.swift */,
 				5F88822A28AB65FD006D5967 /* ChallengesDataSource.swift */,
 				5F88825228ABF75F006D5967 /* ChallengesRepository.swift */,
@@ -303,6 +306,7 @@
 				5F88825028ABDBAE006D5967 /* ToDoCell.swift in Sources */,
 				5F88825328ABF75F006D5967 /* ChallengesRepository.swift in Sources */,
 				5F88820D28AB5BAC006D5967 /* SceneDelegate.swift in Sources */,
+				5F062D6628CB47B3000D4BAA /* UserHistory.swift in Sources */,
 				5F88821F28AB5E34006D5967 /* DemoDatabase.swift in Sources */,
 				5F98CD6428BF5C4400C8AFA2 /* API helper.swift in Sources */,
 			);

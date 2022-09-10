@@ -42,24 +42,37 @@ class ChallengesDataSource: NSObject {
     
     private func filter(_ challenges: [Challenge]) -> [Challenge] {
         var active = challenges.filter() { challenge in
-            challenge.startDate < Date()
+            challenge.startDate < Date() && challenge.endDate > Date()
         }
         let failed = active.filter() { challenge in
-            challenge.dueDate < Date() && challenge.startDate < Date()
-        }
-        let restarted = failed.map() {
-            updateDueDate($0)
-        }
-        let expired = active.filter() { challenge in
-            challenge.endDate < Date()
+            challenge.dueDate < Date()
         }
         for challenge in failed {
-            UserStats.removeXP(from: challenge)
-        }
-        for challenge in expired {
-            ChallengesRepository.removeChallenge(challenge.id)
+            failChallenge(challenge)
         }
         return active
+    }
+    
+    func completeChallenge(_ challenge: Challenge) {
+        UserStats.addXP(from: challenge)
+        UserHistory.makeEntry(challengeId: challenge.id, date: Date(), success: true)
+        let newChallenge = self.updateStartDateDueDateAndProgress(challenge)
+        updateChallenge(newChallenge)
+        
+    }
+    
+    func failChallenge(_ challenge: Challenge) {
+        UserStats.removeXP(from: challenge)
+        UserHistory.makeEntry(challengeId: challenge.id, date: challenge.dueDate, success: false)
+        let newChallenge = self.updateDueDate(challenge)
+        updateChallenge(newChallenge)
+    }
+    
+    private func updateChallenge(_ challenge: Challenge) {
+        guard let index = challenges.firstIndex(where: { $0.id == challenge.id }) else { return }
+        challenges.remove(at: index)
+        challenges.insert(challenge, at: index)
+        ChallengesRepository.updateChallenge(challenge)
     }
     
     private func updateDueDate(_ challenge: Challenge) -> Challenge {
@@ -72,7 +85,32 @@ class ChallengesDataSource: NSObject {
         case .monthly:
             newChallenge.dueDate = Calendar.current.date(byAdding: .month, value: 1, to: challenge.dueDate)!
         }
-        ChallengesRepository.updateChallenge(newChallenge)
+        return newChallenge
+    }
+    
+    private func updateStartDateDueDateAndProgress(_ challenge: Challenge) -> Challenge {
+        
+        var newChallenge = challenge
+        
+        newChallenge.progress = []
+        
+        switch newChallenge.duration {
+        case .daily:
+            newChallenge.startDate = Date().endOfDay
+            var dateComponent = DateComponents()
+            dateComponent.day = 1
+            newChallenge.dueDate = Calendar.current.date(byAdding: dateComponent, to: newChallenge.startDate)!
+        case .weekly:
+            newChallenge.startDate = Date().endOfWeek!
+            var dateComponent = DateComponents()
+            dateComponent.day = 7
+            newChallenge.dueDate = Calendar.current.date(byAdding: dateComponent, to: newChallenge.startDate)!
+        case .monthly:
+            newChallenge.startDate = Date().endOfMonth
+            var dateComponent = DateComponents()
+            dateComponent.month = 1
+            newChallenge.dueDate = Calendar.current.date(byAdding: dateComponent, to: newChallenge.startDate)!
+        }
         return newChallenge
     }
     

@@ -21,9 +21,7 @@ class ChallengesRepository {
     }
     
     static func removeChallenge(_ id: String) {
-        let baseURL = "https://lifehud-3007a-default-rtdb.asia-southeast1.firebasedatabase.app/challenges/"
-        let path = id + ".json"
-        let url = URL(string: baseURL + path)!
+        let url = APIHelper.updateChallengeURL(for: id)
         var request = URLRequest(url: url)
         request.httpMethod = HTTPMethod.delete.rawValue
         request.setValue("application/json; charset=UTF-8", forHTTPHeaderField: "Content-Type")
@@ -34,7 +32,7 @@ class ChallengesRepository {
     }
     
     static func loadChallenges() {
-        let url = URL(string: "https://lifehud-3007a-default-rtdb.asia-southeast1.firebasedatabase.app/challenges.json")!
+        let url = URL(string: APIHelper.challengesURL)!
         var request = URLRequest(url: url)
         request.httpMethod = HTTPMethod.get.rawValue
         AF.request(request).responseJSON { (response) in
@@ -64,7 +62,7 @@ class ChallengesRepository {
     
     static func createChallenge(_ challenge: Challenge) {
         let challengeData = try? JSONEncoder().encode(challenge)
-        let url = URL(string: "https://lifehud-3007a-default-rtdb.asia-southeast1.firebasedatabase.app/challenges.json")!
+        let url = URL(string: APIHelper.challengesURL)!
         var request = URLRequest(url: url)
         request.httpMethod = HTTPMethod.post.rawValue
         request.setValue("application/json; charset=UTF-8", forHTTPHeaderField: "Content-Type")
@@ -77,9 +75,7 @@ class ChallengesRepository {
     
     static func updateChallenge(_ challenge: Challenge) {
         let challengeData = try? JSONEncoder().encode(challenge)
-        let baseURL = "https://lifehud-3007a-default-rtdb.asia-southeast1.firebasedatabase.app/challenges/"
-        let path = challenge.id + ".json"
-        let url = URL(string: baseURL + path)!
+        let url = APIHelper.updateChallengeURL(for: challenge.id)
         var request = URLRequest(url: url)
         request.httpMethod = HTTPMethod.put.rawValue
         request.setValue("application/json; charset=UTF-8", forHTTPHeaderField: "Content-Type")
@@ -90,26 +86,4 @@ class ChallengesRepository {
         }
     }
     
-    static func completeChallenge(_ challenge: Challenge) {
-        UserStats.addXP(from: challenge)
-        self.updateStartDateAndProgress(challenge)
-    }
-    
-    private static func updateStartDateAndProgress(_ challenge: Challenge) {
-        
-        var newChallenge = challenge
-        
-        newChallenge.progress = []
-        
-        switch newChallenge.duration {
-        case .daily:
-            newChallenge.startDate = Date().endOfDay
-        case .weekly:
-            newChallenge.startDate = Date().endOfWeek!
-        case .monthly:
-            newChallenge.startDate = Date().endOfMonth
-        }
-        
-        ChallengesRepository.updateChallenge(newChallenge)
-    }
 }
