@@ -163,7 +163,7 @@ extension ChallengeCreationViewController: UIPickerViewDataSource, UIPickerViewD
     func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
         var label = UILabel()
         if let v = view as? UILabel { label = v }
-        label.font = UIFont (name: "Helvetica Neue", size: 10)
+        label.font = UIFont (name: "Helvetica Neue", size: 17)
         label.textAlignment = .center
         switch pickerView {
         case categoryPicker:

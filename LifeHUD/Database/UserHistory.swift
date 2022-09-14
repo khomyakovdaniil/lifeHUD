@@ -23,15 +23,33 @@ class UserHistory {
     }
     
     static func uploadHistory(_ history: [HistoryEntry]) {
-        let challengeData = try? JSONEncoder().encode(history)
-        let url = URL(string: "https://lifehud-3007a-default-rtdb.asia-southeast1.firebasedatabase.app/history.json")!
+        let history = try? JSONEncoder().encode(history)
+        let url = URL(string: APIHelper.historyURL)!
         var request = URLRequest(url: url)
         request.httpMethod = HTTPMethod.put.rawValue
         request.setValue("application/json; charset=UTF-8", forHTTPHeaderField: "Content-Type")
-        request.httpBody = challengeData
+        request.httpBody = history
         AF.request(request).responseJSON { (response) in
 
             print(response)
+        }
+    }
+    
+    static func loadHistory() {
+        let url = URL(string: APIHelper.historyURL)!
+        var request = URLRequest(url: url)
+        request.httpMethod = HTTPMethod.get.rawValue
+        AF.request(request).responseJSON { (response) in
+            guard let data = response.data else {
+                return
+            }
+            print(data)
+            do {
+                let history = try JSONDecoder().decode([HistoryEntry].self, from: data)
+                UserHistory.history = history
+            } catch {
+               print(error)
+            }
         }
     }
     

@@ -16,4 +16,6 @@ class APIHelper {
     }
     
     static let challengesURL = "https://lifehud-3007a-default-rtdb.asia-southeast1.firebasedatabase.app/challenges.json"
+    
+    static let historyURL = "https://lifehud-3007a-default-rtdb.asia-southeast1.firebasedatabase.app/history.json"
 }
