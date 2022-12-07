@@ -14,7 +14,7 @@ struct HistoryEntry: Codable {
     let success: Bool
 }
 
-struct DayStats: Codable {
+struct DayStats: Codable, Equatable {
     let challengeID: String
     let success: Bool
 }
@@ -61,7 +61,9 @@ class UserHistory {
             let dayStats = DayStats(challengeID: entry.challengeID, success: entry.success)
             let date = entry.date.startOfDay
             if let stats = historyDictionary[date] {
-                historyDictionary[date]?.append(dayStats)
+                if !stats.contains(where: {$0 == dayStats}) {
+                    historyDictionary[date]?.append(dayStats)
+                }
             } else {
                 historyDictionary[date] = [dayStats]
             }
