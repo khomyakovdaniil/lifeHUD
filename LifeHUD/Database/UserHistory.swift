@@ -14,13 +14,27 @@ struct HistoryEntry: Codable {
     let success: Bool
 }
 
+struct DayStats: Codable {
+    let challengeID: String
+    let success: Bool
+}
+
 class UserHistory {
     
     static var history: [HistoryEntry] = [] {
         didSet {
             uploadHistory(history)
+            sortHistory(history)
         }
     }
+    
+    static var historyDictionary: [Date: [DayStats]] = [:] {
+        didSet {
+            sortDictionary(historyDictionary)
+        }
+    }
+    
+    static var sortedHistoryDictionary: [Dictionary<Date, [DayStats]>.Element] = []
     
     static func uploadHistory(_ history: [HistoryEntry]) {
         let history = try? JSONEncoder().encode(history)
@@ -32,6 +46,25 @@ class UserHistory {
         AF.request(request).responseJSON { (response) in
 
             print(response)
+        }
+    }
+    
+    static func sortDictionary(_ dictionary: [Date: [DayStats]]) {
+        let sorted = dictionary.sorted() {
+            $0.key > $1.key
+        }
+        sortedHistoryDictionary = sorted
+    }
+    
+    static func sortHistory(_ history: [HistoryEntry]) {
+        for entry in history {
+            let dayStats = DayStats(challengeID: entry.challengeID, success: entry.success)
+            let date = entry.date.startOfDay
+            if let stats = historyDictionary[date] {
+                historyDictionary[date]?.append(dayStats)
+            } else {
+                historyDictionary[date] = [dayStats]
+            }
         }
     }
     

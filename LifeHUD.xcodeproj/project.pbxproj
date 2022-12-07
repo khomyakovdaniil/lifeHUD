@@ -32,6 +32,8 @@
 		5F88825728AE3DA8006D5967 /* UserStatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F88825628AE3DA8006D5967 /* UserStatsViewController.swift */; };
 		5F88825928AE3EB7006D5967 /* UserStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F88825828AE3EB7006D5967 /* UserStats.swift */; };
 		5F98CD6428BF5C4400C8AFA2 /* API helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F98CD6328BF5C4400C8AFA2 /* API helper.swift */; };
+		5FBC253B293F922400C7A7A6 /* CreateToDoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FBC2539293F922400C7A7A6 /* CreateToDoCell.swift */; };
+		5FBC253C293F922400C7A7A6 /* CreateToDoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FBC253A293F922400C7A7A6 /* CreateToDoCell.xib */; };
 		5FFEACE028BF8556002C9F89 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFEACDF28BF8556002C9F89 /* DateExtension.swift */; };
 /* End PBXBuildFile section */
 
@@ -63,6 +65,8 @@
 		5F88825628AE3DA8006D5967 /* UserStatsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStatsViewController.swift; sourceTree = "<group>"; };
 		5F88825828AE3EB7006D5967 /* UserStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStats.swift; sourceTree = "<group>"; };
 		5F98CD6328BF5C4400C8AFA2 /* API helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "API helper.swift"; sourceTree = "<group>"; };
+		5FBC2539293F922400C7A7A6 /* CreateToDoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateToDoCell.swift; sourceTree = "<group>"; };
+		5FBC253A293F922400C7A7A6 /* CreateToDoCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CreateToDoCell.xib; sourceTree = "<group>"; };
 		5FFEACDF28BF8556002C9F89 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		B271C31CD6155A484D479C84 /* Pods_LifeHUD.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LifeHUD.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA14240D0F82840386FCCFF6 /* Pods-LifeHUD.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LifeHUD.debug.xcconfig"; path = "Target Support Files/Pods-LifeHUD/Pods-LifeHUD.debug.xcconfig"; sourceTree = "<group>"; };
@@ -147,6 +151,8 @@
 				5F88824F28ABDBAE006D5967 /* ToDoCell.xib */,
 				5F062D6728CC8C4D000D4BAA /* HistoryCell.swift */,
 				5F062D6828CC8C4D000D4BAA /* HistoryCell.xib */,
+				5FBC2539293F922400C7A7A6 /* CreateToDoCell.swift */,
+				5FBC253A293F922400C7A7A6 /* CreateToDoCell.xib */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -243,6 +249,7 @@
 				5F88821728AB5BB1006D5967 /* LaunchScreen.storyboard in Resources */,
 				5F88823228AB8FE9006D5967 /* ChallengeFullInfoViewController.xib in Resources */,
 				5F062D6A28CC8C4D000D4BAA /* HistoryCell.xib in Resources */,
+				5FBC253C293F922400C7A7A6 /* CreateToDoCell.xib in Resources */,
 				5F88822928AB633C006D5967 /* ChallengeCell.xib in Resources */,
 				5F88821428AB5BB1006D5967 /* Assets.xcassets in Resources */,
 				5F88825128ABDBAE006D5967 /* ToDoCell.xib in Resources */,
@@ -309,6 +316,7 @@
 				5F062D6928CC8C4D000D4BAA /* HistoryCell.swift in Sources */,
 				5F88822B28AB65FD006D5967 /* ChallengesDataSource.swift in Sources */,
 				5F88825728AE3DA8006D5967 /* UserStatsViewController.swift in Sources */,
+				5FBC253B293F922400C7A7A6 /* CreateToDoCell.swift in Sources */,
 				5F88820B28AB5BAC006D5967 /* AppDelegate.swift in Sources */,
 				5F88825528ACC9B5006D5967 /* ChallengeCreationViewController.swift in Sources */,
 				5F88825028ABDBAE006D5967 /* ToDoCell.swift in Sources */,

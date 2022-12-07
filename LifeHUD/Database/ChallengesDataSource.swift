@@ -42,10 +42,10 @@ class ChallengesDataSource: NSObject {
     
     private func filter(_ challenges: [Challenge]) -> [Challenge] {
         var active = challenges.filter() { challenge in
-            challenge.startDate < Date() && challenge.endDate > Date()
+            challenge.startDate < Date() && challenge.endDate.endOfDay > Date()
         }
         let failed = active.filter() { challenge in
-            challenge.dueDate < Date()
+            challenge.dueDate.endOfDay < Date()
         }
         for challenge in failed {
             failChallenge(challenge)
