@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -33,7 +35,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Y6a-zP-WOU">
-                    <rect key="frame" x="157" y="84" width="100" height="100"/>
+                    <rect key="frame" x="155" y="80" width="104" height="104"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="Y6a-zP-WOU" secondAttribute="height" multiplier="1:1" id="xOV-Ww-PGJ"/>
                     </constraints>
@@ -48,7 +50,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <stackView opaque="NO" contentMode="scaleAspectFit" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="aWH-0e-m4U">
-                    <rect key="frame" x="32" y="253" width="350" height="200"/>
+                    <rect key="frame" x="32" y="255" width="350" height="200"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oDN-Xl-3In">
                             <rect key="frame" x="0.0" y="0.0" width="350" height="50"/>
@@ -156,11 +158,11 @@
                         </view>
                     </subviews>
                     <constraints>
-                        <constraint firstAttribute="height" relation="lessThanOrEqual" constant="200" id="7hv-KP-y3v"/>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="200" id="7hv-KP-y3v"/>
                     </constraints>
                 </stackView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fSY-cP-lri">
-                    <rect key="frame" x="32" y="461" width="350" height="20.5"/>
+                    <rect key="frame" x="32" y="471" width="350" height="20.5"/>
                     <constraints>
                         <constraint firstAttribute="height" relation="lessThanOrEqual" constant="200" id="omy-4A-8H9"/>
                     </constraints>
@@ -168,22 +170,25 @@
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="close" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YzB-vt-zEz">
-                    <rect key="frame" x="187" y="824" width="40" height="40"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YzB-vt-zEz">
+                    <rect key="frame" x="185" y="802" width="44" height="44"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="40" id="BzA-dO-hU4"/>
-                        <constraint firstAttribute="width" constant="40" id="p1u-j3-aqS"/>
+                        <constraint firstAttribute="height" constant="44" id="D1M-h6-rDf"/>
+                        <constraint firstAttribute="width" constant="44" id="o0v-a5-HYu"/>
                     </constraints>
-                    <buttonConfiguration key="configuration" style="plain"/>
+                    <state key="normal">
+                        <imageReference key="image" image="clear.fill" catalog="system" symbolScale="large"/>
+                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large" weight="heavy"/>
+                    </state>
                     <connections>
                         <action selector="closeButtonTapped:" destination="-1" eventType="touchUpInside" id="qPc-C6-Ylv"/>
                     </connections>
                 </button>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dxc-88-Fjz">
-                    <rect key="frame" x="32" y="489.5" width="350" height="326.5"/>
+                    <rect key="frame" x="32" y="499.5" width="350" height="294.5"/>
                     <subviews>
                         <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QVB-C4-87l">
-                            <rect key="frame" x="134" y="148" width="82.5" height="31"/>
+                            <rect key="frame" x="128.5" y="130" width="93.5" height="34.5"/>
                             <state key="normal" title="Button"/>
                             <buttonConfiguration key="configuration" style="plain" title="Сделано"/>
                             <connections>
@@ -191,19 +196,19 @@
                             </connections>
                         </button>
                         <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="K4w-OX-s9G">
-                            <rect key="frame" x="128" y="167.5" width="94" height="32"/>
+                            <rect key="frame" x="128" y="151.5" width="94" height="32"/>
                             <connections>
                                 <action selector="progressChanged:" destination="-1" eventType="valueChanged" id="cBJ-Ff-LL2"/>
                             </connections>
                         </stepper>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FWD-SJ-YAY" userLabel="Progress Label">
-                            <rect key="frame" x="154.5" y="135" width="41.5" height="20.5"/>
+                            <rect key="frame" x="154.5" y="119" width="41.5" height="20.5"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="RoZ-MB-q2y">
-                            <rect key="frame" x="16" y="8" width="318" height="310.5"/>
+                            <rect key="frame" x="16" y="8" width="318" height="278.5"/>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         </tableView>
                     </subviews>
@@ -222,7 +227,7 @@
                     </constraints>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3MO-B9-dXc">
-                    <rect key="frame" x="20" y="119" width="99" height="31"/>
+                    <rect key="frame" x="20" y="115" width="112.5" height="34.5"/>
                     <state key="normal" title="Button"/>
                     <buttonConfiguration key="configuration" style="plain" title="Провалено"/>
                     <connections>
@@ -230,7 +235,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nqp-wk-VX7">
-                    <rect key="frame" x="315" y="119" width="79" height="31"/>
+                    <rect key="frame" x="305.5" y="115" width="88.5" height="34.5"/>
                     <state key="normal" title="Button"/>
                     <buttonConfiguration key="configuration" style="plain" title="Удалить"/>
                     <connections>
@@ -241,10 +246,10 @@
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="YzB-vt-zEz" secondAttribute="bottom" constant="32" id="2z7-O7-07B"/>
+                <constraint firstAttribute="bottom" secondItem="YzB-vt-zEz" secondAttribute="bottom" constant="50" id="2z7-O7-07B"/>
                 <constraint firstItem="dxc-88-Fjz" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="32" id="5Yx-MP-FmP"/>
                 <constraint firstItem="YzB-vt-zEz" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="9lp-tZ-8Ge"/>
-                <constraint firstItem="fSY-cP-lri" firstAttribute="top" secondItem="aWH-0e-m4U" secondAttribute="bottom" constant="8" id="9yU-UQ-TAW"/>
+                <constraint firstItem="fSY-cP-lri" firstAttribute="top" secondItem="aWH-0e-m4U" secondAttribute="bottom" constant="16" id="9yU-UQ-TAW"/>
                 <constraint firstItem="aWH-0e-m4U" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="32" id="DdH-4E-2iI"/>
                 <constraint firstItem="lKp-Ft-iYX" firstAttribute="top" secondItem="Y6a-zP-WOU" secondAttribute="bottom" constant="8" symbolic="YES" id="FzI-XT-y2j"/>
                 <constraint firstItem="fSY-cP-lri" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="32" id="GWX-SD-QhL"/>
@@ -254,12 +259,13 @@
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="dxc-88-Fjz" secondAttribute="trailing" constant="32" id="ROr-yw-D2X"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="aWH-0e-m4U" secondAttribute="trailing" constant="32" id="TwG-wR-Pul"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="centerY" secondItem="aWH-0e-m4U" secondAttribute="bottom" id="Uli-3W-Obl"/>
-                <constraint firstItem="Y6a-zP-WOU" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="20" id="V7w-7g-ecF"/>
+                <constraint firstItem="Y6a-zP-WOU" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="32" id="V7w-7g-ecF"/>
                 <constraint firstItem="lKp-Ft-iYX" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="XoW-7C-ewU"/>
                 <constraint firstItem="aWH-0e-m4U" firstAttribute="top" relation="greaterThanOrEqual" secondItem="lKp-Ft-iYX" secondAttribute="bottom" constant="8" id="Y1f-il-gxV"/>
                 <constraint firstItem="Y6a-zP-WOU" firstAttribute="centerY" secondItem="3MO-B9-dXc" secondAttribute="centerY" id="blc-oF-h4v"/>
                 <constraint firstItem="dxc-88-Fjz" firstAttribute="top" secondItem="fSY-cP-lri" secondAttribute="bottom" constant="8" symbolic="YES" id="e0T-06-iwl"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Nqp-wk-VX7" secondAttribute="trailing" constant="20" id="hOr-ll-HrG"/>
+                <constraint firstItem="aWH-0e-m4U" firstAttribute="top" relation="lessThanOrEqual" secondItem="lKp-Ft-iYX" secondAttribute="bottom" constant="50" id="hTP-Mh-mak"/>
                 <constraint firstItem="YzB-vt-zEz" firstAttribute="top" secondItem="dxc-88-Fjz" secondAttribute="bottom" constant="8" id="oSu-cT-KLl"/>
                 <constraint firstItem="3MO-B9-dXc" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="zaK-ka-bvm"/>
             </constraints>
@@ -267,6 +273,7 @@
         </view>
     </objects>
     <resources>
+        <image name="clear.fill" catalog="system" width="128" height="114"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
