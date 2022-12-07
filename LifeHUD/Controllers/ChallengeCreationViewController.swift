@@ -71,7 +71,7 @@ class ChallengeCreationViewController: UIViewController {
     }
     
     private let toDosTableViewRowHeight = 44.0
-    private let additionalInfoViewHeightForCounter = 80.0
+    private let additionalInfoViewHeightForCounter = 44.0
     private let heightNeededForAddCellButton = 40.0
     
     // MARK: - ViewController LifeCycle
