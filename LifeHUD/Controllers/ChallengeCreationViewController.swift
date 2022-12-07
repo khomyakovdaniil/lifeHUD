@@ -35,16 +35,18 @@ class ChallengeCreationViewController: UIViewController {
     @IBOutlet var additionalInfoViewIsVisibleConstraint: NSLayoutConstraint!
     @IBOutlet var additionalInfoViewIsHiddenConstraint: NSLayoutConstraint!
     
-    
     private var toDos: [String] = [""]
     
+    /// constants and variables for pickerView alerts
     private let screenWidth = UIScreen.main.bounds.width - 10
     private let screenHeight = UIScreen.main.bounds.height / 1
     private var selectedRow = 0
     
+    /// switcher for presenting pickerView alerts
     private var currentEditingMode: Setting?
     
     private enum Setting {
+        
         case category
         case duration
         case fee
@@ -68,6 +70,12 @@ class ChallengeCreationViewController: UIViewController {
         }
     }
     
+    private let toDosTableViewRowHeight = 44.0
+    private let additionalInfoViewHeightForCounter = 80.0
+    private let heightNeededForAddCellButton = 40.0
+    
+    // MARK: - ViewController LifeCycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
@@ -79,6 +87,7 @@ class ChallengeCreationViewController: UIViewController {
     private func setupViews() {
         setupPickerButtons()
         setupAdditionalInfoView()
+        setupTitleAndDescriptionFields()
         setupToDosTableView()
     }
     
@@ -107,6 +116,11 @@ class ChallengeCreationViewController: UIViewController {
         }
     }
     
+    private func setupTitleAndDescriptionFields() {
+        titleField.text = (challenge.title == "") ? nil : challenge.title
+        descriptionField.text = (challenge.description == "") ? nil : challenge.description
+    }
+    
     private func hideAdditionalInfoView() {
         additionalInfoView.isHidden = true
         additionalInfoViewIsVisibleConstraint.isActive = false
@@ -116,7 +130,7 @@ class ChallengeCreationViewController: UIViewController {
     private func showAdditionalInfoViewWithCounter() {
         additionalInfoView.isHidden = false
         additionalInfoViewIsHiddenConstraint.isActive = false
-        additionalInfoViewIsVisibleConstraint.constant = 80
+        additionalInfoViewIsVisibleConstraint.constant = additionalInfoViewHeightForCounter
         additionalInfoViewIsVisibleConstraint.isActive = true
         toDosView.isHidden = true
         counterView.isHidden = false
@@ -125,7 +139,7 @@ class ChallengeCreationViewController: UIViewController {
     private func showAdditionalInfoViewWithToDos() {
         additionalInfoView.isHidden = false
         additionalInfoViewIsHiddenConstraint.isActive = false
-        additionalInfoViewIsVisibleConstraint.constant = self.toDosTableView.contentSize.height + 35
+        additionalInfoViewIsVisibleConstraint.constant = self.toDosTableView.contentSize.height + heightNeededForAddCellButton
         additionalInfoViewIsVisibleConstraint.isActive = true
         counterView.isHidden = true
         toDosView.isHidden = false
@@ -233,7 +247,7 @@ class ChallengeCreationViewController: UIViewController {
     @IBAction func addToDoButtonTapped(_ sender: Any) {
         toDos.append("")
         toDosTableView.insertRows(at: [IndexPath(row: toDos.count-1, section: 0)], with: .none)
-        additionalInfoViewIsVisibleConstraint.constant = self.toDosTableView.contentSize.height + 35
+        additionalInfoViewIsVisibleConstraint.constant = self.toDosTableView.contentSize.height + heightNeededForAddCellButton
     }
     
     @IBAction func createButtonTapped(_ sender: Any) {
@@ -263,8 +277,6 @@ class ChallengeCreationViewController: UIViewController {
         }
         
         challenge.id = String(Int.random(in: 100000..<999999))
-        challenge.title = title
-        challenge.description = description
         challenge.count = count
         challenge.toDos = toDos
         challenge.startDate = startDate
@@ -285,6 +297,18 @@ class ChallengeCreationViewController: UIViewController {
             
                                          }))
         self.present(alert, animated: true, completion: nil)
+    }
+    
+    @IBAction func saveTitle(_ sender: UITextField) {
+        if let text = sender.text, text != "", text != sender.placeholder {
+            challenge.title = text
+        }
+    }
+    
+    @IBAction func saveDescription(_ sender: UITextField) {
+        if let text = sender.text, text != "", text != sender.placeholder {
+            challenge.description = text
+        }
     }
     
 }
@@ -338,7 +362,7 @@ extension ChallengeCreationViewController: UIPickerViewDataSource, UIPickerViewD
     }
     
     func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
-        return 50
+        return toDosTableViewRowHeight
     }
 }
 
@@ -349,34 +373,44 @@ extension ChallengeCreationViewController: UITableViewDataSource, UITableViewDel
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CreateToDoCell.identifier) as! CreateToDoCell
-        let task = toDos[indexPath.row]
+        
+        /// adds removeCell action to delete button
         cell.deleteButton.addTarget(self, action: #selector(removeCell(_:)), for: .touchUpInside)
+        
+        /// sets number label according to current position
         cell.numberLabel.text = "\(indexPath.row+1)"
+        
+        /// adds action to textField, data saves when editing finishes
         cell.textField.addTarget(self, action: #selector(saveTask(_:)), for: .editingDidEnd)
+        
+        /// check related data entry
+        let task = toDos[indexPath.row]
+       
         if task != "" {
+            /// fill with non empty data entry
             cell.textField.text = task
         } else {
+            /// clear cell for empty data entry
             cell.textField.text = nil
         }
         return cell
     }
     
     @objc func saveTask(_ sender: UITextField) {
-        let hitPoint = sender.convert(CGPoint.zero, to: toDosTableView)
-        if let index = toDosTableView.indexPathForRow(at: hitPoint)?.row, let text = sender.text {
-            toDos[index] = text
+        let hitPoint = sender.convert(CGPoint.zero, to: toDosTableView) /// position from sender
+        if let indexPath = toDosTableView.indexPathForRow(at: hitPoint), let text = sender.text {
+            /// indexPath for position, text from sender UITextField
+            toDos[indexPath.row] = text /// saves text to data entry
         }
     }
     
     @objc func removeCell(_ sender: UIButton) {
-        let hitPoint = sender.convert(CGPoint.zero, to: toDosTableView)
-        if let indexPath = toDosTableView.indexPathForRow(at: hitPoint) {
-            
-            self.toDos.remove(at: indexPath.row)
-            self.toDosTableView.reloadData()
-            
+        let hitPoint = sender.convert(CGPoint.zero, to: toDosTableView) /// postion from sender
+        if let indexPath = toDosTableView.indexPathForRow(at: hitPoint) { /// indexPath for position
+            self.toDos.remove(at: indexPath.row) /// removes data entry
+            self.toDosTableView.reloadData() /// removes cell
         }
-        additionalInfoViewIsVisibleConstraint.constant = self.toDosTableView.contentSize.height + 35
+        additionalInfoViewIsVisibleConstraint.constant = self.toDosTableView.contentSize.height + heightNeededForAddCellButton /// resizes additionalInfoView to fit toDosTableView
     }
 
 }
