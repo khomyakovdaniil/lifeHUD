@@ -6,11 +6,95 @@
 //
 
 import Foundation
+import FirebaseDatabase
 import UIKit
+import Alamofire
+
 
 protocol DataSourceDelegateProtocol: AnyObject {
     func challengeListUpdated()
 }
+
+class ChallengesRepository {
+    
+    static let database = Database.database().reference()
+    
+    static func saveDatabase(_ challenges:[Challenge]) {
+        for challenge in challenges {
+            updateChallenge(challenge) // creates or updates challenge in remote database
+        }
+    }
+    
+    static func removeChallenge(_ id: String) {
+        let url = ApiClient.updateChallengeURL(for: id)
+        var request = URLRequest(url: url)
+        request.httpMethod = HTTPMethod.delete.rawValue
+        request.setValue("application/json; charset=UTF-8", forHTTPHeaderField: "Content-Type")
+        AF.request(request).responseJSON { (response) in
+
+            print(response)
+        }
+    }
+    
+    static func loadChallenges(_ responseHandler: @escaping (Bool) -> Void) {
+        let url = URL(string: ApiClient.Urls.challengesURL)!
+        var request = URLRequest(url: url)
+        request.httpMethod = HTTPMethod.get.rawValue
+        AF.request(request).responseJSON { (response) in
+            guard let data = response.data else {
+                return
+            }
+            print(data)
+            do {
+                let challengesList = try JSONDecoder().decode([String: Challenge].self, from: data)
+                var challenges: [Challenge] = []
+                let group = DispatchGroup()
+                for item in challengesList {
+                    group.enter()
+                    var newChallenge = item.value
+                    newChallenge.id = item.key
+                    challenges.append(newChallenge)
+                    group.leave()
+                }
+                group.notify(queue: .main) {
+                    let challengeDictionary = Dictionary(uniqueKeysWithValues: challenges.map{ ($0.id, $0) })
+                    ChallengesDataSource.shared.challenges = challengeDictionary
+                responseHandler(true)
+                }
+            } catch {
+               print(error)
+            }
+        }
+    }
+    
+    static func createChallenge(_ challenge: Challenge) {
+        let challengeData = try? JSONEncoder().encode(challenge)
+        let url = URL(string: ApiClient.Urls.challengesURL)!
+        var request = URLRequest(url: url)
+        request.httpMethod = HTTPMethod.post.rawValue
+        request.setValue("application/json; charset=UTF-8", forHTTPHeaderField: "Content-Type")
+        request.httpBody = challengeData
+        AF.request(request).responseJSON { (response) in
+
+            print(response)
+        }
+    }
+    
+    static func updateChallenge(_ challenge: Challenge) {
+        let challengeData = try? JSONEncoder().encode(challenge)
+        let url = ApiClient.updateChallengeURL(for: challenge.id)
+        var request = URLRequest(url: url)
+        request.httpMethod = HTTPMethod.put.rawValue
+        request.setValue("application/json; charset=UTF-8", forHTTPHeaderField: "Content-Type")
+        request.httpBody = challengeData
+        AF.request(request).responseJSON { (response) in
+
+            print(response)
+        }
+    }
+    
+}
+
 
 class ChallengesDataSource: NSObject {
     
@@ -20,11 +104,11 @@ class ChallengesDataSource: NSObject {
     
     weak var delegate: DataSourceDelegateProtocol?
     
-    var challenges: [Challenge] = [Challenge()] {
+    var challenges: [String: Challenge] = ["": Challenge()] {
         didSet {
-            let activeChallenges = filter(challenges) // checks for active and failed challenges
+            let activeChallenges = filter(Array(challenges.values)) // checks for active and failed challenges
             sort(activeChallenges) // Sorts challenges for tableView
-            ChallengesRepository.saveDatabase(challenges) //  Synchronises with remote database
+            ChallengesRepository.saveDatabase(Array(challenges.values)) //  Synchronises with remote database
             delegate?.challengeListUpdated() // Udpates the tableView
         }
     }
@@ -48,12 +132,15 @@ class ChallengesDataSource: NSObject {
             challenge.dueDate.endOfDay < Date()
         }
         for challenge in failed {
-            failChallenge(challenge)
+            failChallenge(challenge.id)
         }
         return active
     }
     
-    func completeChallenge(_ challenge: Challenge) {
+    func completeChallenge(_ challengeId: String) {
+        guard let challenge = challenges[challengeId] else {
+            return
+        }
         UserStats.addXP(from: challenge)
         UserHistory.makeEntry(challengeId: challenge.id, date: Date(), success: true)
         let newChallenge = self.updateStartDateDueDateAndProgress(challenge)
@@ -61,7 +148,10 @@ class ChallengesDataSource: NSObject {
         
     }
     
-    func failChallenge(_ challenge: Challenge) {
+    func failChallenge(_ challengeId: String) {
+        guard let challenge = challenges[challengeId] else {
+            return
+        }
         UserStats.removeXP(from: challenge)
         UserHistory.makeEntry(challengeId: challenge.id, date: challenge.dueDate, success: false)
         let newChallenge = self.updateDueDate(challenge)
@@ -69,9 +159,7 @@ class ChallengesDataSource: NSObject {
     }
     
     private func updateChallenge(_ challenge: Challenge) {
-        guard let index = challenges.firstIndex(where: { $0.id == challenge.id }) else { return }
-        challenges.remove(at: index)
-        challenges.insert(challenge, at: index)
+        challenges[challenge.id] = challenge
         ChallengesRepository.updateChallenge(challenge)
     }
     
@@ -122,57 +210,4 @@ class ChallengesDataSource: NSObject {
 
     // MARK: - TableView datasource
 
-extension ChallengesDataSource: UITableViewDataSource {
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch section {
-        case 0:
-            return dailyChallenges.count
-        case 1:
-            return weeklyChallenges.count
-        case 2:
-            return monthlyChallenges.count
-        default:
-            return 0
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: ChallengeCell.identifier) as! ChallengeCell
-        let challenge = challenge(for: indexPath)
-        cell.fill(with: challenge) // Fills the cell with challenge info
-        return cell
-    }
-    
-    private func challenge(for indexPath: IndexPath) -> Challenge {
-        let index = indexPath.row
-        switch indexPath.section {
-        case 0:
-            return dailyChallenges[index]
-        case 1:
-            return weeklyChallenges[index]
-        case 2:
-            return monthlyChallenges[index]
-        default:
-            return Challenge()
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        switch section {
-        case 0:
-            return dailyTasksSectionHeader
-        case 1:
-            return weeklyTasksSectionHeader
-        case 2:
-            return monthlyTasksSectionHeader
-        default:
-            return ""
-        }
-    }
 
-}

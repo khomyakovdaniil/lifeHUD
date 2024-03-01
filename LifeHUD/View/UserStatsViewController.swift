@@ -76,6 +76,7 @@ extension UserStatsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: HistoryCell.identifier) as! HistoryCell
         let day = UserHistory.sortedHistoryDictionary[indexPath.section].value
+        guard indexPath.row < day.count else { return cell }
         let entry = day[indexPath.row]
         cell.fill(with: entry) // Fills the cell with challenge info
         return cell

@@ -16,8 +16,9 @@ class HistoryCell: UITableViewCell {
 
 
     func fill(with entry: DayStats) {
-        guard let challengeIndex = ChallengesDataSource.shared.challenges.firstIndex(where: {$0.id == entry.challengeID }) else { return }
-        let challenge = ChallengesDataSource.shared.challenges[challengeIndex]
+        guard let challenge = ChallengesDataSource.shared.challenges[entry.challengeID] else {
+            return
+        }
         titleLabel.text = challenge.title
         scoreLabel.text = entry.success ? String(challenge.difficulty.reward()) : String(challenge.failFee.fee())
         scoreLabel.textColor = entry.success ? .green : .red

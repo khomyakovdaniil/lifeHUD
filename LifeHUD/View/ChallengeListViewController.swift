@@ -16,9 +16,10 @@ class ChallengeListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        ChallengesRepository.loadChallenges()
-        challengesDataSource.delegate = self
-        setupChallengesTableView()
+        ChallengesRepository.loadChallenges() {_ in
+            self.challengesDataSource.delegate = self
+            self.setupChallengesTableView()
+        }
     }
     
     // MARK: - private
@@ -27,7 +28,7 @@ class ChallengeListViewController: UIViewController {
         let bundle = Bundle.main
         let challengeCellNib = UINib(nibName: "ChallengeCell", bundle: bundle)
         challengesTableView.register(challengeCellNib, forCellReuseIdentifier: ChallengeCell.identifier)
-        challengesTableView.dataSource = challengesDataSource
+        challengesTableView.dataSource = self
         challengesTableView.delegate = self
         refreshControl.attributedTitle = NSAttributedString(string: "Обновить")
         refreshControl.addTarget(self, action: #selector(self.refresh(_:)), for: .valueChanged)
@@ -35,8 +36,9 @@ class ChallengeListViewController: UIViewController {
     }
     
     @objc func refresh(_ sender: AnyObject) {
-        ChallengesRepository.loadChallenges()
-        challengesTableView.reloadData()
+        ChallengesRepository.loadChallenges() { _ in
+            self.challengesTableView.reloadData()
+        }
         refreshControl.endRefreshing()
     }
 
@@ -73,4 +75,60 @@ extension ChallengeListViewController: DataSourceDelegateProtocol {
     func challengeListUpdated() {
         challengesTableView.reloadData()
     }
+}
+
+extension ChallengeListViewController: UITableViewDataSource {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 3
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        switch section {
+        case 0:
+            return challengesDataSource.dailyChallenges.count
+        case 1:
+            return challengesDataSource.weeklyChallenges.count
+        case 2:
+            return challengesDataSource.monthlyChallenges.count
+        default:
+            return 0
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: ChallengeCell.identifier) as! ChallengeCell
+        let challenge = challenge(for: indexPath)
+        let viewModel = ChallengesListViewViewModel(challenge: challenge)
+        cell.fill(with: viewModel) // Fills the cell with challenge info
+        return cell
+    }
+    
+    private func challenge(for indexPath: IndexPath) -> Challenge {
+        let index = indexPath.row
+        switch indexPath.section {
+        case 0:
+            return challengesDataSource.dailyChallenges[index]
+        case 1:
+            return challengesDataSource.weeklyChallenges[index]
+        case 2:
+            return challengesDataSource.monthlyChallenges[index]
+        default:
+            return Challenge()
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        switch section {
+        case 0:
+            return challengesDataSource.dailyTasksSectionHeader
+        case 1:
+            return challengesDataSource.weeklyTasksSectionHeader
+        case 2:
+            return challengesDataSource.monthlyTasksSectionHeader
+        default:
+            return ""
+        }
+    }
+
 }
