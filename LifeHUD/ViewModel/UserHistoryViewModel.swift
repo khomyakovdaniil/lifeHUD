@@ -47,7 +47,7 @@ class UserHistory {
     
     static func sortHistory(_ history: [HistoryEntry]) {
         for entry in history {
-            let dayStats = DayStats(challengeID: entry.challengeID, success: entry.success)
+            let dayStats = entry.stats
             let date = entry.date.startOfDay
             if let stats = historyDictionary[date] {
                 if !stats.contains(where: {$0 == dayStats}) {
@@ -78,7 +78,8 @@ class UserHistory {
     }
     
     static func makeEntry(challengeId: String, date: Date, success: Bool) {
-        var entry = HistoryEntry(date: date, challengeID: challengeId, success: success)
+        let dayStats = DayStats(challengeID: challengeId, success: success)
+        var entry = HistoryEntry(date: date, stats: dayStats)
         history.append(entry)
     }
 }

@@ -9,8 +9,7 @@ import Foundation
 
 struct HistoryEntry: Codable {
     let date: Date
-    let challengeID: String
-    let success: Bool
+    let stats: DayStats
 }
 
 struct DayStats: Codable, Equatable {
