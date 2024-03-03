@@ -16,7 +16,7 @@ class ChallengeListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        ChallengesRepository.loadChallenges() {_ in
+        ChallengesRepository.shared.loadChallenges() {_ in
             self.challengesDataSource.delegate = self
             self.setupChallengesTableView()
         }
@@ -36,7 +36,7 @@ class ChallengeListViewController: UIViewController {
     }
     
     @objc func refresh(_ sender: AnyObject) {
-        ChallengesRepository.loadChallenges() { _ in
+        ChallengesRepository.shared.loadChallenges() { _ in
             self.challengesTableView.reloadData()
         }
         refreshControl.endRefreshing()
@@ -99,7 +99,7 @@ extension ChallengeListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ChallengeCell.identifier) as! ChallengeCell
         let challenge = challenge(for: indexPath)
-        let viewModel = ChallengesListViewViewModel(challenge: challenge)
+        let viewModel = ChallengeViewModel(challenge: challenge)
         cell.fill(with: viewModel) // Fills the cell with challenge info
         return cell
     }

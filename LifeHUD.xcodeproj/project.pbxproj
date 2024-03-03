@@ -11,7 +11,7 @@
 		5F062D6928CC8C4D000D4BAA /* HistoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F062D6728CC8C4D000D4BAA /* HistoryCell.swift */; };
 		5F062D6A28CC8C4D000D4BAA /* HistoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F062D6828CC8C4D000D4BAA /* HistoryCell.xib */; };
 		5F1059F82B91C50800FBFD02 /* UserHistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1059F72B91C50800FBFD02 /* UserHistoryViewModel.swift */; };
-		5F1059FA2B91E5CF00FBFD02 /* ChallengesListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1059F92B91E5CF00FBFD02 /* ChallengesListViewModel.swift */; };
+		5F1059FA2B91E5CF00FBFD02 /* ChallengeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1059F92B91E5CF00FBFD02 /* ChallengeViewModel.swift */; };
 		5F1059FC2B9206ED00FBFD02 /* ChallengeFullInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1059FB2B9206ED00FBFD02 /* ChallengeFullInfoViewModel.swift */; };
 		5F88820B28AB5BAC006D5967 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F88820A28AB5BAC006D5967 /* AppDelegate.swift */; };
 		5F88820D28AB5BAC006D5967 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F88820C28AB5BAC006D5967 /* SceneDelegate.swift */; };
@@ -46,7 +46,7 @@
 		5F062D6728CC8C4D000D4BAA /* HistoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryCell.swift; sourceTree = "<group>"; };
 		5F062D6828CC8C4D000D4BAA /* HistoryCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HistoryCell.xib; sourceTree = "<group>"; };
 		5F1059F72B91C50800FBFD02 /* UserHistoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserHistoryViewModel.swift; sourceTree = "<group>"; };
-		5F1059F92B91E5CF00FBFD02 /* ChallengesListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengesListViewModel.swift; sourceTree = "<group>"; };
+		5F1059F92B91E5CF00FBFD02 /* ChallengeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeViewModel.swift; sourceTree = "<group>"; };
 		5F1059FB2B9206ED00FBFD02 /* ChallengeFullInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeFullInfoViewModel.swift; sourceTree = "<group>"; };
 		5F88820728AB5BAC006D5967 /* LifeHUD.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LifeHUD.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F88820A28AB5BAC006D5967 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -148,12 +148,13 @@
 			children = (
 				5F88820A28AB5BAC006D5967 /* AppDelegate.swift */,
 				5F88820C28AB5BAC006D5967 /* SceneDelegate.swift */,
-				5F1059F42B91BDB500FBFD02 /* Extenstions */,
-				5F1059F32B91BA7900FBFD02 /* Network */,
-				5FFEACDE28BF853A002C9F89 /* Notifications */,
 				5F88822028AB5E45006D5967 /* Model */,
-				5F88822E28AB8FBD006D5967 /* ViewModel */,
 				5F1059F52B91C12800FBFD02 /* View */,
+				5F88822E28AB8FBD006D5967 /* ViewModel */,
+				5F1059F32B91BA7900FBFD02 /* Network */,
+				5F8B61CF2B931B6C0002DDC4 /* Services */,
+				5FFEACDE28BF853A002C9F89 /* Notifications */,
+				5F1059F42B91BDB500FBFD02 /* Extenstions */,
 				5F88821028AB5BAC006D5967 /* Main.storyboard */,
 				5F88821328AB5BB1006D5967 /* Assets.xcassets */,
 				5F88821528AB5BB1006D5967 /* LaunchScreen.storyboard */,
@@ -191,12 +192,19 @@
 		5F88822E28AB8FBD006D5967 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				5F88822A28AB65FD006D5967 /* ChallengesDataSource.swift */,
-				5F1059F92B91E5CF00FBFD02 /* ChallengesListViewModel.swift */,
+				5F1059F92B91E5CF00FBFD02 /* ChallengeViewModel.swift */,
 				5F1059FB2B9206ED00FBFD02 /* ChallengeFullInfoViewModel.swift */,
 				5F1059F72B91C50800FBFD02 /* UserHistoryViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		5F8B61CF2B931B6C0002DDC4 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				5F88822A28AB65FD006D5967 /* ChallengesDataSource.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 		5FFEACDE28BF853A002C9F89 /* Notifications */ = {
@@ -344,7 +352,7 @@
 				5F88822828AB633C006D5967 /* ChallengeCell.swift in Sources */,
 				5F88820F28AB5BAC006D5967 /* ChallengeListViewController.swift in Sources */,
 				5F062D6928CC8C4D000D4BAA /* HistoryCell.swift in Sources */,
-				5F1059FA2B91E5CF00FBFD02 /* ChallengesListViewModel.swift in Sources */,
+				5F1059FA2B91E5CF00FBFD02 /* ChallengeViewModel.swift in Sources */,
 				5F88822B28AB65FD006D5967 /* ChallengesDataSource.swift in Sources */,
 				5F88825728AE3DA8006D5967 /* UserStatsViewController.swift in Sources */,
 				5FBC253B293F922400C7A7A6 /* CreateToDoCell.swift in Sources */,

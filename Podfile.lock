@@ -96,11 +96,19 @@ PODS:
   - nanopb/decode (2.30909.0)
   - nanopb/encode (2.30909.0)
   - PromisesObjC (2.1.0)
+  - RxCocoa (6.6.0):
+    - RxRelay (= 6.6.0)
+    - RxSwift (= 6.6.0)
+  - RxRelay (6.6.0):
+    - RxSwift (= 6.6.0)
+  - RxSwift (6.6.0)
 
 DEPENDENCIES:
   - Alamofire
   - Firebase/Core
   - Firebase/Database
+  - RxCocoa
+  - RxSwift
 
 SPEC REPOS:
   trunk:
@@ -118,6 +126,9 @@ SPEC REPOS:
     - leveldb-library
     - nanopb
     - PromisesObjC
+    - RxCocoa
+    - RxRelay
+    - RxSwift
 
 SPEC CHECKSUMS:
   Alamofire: 87bd8c952f9a4454320fce00d9cc3de57bcadaf5
@@ -134,7 +145,10 @@ SPEC CHECKSUMS:
   leveldb-library: 50c7b45cbd7bf543c81a468fe557a16ae3db8729
   nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
   PromisesObjC: 99b6f43f9e1044bd87a95a60beff28c2c44ddb72
+  RxCocoa: 44a80de90e25b739b5aeaae3c8c371a32e3343cc
+  RxRelay: 45eaa5db8ee4fb50e5ebd57deec0159e97fa51e6
+  RxSwift: a4b44f7d24599f674deebd1818eab82e58410632
 
-PODFILE CHECKSUM: 8b58dd1253336ff0ae33e1ceb6ec2e00ca1c481d
+PODFILE CHECKSUM: 85d5c3aff31e96e829c3de614577d5b1f626dfcf
 
 COCOAPODS: 1.15.2

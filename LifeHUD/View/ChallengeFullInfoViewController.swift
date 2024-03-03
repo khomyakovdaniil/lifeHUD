@@ -93,9 +93,9 @@ class ChallengeFullInfoViewController: UIViewController {
         difficultyLabel.text = challengeViewModel.difficulty
         categoryLabel.text = challengeViewModel.category
         iconView.image = challengeViewModel.categoryImage
-        rewardLabel.text = "+ \(challengeViewModel.reward) XP"
+        rewardLabel.text = challengeViewModel.reward
         if let fee = challengeViewModel.failFee {
-            feeLabel.text = "- \(fee) XP"
+            feeLabel.text = fee
         } else {
             feeLabel.isHidden = true
         }
@@ -166,7 +166,7 @@ class ChallengeFullInfoViewController: UIViewController {
     private func deleteChallenge() {
         let alert = UIAlertController(title: "Удаление", message: "Задача удалена", preferredStyle: UIAlertController.Style.alert)
         alert.addAction(UIAlertAction(title: "ок", style: UIAlertAction.Style.default, handler: { (_: UIAlertAction!) -> Void in
-            ChallengesRepository.removeChallenge(self.challengeViewModel.id)
+            ChallengesRepository.shared.removeChallenge(self.challengeViewModel.id)
             self.dismiss(animated: true, completion: nil)
         }))
         self.present(alert, animated: true, completion: nil)

@@ -86,19 +86,7 @@ class UserHistory {
 class UserStats {
     
     static func addXP(from challenge: Challenge) {
-        var reward = 0
-        switch challenge.difficulty {
-            case .lowest:
-                reward = 5
-            case .low:
-                reward = 10
-            case .average:
-                reward = 50
-            case .high:
-                reward = 200
-            case .highest:
-                reward = 500
-        }
+        var reward = challenge.difficulty.reward()
         switch challenge.category {
         case .health:
             addHealthXP(reward)
@@ -112,15 +100,7 @@ class UserStats {
     }
     
     static func removeXP(from challenge: Challenge) {
-        var fee = 0
-        switch challenge.failFee {
-        case .none:
-            fee = 0
-        case .normal:
-            fee = 50
-        case .critical:
-            fee = 500
-        }
+        var fee = challenge.failFee.fee()
         switch challenge.category {
         case .health:
             removeHealthXP(fee)

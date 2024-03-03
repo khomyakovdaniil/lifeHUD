@@ -7,6 +7,8 @@ target 'LifeHUD' do
 
 pod 'Firebase/Core'
 pod 'Firebase/Database'
-pod 'Alamofire' 
+pod 'Alamofire'
+pod 'RxSwift'
+pod 'RxCocoa'
 
-end
+end 

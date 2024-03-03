@@ -17,15 +17,17 @@ protocol DataSourceDelegateProtocol: AnyObject {
 
 class ChallengesRepository {
     
-    static let database = Database.database().reference()
+    static let shared = ChallengesRepository()
     
-    static func saveDatabase(_ challenges:[Challenge]) {
+    let database = Database.database().reference()
+    
+    func saveDatabase(_ challenges:[Challenge]) {
         for challenge in challenges {
             updateChallenge(challenge) // creates or updates challenge in remote database
         }
     }
     
-    static func removeChallenge(_ id: String) {
+    func removeChallenge(_ id: String) {
         let url = ApiClient.updateChallengeURL(for: id)
         var request = URLRequest(url: url)
         request.httpMethod = HTTPMethod.delete.rawValue
@@ -36,7 +38,7 @@ class ChallengesRepository {
         }
     }
     
-    static func loadChallenges(_ responseHandler: @escaping (Bool) -> Void) {
+    func loadChallenges(_ responseHandler: @escaping (Bool) -> Void) {
         let url = URL(string: ApiClient.Urls.challengesURL)!
         var request = URLRequest(url: url)
         request.httpMethod = HTTPMethod.get.rawValue
@@ -67,7 +69,7 @@ class ChallengesRepository {
         }
     }
     
-    static func createChallenge(_ challenge: Challenge) {
+    func createChallenge(_ challenge: Challenge) {
         let challengeData = try? JSONEncoder().encode(challenge)
         let url = URL(string: ApiClient.Urls.challengesURL)!
         var request = URLRequest(url: url)
@@ -80,7 +82,7 @@ class ChallengesRepository {
         }
     }
     
-    static func updateChallenge(_ challenge: Challenge) {
+    func updateChallenge(_ challenge: Challenge) {
         let challengeData = try? JSONEncoder().encode(challenge)
         let url = ApiClient.updateChallengeURL(for: challenge.id)
         var request = URLRequest(url: url)
@@ -108,7 +110,7 @@ class ChallengesDataSource: NSObject {
         didSet {
             let activeChallenges = filter(Array(challenges.values)) // checks for active and failed challenges
             sort(activeChallenges) // Sorts challenges for tableView
-            ChallengesRepository.saveDatabase(Array(challenges.values)) //  Synchronises with remote database
+            ChallengesRepository.shared.saveDatabase(Array(challenges.values)) //  Synchronises with remote database
             delegate?.challengeListUpdated() // Udpates the tableView
         }
     }
@@ -160,7 +162,7 @@ class ChallengesDataSource: NSObject {
     
     private func updateChallenge(_ challenge: Challenge) {
         challenges[challenge.id] = challenge
-        ChallengesRepository.updateChallenge(challenge)
+        ChallengesRepository.shared.updateChallenge(challenge)
     }
     
     private func updateDueDate(_ challenge: Challenge) -> Challenge {
