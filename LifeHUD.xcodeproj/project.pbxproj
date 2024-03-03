@@ -10,7 +10,7 @@
 		5F062D6628CB47B3000D4BAA /* UserHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F062D6528CB47B3000D4BAA /* UserHistory.swift */; };
 		5F062D6928CC8C4D000D4BAA /* HistoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F062D6728CC8C4D000D4BAA /* HistoryCell.swift */; };
 		5F062D6A28CC8C4D000D4BAA /* HistoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F062D6828CC8C4D000D4BAA /* HistoryCell.xib */; };
-		5F1059F82B91C50800FBFD02 /* UserHistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1059F72B91C50800FBFD02 /* UserHistoryViewModel.swift */; };
+		5F1059F82B91C50800FBFD02 /* UserHistoryRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1059F72B91C50800FBFD02 /* UserHistoryRepository.swift */; };
 		5F1059FA2B91E5CF00FBFD02 /* ChallengeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1059F92B91E5CF00FBFD02 /* ChallengeViewModel.swift */; };
 		5F1059FC2B9206ED00FBFD02 /* ChallengeFullInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1059FB2B9206ED00FBFD02 /* ChallengeFullInfoViewModel.swift */; };
 		5F88820B28AB5BAC006D5967 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F88820A28AB5BAC006D5967 /* AppDelegate.swift */; };
@@ -22,7 +22,7 @@
 		5F88821F28AB5E34006D5967 /* DemoDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F88821E28AB5E34006D5967 /* DemoDatabase.swift */; };
 		5F88822828AB633C006D5967 /* ChallengeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F88822628AB633C006D5967 /* ChallengeCell.swift */; };
 		5F88822928AB633C006D5967 /* ChallengeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F88822728AB633C006D5967 /* ChallengeCell.xib */; };
-		5F88822B28AB65FD006D5967 /* ChallengesDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F88822A28AB65FD006D5967 /* ChallengesDataSource.swift */; };
+		5F88822B28AB65FD006D5967 /* ChallengesRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F88822A28AB65FD006D5967 /* ChallengesRepository.swift */; };
 		5F88822D28AB6803006D5967 /* Challenge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F88822C28AB6803006D5967 /* Challenge.swift */; };
 		5F88823128AB8FE9006D5967 /* ChallengeFullInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F88822F28AB8FE9006D5967 /* ChallengeFullInfoViewController.swift */; };
 		5F88823228AB8FE9006D5967 /* ChallengeFullInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F88823028AB8FE9006D5967 /* ChallengeFullInfoViewController.xib */; };
@@ -45,7 +45,7 @@
 		5F062D6528CB47B3000D4BAA /* UserHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserHistory.swift; sourceTree = "<group>"; };
 		5F062D6728CC8C4D000D4BAA /* HistoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryCell.swift; sourceTree = "<group>"; };
 		5F062D6828CC8C4D000D4BAA /* HistoryCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HistoryCell.xib; sourceTree = "<group>"; };
-		5F1059F72B91C50800FBFD02 /* UserHistoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserHistoryViewModel.swift; sourceTree = "<group>"; };
+		5F1059F72B91C50800FBFD02 /* UserHistoryRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserHistoryRepository.swift; sourceTree = "<group>"; };
 		5F1059F92B91E5CF00FBFD02 /* ChallengeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeViewModel.swift; sourceTree = "<group>"; };
 		5F1059FB2B9206ED00FBFD02 /* ChallengeFullInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeFullInfoViewModel.swift; sourceTree = "<group>"; };
 		5F88820728AB5BAC006D5967 /* LifeHUD.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LifeHUD.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -59,7 +59,7 @@
 		5F88821E28AB5E34006D5967 /* DemoDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoDatabase.swift; sourceTree = "<group>"; };
 		5F88822628AB633C006D5967 /* ChallengeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeCell.swift; sourceTree = "<group>"; };
 		5F88822728AB633C006D5967 /* ChallengeCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChallengeCell.xib; sourceTree = "<group>"; };
-		5F88822A28AB65FD006D5967 /* ChallengesDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengesDataSource.swift; sourceTree = "<group>"; };
+		5F88822A28AB65FD006D5967 /* ChallengesRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengesRepository.swift; sourceTree = "<group>"; };
 		5F88822C28AB6803006D5967 /* Challenge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Challenge.swift; sourceTree = "<group>"; };
 		5F88822F28AB8FE9006D5967 /* ChallengeFullInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeFullInfoViewController.swift; sourceTree = "<group>"; };
 		5F88823028AB8FE9006D5967 /* ChallengeFullInfoViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChallengeFullInfoViewController.xib; sourceTree = "<group>"; };
@@ -194,7 +194,6 @@
 			children = (
 				5F1059F92B91E5CF00FBFD02 /* ChallengeViewModel.swift */,
 				5F1059FB2B9206ED00FBFD02 /* ChallengeFullInfoViewModel.swift */,
-				5F1059F72B91C50800FBFD02 /* UserHistoryViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -202,7 +201,8 @@
 		5F8B61CF2B931B6C0002DDC4 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				5F88822A28AB65FD006D5967 /* ChallengesDataSource.swift */,
+				5F1059F72B91C50800FBFD02 /* UserHistoryRepository.swift */,
+				5F88822A28AB65FD006D5967 /* ChallengesRepository.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -353,13 +353,13 @@
 				5F88820F28AB5BAC006D5967 /* ChallengeListViewController.swift in Sources */,
 				5F062D6928CC8C4D000D4BAA /* HistoryCell.swift in Sources */,
 				5F1059FA2B91E5CF00FBFD02 /* ChallengeViewModel.swift in Sources */,
-				5F88822B28AB65FD006D5967 /* ChallengesDataSource.swift in Sources */,
+				5F88822B28AB65FD006D5967 /* ChallengesRepository.swift in Sources */,
 				5F88825728AE3DA8006D5967 /* UserStatsViewController.swift in Sources */,
 				5FBC253B293F922400C7A7A6 /* CreateToDoCell.swift in Sources */,
 				5F88820B28AB5BAC006D5967 /* AppDelegate.swift in Sources */,
 				5F88825528ACC9B5006D5967 /* ChallengeCreationViewController.swift in Sources */,
 				5F88825028ABDBAE006D5967 /* ToDoCell.swift in Sources */,
-				5F1059F82B91C50800FBFD02 /* UserHistoryViewModel.swift in Sources */,
+				5F1059F82B91C50800FBFD02 /* UserHistoryRepository.swift in Sources */,
 				5F88820D28AB5BAC006D5967 /* SceneDelegate.swift in Sources */,
 				5F062D6628CB47B3000D4BAA /* UserHistory.swift in Sources */,
 				5FBC253E2940B71C00C7A7A6 /* NotificationHelper.swift in Sources */,
