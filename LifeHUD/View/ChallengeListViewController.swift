@@ -7,18 +7,28 @@
 
 import UIKit
 
-class ChallengeListViewController: UIViewController {
+protocol ChallengeListViewControllerProtocol: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    var sortedChallengesProvider: SortedChallengesProviderProtocol { get }
+}
+
+class ChallengeListViewController: UIViewController, ChallengeListViewControllerProtocol {
+    
+    let dailyTasksSectionHeader = "Ежедневные задания"
+    let weeklyTasksSectionHeader = "Задания на неделю"
+    let monthlyTasksSectionHeader = "Задания на месяц"
+    
+    var sortedChallengesProvider: SortedChallengesProviderProtocol = ChallengesManager.shared
     
     @IBOutlet weak var challengesTableView: UITableView!
     
-    let challengesDataSource = ChallengesDataSource.shared
+    var challenges: [[Challenge]]?
+    
     private let refreshControl = UIRefreshControl()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        ChallengesRepository.shared.loadChallenges() {_ in
-            self.challengesDataSource.delegate = self
-            self.setupChallengesTableView()
+        var challenges = sortedChallengesProvider.fetchSortedChallenges() { [weak self] _ in
+            self?.setupChallengesTableView()
         }
     }
     
@@ -36,8 +46,8 @@ class ChallengeListViewController: UIViewController {
     }
     
     @objc func refresh(_ sender: AnyObject) {
-        ChallengesRepository.shared.loadChallenges() { _ in
-            self.challengesTableView.reloadData()
+        var challenges = sortedChallengesProvider.fetchSortedChallenges() { [weak self] _ in
+            self?.setupChallengesTableView()
         }
         refreshControl.endRefreshing()
     }
@@ -53,79 +63,47 @@ extension ChallengeListViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        var challenge = Challenge()
-        switch indexPath.section {
-        case 0:
-            challenge = challengesDataSource.dailyChallenges[indexPath.row]
-        case 1:
-            challenge = challengesDataSource.weeklyChallenges[indexPath.row]
-        case 2:
-            challenge = challengesDataSource.monthlyChallenges[indexPath.row]
-        default:
-            break
+        guard let challenges = challenges,
+              indexPath.section < challenges.count,
+              indexPath.row < challenges[indexPath.section].count else {
+            return
         }
-        let challengeFullInfoVC = ChallengeFullInfoViewController(challenge: challenge, dataSource: challengesDataSource)
+        let challenge = challenges[indexPath.section][indexPath.row]
+        let challengeFullInfoVC = ChallengeFullInfoViewController(challenge: challenge)
         challengeFullInfoVC.modalPresentationStyle = .fullScreen
         self.present(challengeFullInfoVC, animated: false)
     }
 
 }
 
-extension ChallengeListViewController: DataSourceDelegateProtocol {
-    func challengeListUpdated() {
-        challengesTableView.reloadData()
-    }
-}
-
 extension ChallengeListViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
+        return challenges?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch section {
-        case 0:
-            return challengesDataSource.dailyChallenges.count
-        case 1:
-            return challengesDataSource.weeklyChallenges.count
-        case 2:
-            return challengesDataSource.monthlyChallenges.count
-        default:
-            return 0
-        }
+        return challenges?[section].count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ChallengeCell.identifier) as! ChallengeCell
-        let challenge = challenge(for: indexPath)
+        guard let challenge = challenges?[indexPath.section][indexPath.row] else {
+            return cell
+        }
         let viewModel = ChallengeCellViewModel(challenge: challenge)
         cell.fill(with: viewModel) // Fills the cell with challenge info
         return cell
     }
     
-    private func challenge(for indexPath: IndexPath) -> Challenge {
-        let index = indexPath.row
-        switch indexPath.section {
-        case 0:
-            return challengesDataSource.dailyChallenges[index]
-        case 1:
-            return challengesDataSource.weeklyChallenges[index]
-        case 2:
-            return challengesDataSource.monthlyChallenges[index]
-        default:
-            return Challenge()
-        }
-    }
-    
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
         case 0:
-            return challengesDataSource.dailyTasksSectionHeader
+            return dailyTasksSectionHeader
         case 1:
-            return challengesDataSource.weeklyTasksSectionHeader
+            return weeklyTasksSectionHeader
         case 2:
-            return challengesDataSource.monthlyTasksSectionHeader
+            return monthlyTasksSectionHeader
         default:
             return ""
         }
