@@ -12,17 +12,6 @@ class ChallengeFullInfoViewController: UIViewController {
     // MARK: - Properties
     
     var challengeViewModel: ChallengeFullInfoViewModel
-//    var dataSource: ChallengesDataSource
-    
-    private var progress: [Int] {
-        didSet {
-            if challengeViewModel.type == .counter, progress.count == challengeViewModel.count {
-                challengeCompleted()
-            } else if challengeViewModel.type == .checkbox, progress.count == challengeViewModel.toDos?.count {
-                challengeCompleted()
-            }
-        }
-    }
     
     // MARK: - Outlets
     
@@ -45,25 +34,31 @@ class ChallengeFullInfoViewController: UIViewController {
     // MARK: - Actions
     
     @IBAction func closeButtonTapped(_ sender: Any) {
-//        saveProgress()
+        if progressCounter.isHidden == false{ // multi repetitions challenge
+            let toDos = checkBoxTableView.indexPathsForSelectedRows?.map() { $0.row }
+            challengeViewModel.trackProgressForChallenge(toDos: toDos ?? [])
+        } else if checkBoxTableView.isHidden == false { // challenge with sub tasks
+            challengeViewModel.trackProgressForChallenge(repetitions: progressCounter.value)
+        } else if doneButton.isSelected {
+            challengeViewModel.completeChallenge()
+        }
         dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func doneButtonTapped(_ sender: Any) {
-        challengeCompleted()
+    @IBAction func doneButtonTapped(_ sender: UIButton) {
+        sender.isSelected = !sender.isSelected
     }
     
     @IBAction func failButtonTapped(_ sender: Any) {
-        challengeFailed()
+        challengeViewModel.failChallenge()
     }
     
     @IBAction func deleteButtonTapped(_ sender: Any) {
-        deleteChallenge()
+        challengeViewModel.deleteChallenge()
     }
     
     @IBAction func progressChanged(_ sender: Any) {
         progressLabel.text = String(Int(progressCounter.value))
-        //        progress.append(Int(progressCounter.value))
     }
     
     // MARK: - ViewLifeCycle
@@ -76,10 +71,8 @@ class ChallengeFullInfoViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
     }
     
-    init(challenge: Challenge, dataSource: ChallengesDataSource) {
+    init(challenge: Challenge) {
         self.challengeViewModel = ChallengeFullInfoViewModel(challenge: challenge)
-//        self.dataSource = dataSource
-        self.progress = challengeViewModel.progress ?? []
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -144,41 +137,6 @@ class ChallengeFullInfoViewController: UIViewController {
         checkBoxTableView.delegate = self
         checkBoxTableView.dataSource = self
     }
-    
-    private func challengeCompleted() {
-        let alert = UIAlertController(title: "Ура", message: "Задача выполнена", preferredStyle: UIAlertController.Style.alert)
-        alert.addAction(UIAlertAction(title: "ок", style: UIAlertAction.Style.default, handler: { (_: UIAlertAction!) -> Void in
-            ChallengesDataSource.shared.completeChallenge(self.challengeViewModel.challengeId)
-            self.dismiss(animated: true, completion: nil)
-        }))
-        self.present(alert, animated: true, completion: nil)
-    }
-    
-    private func challengeFailed() {
-        let alert = UIAlertController(title: "Увы", message: "Задача провалена", preferredStyle: UIAlertController.Style.alert)
-        alert.addAction(UIAlertAction(title: "ок", style: UIAlertAction.Style.default, handler: { (_: UIAlertAction!) -> Void in
-            ChallengesDataSource.shared.failChallenge(self.challengeViewModel.challengeId)
-            self.dismiss(animated: true, completion: nil)
-        }))
-        self.present(alert, animated: true, completion: nil)
-    }
-    
-    private func deleteChallenge() {
-        let alert = UIAlertController(title: "Удаление", message: "Задача удалена", preferredStyle: UIAlertController.Style.alert)
-        alert.addAction(UIAlertAction(title: "ок", style: UIAlertAction.Style.default, handler: { (_: UIAlertAction!) -> Void in
-            ChallengesManager.shared.removeChallenge(self.challengeViewModel.challengeId)
-            self.dismiss(animated: true, completion: nil)
-        }))
-        self.present(alert, animated: true, completion: nil)
-    }
-    
-//    private func saveProgress() {
-//        challengeViewModel.progress = progress
-//        guard let index = dataSource.challenges.firstIndex(where: { $0.id == challengeViewModel.challengeId }) else { return }
-//        dataSource.challenges.remove(at: index)
-//        dataSource.challenges.insert(challengeViewModel, at: index)
-//    }
-    
 }
 
 extension ChallengeFullInfoViewController: UITableViewDelegate {
@@ -193,24 +151,9 @@ extension ChallengeFullInfoViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ToDoCell.identifier) as! ToDoCell
         cell.titleLabel.text = challengeViewModel.toDos?[indexPath.row]
-        cell.indexPath = indexPath
-        cell.delegate = self
         if challengeViewModel.progress != nil {
             cell.checkBox.isSelected = challengeViewModel.progress!.contains(indexPath.row)
         }
         return cell
-    }
-}
-
-extension ChallengeFullInfoViewController: ToDoCellDelegate {
-    func checkBoxSelected(at indexPath: IndexPath) {
-        let actionIndex = indexPath.row
-        progress.append(actionIndex)
-    }
-    
-    func checkBoxUnselected(at indexPath: IndexPath) {
-        let actionIndex = indexPath.row
-        guard let index = progress.firstIndex(of: actionIndex) else { return  }
-        progress.remove(at: index)
     }
 }

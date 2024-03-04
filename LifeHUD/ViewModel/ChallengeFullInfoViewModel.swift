@@ -19,8 +19,11 @@ protocol ChallengeFullInfoDisplayProtocol { // All the info required to display 
 protocol ProgressTrackingProtocol { // Behavior required to track progress
     var challengeManager: ChallengeManagingProtocol { get }
     var challengeId: String { get }
-    func trackProgressForChallenge(id: String, toDos: [Int]) // For challenges with sub tasks
-    func trackProgressForChallenge(id: String, repetitions: Float) // For multi repetitions challenges
+    func trackProgressForChallenge(toDos: [Int]) // For challenges with sub tasks
+    func trackProgressForChallenge(repetitions: Double) // For multi repetitions challenges
+    func completeChallenge()
+    func failChallenge()
+    func deleteChallenge()
 }
 
 protocol ChallengeCreationProtocol { // Behavior required to create challenge
@@ -113,12 +116,23 @@ struct ChallengeFullInfoViewModel: ChallengeFullInfoDisplayProtocol, ProgressTra
         return challenge.progress
     }
     
-    func trackProgressForChallenge(id: String, toDos: [Int]) {
-        <#code#>
+    func trackProgressForChallenge(toDos: [Int]) {
+        print("progress tracked")
     }
     
-    func trackProgressForChallenge(id: String, repetitions: Float) {
-        <#code#>
+    func trackProgressForChallenge(repetitions: Double) {
+        print("progress tracked")
     }
     
+    func completeChallenge() {
+        print("challenge completed")
+    }
+    
+    func failChallenge() {
+        print("challenge failed")
+    }
+    
+    func deleteChallenge() {
+        print("challenge deleted")
+    }
 }
