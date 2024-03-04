@@ -21,7 +21,7 @@ class ChallengeCell: UITableViewCell {
     @IBOutlet weak var progressView: UIView!
     
     
-    func fill(with challenge: ChallengeViewModel) {
+    func fill(with challenge: ChallengeCellViewModel) {
         iconView.image = challenge.categoryImage
         rewardLabel.text = challenge.reward
         if let fee = challenge.failFee {

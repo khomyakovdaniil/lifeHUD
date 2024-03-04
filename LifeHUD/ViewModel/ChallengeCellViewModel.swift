@@ -16,7 +16,7 @@ protocol ChallengeCellDisplayProtocol { // All the info required to display chal
     var progress: (String?, Float?) { get }
 }
 
-struct ChallengeViewModel: ChallengeCellDisplayProtocol {
+struct ChallengeCellViewModel: ChallengeCellDisplayProtocol {
     
     private var challenge: Challenge
     
