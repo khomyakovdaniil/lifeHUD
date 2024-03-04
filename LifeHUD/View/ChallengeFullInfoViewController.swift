@@ -166,7 +166,7 @@ class ChallengeFullInfoViewController: UIViewController {
     private func deleteChallenge() {
         let alert = UIAlertController(title: "Удаление", message: "Задача удалена", preferredStyle: UIAlertController.Style.alert)
         alert.addAction(UIAlertAction(title: "ок", style: UIAlertAction.Style.default, handler: { (_: UIAlertAction!) -> Void in
-            ChallengesRepository.shared.removeChallenge(self.challengeViewModel.challengeId)
+            ChallengesManager.shared.removeChallenge(self.challengeViewModel.challengeId)
             self.dismiss(animated: true, completion: nil)
         }))
         self.present(alert, animated: true, completion: nil)

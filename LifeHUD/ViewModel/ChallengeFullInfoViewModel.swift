@@ -17,26 +17,26 @@ protocol ChallengeFullInfoDisplayProtocol { // All the info required to display 
 }
 
 protocol ProgressTrackingProtocol { // Behavior required to track progress
-    var challengeManager: ChallengesRepository { get }
+    var challengeManager: ChallengeManagingProtocol { get }
     var challengeId: String { get }
     func trackProgressForChallenge(id: String, toDos: [Int]) // For challenges with sub tasks
     func trackProgressForChallenge(id: String, repetitions: Float) // For multi repetitions challenges
 }
 
 protocol ChallengeCreationProtocol { // Behavior required to create challenge
-    var challengeManager: ChallengesRepository { get }
-    func createChallenge(with parameters: [Challenge.Parameters]) -> Challenge
+    var challengeManager: ChallengeManagingProtocol { get }
+    func createChallenge()
 }
 
 struct ChallengeFullInfoViewModel: ChallengeFullInfoDisplayProtocol, ProgressTrackingProtocol {
     
-    var challengeManager: ChallengesRepository
+    var challengeManager: ChallengeManagingProtocol
     
     private var challenge: Challenge
     
     init(challenge: Challenge) {
         self.challenge = challenge
-        self.challengeManager = ChallengesRepository.shared
+        self.challengeManager = ChallengesManager.shared
     }
     
     var challengeId: String {
