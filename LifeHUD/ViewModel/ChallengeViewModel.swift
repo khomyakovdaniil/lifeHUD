@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-protocol ChallengeDisplayProtocol { // All the info required to display challenge cell
+protocol ChallengeCellDisplayProtocol { // All the info required to display challenge cell
     var title: String { get }
     var categoryImage: UIImage { get }
     var reward: String { get }
@@ -16,20 +16,7 @@ protocol ChallengeDisplayProtocol { // All the info required to display challeng
     var progress: (String?, Float?) { get }
 }
 
-protocol ProgressTrackingProtocol { // Behavior required to track progress
-    var challengeManager: ChallengesRepository { get }
-    func trackProgress(toDos: [Int]) // For challenges with sub tasks
-    func trackProgress(repetitions: Float) // For multi repetitions challenges
-}
-
-protocol ChallengeCreationProtocol { // Behavior required to create challenge
-    var challengeManager: ChallengesRepository { get }
-    func createChallenge(with parameters: [Challenge.Parameters]) -> Challenge
-}
-
-struct ChallengeViewModel: ChallengeDisplayProtocol, ProgressTrackingProtocol, ChallengeCreationProtocol {
-    
-    var challengeManager: ChallengesRepository
+struct ChallengeViewModel: ChallengeCellDisplayProtocol {
     
     private var challenge: Challenge
     
@@ -73,17 +60,4 @@ struct ChallengeViewModel: ChallengeDisplayProtocol, ProgressTrackingProtocol, C
                     current/Float(maxCount))
         }
     }
-    
-    func trackProgress(toDos: [Int]) {
-        <#code#>
-    }
-    
-    func trackProgress(repetitions: Float) {
-        <#code#>
-    }
-    
-    func createChallenge(with parameters: [Challenge.Parameters]) -> Challenge {
-        <#code#>
-    }
-    
 }
