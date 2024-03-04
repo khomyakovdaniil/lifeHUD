@@ -14,6 +14,8 @@ protocol ChallengeManagingProtocol { // Behavior required to manage challenges D
     func fetchChallenges(sync: Bool, responseHandler: ((Bool) -> Void)?) -> [Challenge] // Sync parameter to fetch from internet server
     func createChallenge(with parameters: [Challenge.Parameters])
     func editChallenge(challengeId: String, with parameters: [Challenge.Parameters])
+    func createChallenge(with parameters: [ChallengeParameters])
+    func editChallenge(challengeId: String, with parameters: [ChallengeParameters])
     func deleteChallenge(challengeId: String)
 }
 

@@ -24,23 +24,23 @@ struct Challenge: Codable {
     var startDate = Date()
     var endDate = Date()
     var dueDate = Date()
-    
-    enum Parameters {
-        case id(value: String = "")
-        case title(value: String = "")
-        case duration(value: ChallengeDuration = .daily)
-        case category(value: ChallengeCategory = .health)
-        case difficulty(value: ChallengeDifficulty = .lowest)
-        case type(value: ChallengeType = .singleAction)
-        case failFee(value: ChallengeFee = .none)
-        case description(value: String = "")
-        case count(value: Int = 0)
-        case toDos(value: [String]? = [])
-        case progress(value: [Int]? = [])
-        case startDate(value: Date = Date())
-        case endDate(value: Date = Date())
-        case dueDate(value: Date = Date())
-    }
+}
+
+enum ChallengeParameters {
+    case id(value: String = "")
+    case title(value: String = "")
+    case duration(value: ChallengeDuration = .daily)
+    case category(value: ChallengeCategory = .health)
+    case difficulty(value: ChallengeDifficulty = .lowest)
+    case type(value: ChallengeType = .singleAction)
+    case failFee(value: ChallengeFee = .none)
+    case description(value: String = "")
+    case count(value: Int = 0)
+    case toDos(value: [String]? = [])
+    case progress(value: [Int]? = [])
+    case startDate(value: Date = Date())
+    case endDate(value: Date = Date())
+    case dueDate(value: Date = Date())
 }
 
 enum ChallengeCategory: Int, CaseIterable, Codable {
