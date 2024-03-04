@@ -16,7 +16,7 @@ class HistoryCell: UITableViewCell {
 
 
     func fill(with entry: DayStats) {
-        guard let challenge = ChallengesDataSource.shared.challenges[entry.challengeID] else {
+        guard let challenge = ChallengesManager.shared.challenges[entry.challengeID] else {
             return
         }
         titleLabel.text = challenge.title

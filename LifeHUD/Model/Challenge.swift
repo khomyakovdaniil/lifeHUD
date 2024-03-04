@@ -10,6 +10,7 @@ import CoreText
 import UIKit
 
 struct Challenge: Codable {
+    
     var id: String = ""
     var title: String = ""
     var duration: ChallengeDuration = .daily
@@ -24,6 +25,7 @@ struct Challenge: Codable {
     var startDate = Date()
     var endDate = Date()
     var dueDate = Date()
+    
 }
 
 enum ChallengeParameters {
@@ -172,6 +174,41 @@ enum ChallengeDuration: Int, CaseIterable, Codable {
             return "На неделю"
         case .monthly:
             return "На месяц"
+        }
+    }
+}
+
+extension Challenge {
+    mutating func applyParameter(_ parameter: ChallengeParameters) {
+        switch parameter {
+        case .id(value: let value):
+            self.id = value
+        case .title(value: let value):
+            self.title = value
+        case .duration(value: let value):
+            self.duration = value
+        case .category(value: let value):
+            self.category = value
+        case .difficulty(value: let value):
+            self.difficulty = value
+        case .type(value: let value):
+            self.type = value
+        case .failFee(value: let value):
+            self.failFee = value
+        case .description(value: let value):
+            self.description = value
+        case .count(value: let value):
+            self.count = value
+        case .toDos(value: let value):
+            self.toDos = value
+        case .progress(value: let value):
+            self.progress = value
+        case .startDate(value: let value):
+            self.startDate = value
+        case .endDate(value: let value):
+            self.endDate = value
+        case .dueDate(value: let value):
+            self.dueDate = value
         }
     }
 }

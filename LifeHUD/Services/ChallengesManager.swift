@@ -6,14 +6,10 @@
 //
 
 import Foundation
-import FirebaseDatabase
 import UIKit
-import Alamofire
 
 protocol ChallengeManagingProtocol { // Behavior required to manage challenges Database
-    func fetchChallenges(sync: Bool, responseHandler: ((Bool) -> Void)?) -> [Challenge] // Sync parameter to fetch from internet server
-    func createChallenge(with parameters: [Challenge.Parameters])
-    func editChallenge(challengeId: String, with parameters: [Challenge.Parameters])
+    func fetchChallenges(responseHandler: ((Bool) -> Void)?) // Sync parameter to fetch from internet server
     func createChallenge(with parameters: [ChallengeParameters])
     func editChallenge(challengeId: String, with parameters: [ChallengeParameters])
     func deleteChallenge(challengeId: String)
@@ -25,132 +21,31 @@ protocol HistoryManagingProtocol { // Behavior required to manage history of com
 }
 
 protocol SortedChallengesProviderProtocol {
-    func fetchSortedChallenges() -> [[Challenge]]
+    func fetchSortedChallenges(responseHandler: ((Bool) -> Void)?)
 }
 
-class ChallengesManager: ChallengeManagingProtocol, HistoryManagingProtocol, SortedChallengesProviderProtocol {
+class ChallengesManager: ChallengeManagingProtocol, SortedChallengesProviderProtocol {
+    
+    func fetchChallenges(responseHandler: ((Bool) -> Void)?) {
+        NetworkManager.fetchRemoteChallenges(responseHandler: responseHandler)
+    }
+    
+    func fetchSortedChallenges(responseHandler: ((Bool) -> Void)?) {
+        fetchChallenges(responseHandler: responseHandler)
+    }
     
     static let shared = ChallengesManager()
     
-    let database = Database.database().reference()
-    
-    func saveDatabase(_ challenges:[Challenge]) {
-        for challenge in challenges {
-            updateChallenge(challenge) // creates or updates challenge in remote database
-        }
-    }
-    
-    func removeChallenge(_ id: String) {
-        let url = ApiClient.updateChallengeURL(for: id)
-        var request = URLRequest(url: url)
-        request.httpMethod = HTTPMethod.delete.rawValue
-        request.setValue("application/json; charset=UTF-8", forHTTPHeaderField: "Content-Type")
-        AF.request(request).responseJSON { (response) in
-
-            print(response)
-        }
-    }
-    
-    func loadChallenges(_ responseHandler: @escaping (Bool) -> Void) {
-        let url = URL(string: ApiClient.Urls.challengesURL)!
-        var request = URLRequest(url: url)
-        request.httpMethod = HTTPMethod.get.rawValue
-        AF.request(request).responseJSON { (response) in
-            guard let data = response.data else {
-                return
-            }
-            print(data)
-            do {
-                let challengesList = try JSONDecoder().decode([String: Challenge].self, from: data)
-                var challenges: [Challenge] = []
-                let group = DispatchGroup()
-                for item in challengesList {
-                    group.enter()
-                    var newChallenge = item.value
-                    newChallenge.id = item.key
-                    challenges.append(newChallenge)
-                    group.leave()
-                }
-                group.notify(queue: .main) {
-                    let challengeDictionary = Dictionary(uniqueKeysWithValues: challenges.map{ ($0.id, $0) })
-                    ChallengesDataSource.shared.challenges = challengeDictionary
-                responseHandler(true)
-                }
-            } catch {
-               print(error)
-            }
-        }
-    }
-    
-    func createChallenge(_ challenge: Challenge) {
-        let challengeData = try? JSONEncoder().encode(challenge)
-        let url = URL(string: ApiClient.Urls.challengesURL)!
-        var request = URLRequest(url: url)
-        request.httpMethod = HTTPMethod.post.rawValue
-        request.setValue("application/json; charset=UTF-8", forHTTPHeaderField: "Content-Type")
-        request.httpBody = challengeData
-        AF.request(request).responseJSON { (response) in
-
-            print(response)
-        }
-    }
-    
-    func updateChallenge(_ challenge: Challenge) {
-        let challengeData = try? JSONEncoder().encode(challenge)
-        let url = ApiClient.updateChallengeURL(for: challenge.id)
-        var request = URLRequest(url: url)
-        request.httpMethod = HTTPMethod.put.rawValue
-        request.setValue("application/json; charset=UTF-8", forHTTPHeaderField: "Content-Type")
-        request.httpBody = challengeData
-        AF.request(request).responseJSON { (response) in
-
-            print(response)
-        }
-    }
-    
-}
-
-
-class ChallengesDataSource: NSObject {
-    
-    static let shared = ChallengesDataSource()
-    
-    // MARK: - Properties
-    
-    weak var delegate: DataSourceDelegateProtocol?
-    
     var challenges: [String: Challenge] = ["": Challenge()] {
         didSet {
-            let activeChallenges = filter(Array(challenges.values)) // checks for active and failed challenges
+            let activeChallenges = filterActive(Array(challenges.values)) // checks for active and failed challenges
             sort(activeChallenges) // Sorts challenges for tableView
-            ChallengesManager.shared.saveDatabase(Array(challenges.values)) //  Synchronises with remote database
-            delegate?.challengeListUpdated() // Udpates the tableView
         }
     }
+    
     var dailyChallenges: [Challenge] = [Challenge()]
     var weeklyChallenges: [Challenge] = [Challenge()]
     var monthlyChallenges: [Challenge] = [Challenge()]
-    
-    // MARK: - Private functions
-    
-    private func sort(_ challenges: [Challenge]) {
-        dailyChallenges = challenges.filter() { $0.duration == .daily }
-        weeklyChallenges = challenges.filter() { $0.duration == .weekly }
-        monthlyChallenges = challenges.filter() { $0.duration == .monthly }
-    }
-    
-    private func filter(_ challenges: [Challenge]) -> [Challenge] {
-        var active = challenges.filter() { challenge in
-            challenge.startDate < Date() && challenge.endDate.endOfDay > Date()
-        }
-        let failed = active.filter() { challenge in
-            challenge.dueDate.endOfDay < Date()
-        }
-        for challenge in failed {
-            failChallenge(challenge.id)
-        }
-        return active
-    }
     
     func completeChallenge(_ challengeId: String) {
         guard let challenge = challenges[challengeId] else {
@@ -159,8 +54,7 @@ class ChallengesDataSource: NSObject {
         UserStats.addXP(from: challenge)
         UserHistory.makeEntry(challengeId: challenge.id, date: Date(), success: true)
         let newChallenge = self.updateStartDateDueDateAndProgress(challenge)
-        updateChallenge(newChallenge)
-        
+        NetworkManager.updateChallenge(newChallenge)
     }
     
     func failChallenge(_ challengeId: String) {
@@ -170,26 +64,48 @@ class ChallengesDataSource: NSObject {
         UserStats.removeXP(from: challenge)
         UserHistory.makeEntry(challengeId: challenge.id, date: challenge.dueDate, success: false)
         let newChallenge = self.updateDueDate(challenge)
-        updateChallenge(newChallenge)
+        NetworkManager.updateChallenge(newChallenge)
     }
     
-    private func updateChallenge(_ challenge: Challenge) {
-        challenges[challenge.id] = challenge
-        ChallengesManager.shared.updateChallenge(challenge)
-    }
-    
-    private func updateDueDate(_ challenge: Challenge) -> Challenge {
-        var newChallenge = challenge
-        switch challenge.duration {
-        case .daily:
-            newChallenge.dueDate = Calendar.current.date(byAdding: .day, value: 1, to: challenge.dueDate)!
-        case .weekly:
-            newChallenge.dueDate = Calendar.current.date(byAdding: .weekOfYear, value: 1, to: challenge.dueDate)!
-        case .monthly:
-            newChallenge.dueDate = Calendar.current.date(byAdding: .month, value: 1, to: challenge.dueDate)!
+    func createChallenge(with parameters: [ChallengeParameters]) {
+        var mutableChallenge = Challenge()
+        let dGroup = DispatchGroup()
+        for parameter in parameters {
+            dGroup.enter()
+            mutableChallenge.applyParameter(parameter)
+            dGroup.leave()
         }
-        return newChallenge
+        dGroup.notify(queue: .main) {
+            self.challenges[mutableChallenge.id] = mutableChallenge
+            NetworkManager.createChallenge(mutableChallenge)
+        }
     }
+    
+    func editChallenge(challengeId: String, with parameters: [ChallengeParameters]) {
+        guard let challenge = challenges[challengeId] else { return }
+        var mutableChallenge = challenge
+        let dGroup = DispatchGroup()
+        for parameter in parameters {
+            dGroup.enter()
+            mutableChallenge.applyParameter(parameter)
+            dGroup.leave()
+        }
+        dGroup.notify(queue: .main) {
+            self.challenges[challengeId] = mutableChallenge
+            NetworkManager.updateChallenge(mutableChallenge)
+        }
+
+    }
+    
+    func deleteChallenge(challengeId: String) {
+        NetworkManager.removeChallenge(challengeId)
+    }
+    
+    func fetchSortedChallenges(sync: Bool = false, responseHandler: ((Bool) -> Void)?) {
+        NetworkManager.fetchRemoteChallenges(responseHandler: responseHandler)
+    }
+    
+    // - MARK: Private functions
     
     private func updateStartDateDueDateAndProgress(_ challenge: Challenge) -> Challenge {
         
@@ -217,12 +133,42 @@ class ChallengesDataSource: NSObject {
         return newChallenge
     }
     
-    // MARK: - Literals
-    let dailyTasksSectionHeader = "Ежедневные задания"
-    let weeklyTasksSectionHeader = "Задания на неделю"
-    let monthlyTasksSectionHeader = "Задания на месяц"
+    private func updateDueDate(_ challenge: Challenge) -> Challenge {
+        var newChallenge = challenge
+        switch challenge.duration {
+        case .daily:
+            newChallenge.dueDate = Calendar.current.date(byAdding: .day, value: 1, to: challenge.dueDate)!
+        case .weekly:
+            newChallenge.dueDate = Calendar.current.date(byAdding: .weekOfYear, value: 1, to: challenge.dueDate)!
+        case .monthly:
+            newChallenge.dueDate = Calendar.current.date(byAdding: .month, value: 1, to: challenge.dueDate)!
+        }
+        return newChallenge
+    }
+    
+    private func sort(_ challenges: [Challenge]) {
+        dailyChallenges = challenges.filter() { $0.duration == .daily }
+        weeklyChallenges = challenges.filter() { $0.duration == .weekly }
+        monthlyChallenges = challenges.filter() { $0.duration == .monthly }
+    }
+    
+    private func filterActive(_ challenges: [Challenge]) -> [Challenge] {
+        var active = challenges.filter() { challenge in
+            challenge.startDate < Date() && challenge.endDate.endOfDay > Date()
+        }
+        let failed = active.filter() { challenge in
+            challenge.dueDate.endOfDay < Date()
+        }
+        for challenge in failed {
+            failChallenge(challenge.id)
+        }
+        let expired = challenges.filter() { challenge in
+            challenge.endDate.endOfDay < Date()
+        }
+        for challenge in expired {
+            deleteChallenge(challengeId: challenge.id)
+        }
+        return active
+    }
+    
 }
-
-    // MARK: - TableView datasource
-
-

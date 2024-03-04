@@ -27,7 +27,7 @@ class UserHistory {
     
     static func uploadHistory(_ history: [HistoryEntry]) {
         let history = try? JSONEncoder().encode(history)
-        let url = URL(string: ApiClient.Urls.historyURL)!
+        let url = URL(string: NetworkManager.Urls.historyURL)!
         var request = URLRequest(url: url)
         request.httpMethod = HTTPMethod.put.rawValue
         request.setValue("application/json; charset=UTF-8", forHTTPHeaderField: "Content-Type")
@@ -60,7 +60,7 @@ class UserHistory {
     }
     
     static func loadHistory() {
-        let url = URL(string: ApiClient.Urls.historyURL)!
+        let url = URL(string: NetworkManager.Urls.historyURL)!
         var request = URLRequest(url: url)
         request.httpMethod = HTTPMethod.get.rawValue
         AF.request(request).responseJSON { (response) in

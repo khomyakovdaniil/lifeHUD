@@ -49,8 +49,8 @@ final class NotificationOperation: Operation {
         guard !isCancelled else { return }
         print("Importing content..")
         
-        ChallengesManager.shared.loadChallenges() {_ in
-            let number = ChallengesDataSource.shared.dailyChallenges.count
+        ChallengesManager.shared.fetchChallenges {_ in
+            let number = ChallengesManager.shared.dailyChallenges.count
             NotificationHelper.createNotification(title: "Задания", body: "Невыполненных заданий: \(number)")
         }
 

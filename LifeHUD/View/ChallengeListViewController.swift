@@ -27,7 +27,10 @@ class ChallengeListViewController: UIViewController, ChallengeListViewController
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        var challenges = sortedChallengesProvider.fetchSortedChallenges() { [weak self] _ in
+        sortedChallengesProvider.fetchSortedChallenges() { [weak self] _ in
+            self?.challenges = [ChallengesManager.shared.dailyChallenges,
+                                ChallengesManager.shared.weeklyChallenges,
+                                ChallengesManager.shared.monthlyChallenges]
             self?.setupChallengesTableView()
         }
     }
