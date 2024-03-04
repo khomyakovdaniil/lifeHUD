@@ -22,7 +22,11 @@ protocol HistoryManagingProtocol { // Behavior required to manage history of com
     func add(entry: HistoryEntry)
 }
 
-class ChallengesManager: ChallengeManagingProtocol, HistoryManagingProtocol {
+protocol SortedChallengesProviderProtocol {
+    func fetchSortedChallenges() -> [[Challenge]]
+}
+
+class ChallengesManager: ChallengeManagingProtocol, HistoryManagingProtocol, SortedChallengesProviderProtocol {
     
     static let shared = ChallengesManager()
     
