@@ -8,15 +8,38 @@
 import Foundation
 import UIKit
 
-struct ChallengeFullInfoViewModel {
+protocol ChallengeFullInfoDisplayProtocol { // All the info required to display challenge full info
+    var title: String { get }
+    var categoryImage: UIImage { get }
+    var reward: String { get }
+    var failFee: String? { get }
+    var progress: [Int]? { get }
+}
+
+protocol ProgressTrackingProtocol { // Behavior required to track progress
+    var challengeManager: ChallengesRepository { get }
+    var challengeId: String { get }
+    func trackProgressForChallenge(id: String, toDos: [Int]) // For challenges with sub tasks
+    func trackProgressForChallenge(id: String, repetitions: Float) // For multi repetitions challenges
+}
+
+protocol ChallengeCreationProtocol { // Behavior required to create challenge
+    var challengeManager: ChallengesRepository { get }
+    func createChallenge(with parameters: [Challenge.Parameters]) -> Challenge
+}
+
+struct ChallengeFullInfoViewModel: ChallengeFullInfoDisplayProtocol, ProgressTrackingProtocol {
+    
+    var challengeManager: ChallengesRepository
     
     private var challenge: Challenge
     
     init(challenge: Challenge) {
         self.challenge = challenge
+        self.challengeManager = ChallengesRepository.shared
     }
     
-    var id: String {
+    var challengeId: String {
         return challenge.id
     }
     
@@ -32,7 +55,7 @@ struct ChallengeFullInfoViewModel {
         return challenge.category.string()
     }
     
-    var categoryImage: UIImage? {
+    var categoryImage: UIImage {
         return challenge.category.image()
     }
     
@@ -88,6 +111,14 @@ struct ChallengeFullInfoViewModel {
     
     var progress: [Int]? {
         return challenge.progress
+    }
+    
+    func trackProgressForChallenge(id: String, toDos: [Int]) {
+        <#code#>
+    }
+    
+    func trackProgressForChallenge(id: String, repetitions: Float) {
+        <#code#>
     }
     
 }
