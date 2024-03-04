@@ -24,6 +24,23 @@ struct Challenge: Codable {
     var startDate = Date()
     var endDate = Date()
     var dueDate = Date()
+    
+    enum Parameters {
+        case id(value: String = "")
+        case title(value: String = "")
+        case duration(value: ChallengeDuration = .daily)
+        case category(value: ChallengeCategory = .health)
+        case difficulty(value: ChallengeDifficulty = .lowest)
+        case type(value: ChallengeType = .singleAction)
+        case failFee(value: ChallengeFee = .none)
+        case description(value: String = "")
+        case count(value: Int = 0)
+        case toDos(value: [String]? = [])
+        case progress(value: [Int]? = [])
+        case startDate(value: Date = Date())
+        case endDate(value: Date = Date())
+        case dueDate(value: Date = Date())
+    }
 }
 
 enum ChallengeCategory: Int, CaseIterable, Codable {
@@ -45,16 +62,16 @@ enum ChallengeCategory: Int, CaseIterable, Codable {
         }
     }
     
-    func image() -> UIImage? {
+    func image() -> UIImage {
         switch self {
         case .health:
-            return UIImage(named: "HealthIcon")
+            return UIImage(named: "HealthIcon") ?? UIImage()
         case .discipline:
-            return UIImage(named: "DisciplineIcon")
+            return UIImage(named: "DisciplineIcon") ?? UIImage()
         case .work:
-            return UIImage(named: "WorkIcon")
+            return UIImage(named: "WorkIcon") ?? UIImage()
         case .home:
-            return UIImage(named: "HomeIcon")
+            return UIImage(named: "HomeIcon") ?? UIImage()
         }
     }
 }

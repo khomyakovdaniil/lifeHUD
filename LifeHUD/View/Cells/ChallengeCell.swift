@@ -31,8 +31,8 @@ class ChallengeCell: UITableViewCell {
             feeLabel.isHidden = true
         }
         titleLabel.text = challenge.title
-        if let aim = challenge.progress.aim,
-           let current = challenge.progress.crrnt {
+        if let aim = challenge.progress.0,
+           let current = challenge.progress.1 {
             progressView.isHidden = false
             goalLabel.text = aim
             progressBar.progress = current
