@@ -283,7 +283,7 @@ class ChallengeCreationViewController: UIViewController {
         challenge.endDate = endDate
         challenge.dueDate = dueDate
         
-        ChallengesRepository.shared.createChallenge(challenge)
+        ChallengesManager.shared.createChallenge(challenge)
         challenge = Challenge()
         showAlert()
     }

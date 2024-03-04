@@ -10,14 +10,25 @@ import FirebaseDatabase
 import UIKit
 import Alamofire
 
-
-protocol DataSourceDelegateProtocol: AnyObject {
-    func challengeListUpdated()
+protocol ChallengeManagingProtocol { // Behavior required to manage challenges Database
+    func fetchChallenges(sync: Bool) -> [Challenge] // Sync parameter to fetch from internet server
+    func createChallenge(with parameters: [Challenge.Parameters])
+    func editChallenge(challengeId: String, with parameters: [Challenge.Parameters])
+    func deleteChallenge(challengeId: String)
 }
 
-class ChallengesRepository {
+protocol HistoryManagingProtocol { // Behavior required to manage history of completed and failed challenges
+    func fetchHistory(sync: Bool) -> [HistoryEntry]
+    func add(entry: HistoryEntry)
+}
+
+protocol SortedChallengesProviderProtocol {
+    func fetchSortedChallenges() -> [[Challenge]]
+}
+
+class ChallengesManager: ChallengeManagingProtocol, HistoryManagingProtocol, SortedChallengesProviderProtocol {
     
-    static let shared = ChallengesRepository()
+    static let shared = ChallengesManager()
     
     let database = Database.database().reference()
     
@@ -110,7 +121,7 @@ class ChallengesDataSource: NSObject {
         didSet {
             let activeChallenges = filter(Array(challenges.values)) // checks for active and failed challenges
             sort(activeChallenges) // Sorts challenges for tableView
-            ChallengesRepository.shared.saveDatabase(Array(challenges.values)) //  Synchronises with remote database
+            ChallengesManager.shared.saveDatabase(Array(challenges.values)) //  Synchronises with remote database
             delegate?.challengeListUpdated() // Udpates the tableView
         }
     }
@@ -162,7 +173,7 @@ class ChallengesDataSource: NSObject {
     
     private func updateChallenge(_ challenge: Challenge) {
         challenges[challenge.id] = challenge
-        ChallengesRepository.shared.updateChallenge(challenge)
+        ChallengesManager.shared.updateChallenge(challenge)
     }
     
     private func updateDueDate(_ challenge: Challenge) -> Challenge {

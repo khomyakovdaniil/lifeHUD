@@ -8,7 +8,15 @@
 import Foundation
 import UIKit
 
-struct ChallengeViewModel {
+protocol ChallengeCellDisplayProtocol { // All the info required to display challenge cell
+    var title: String { get }
+    var categoryImage: UIImage { get }
+    var reward: String { get }
+    var failFee: String? { get }
+    var progress: (String?, Float?) { get }
+}
+
+struct ChallengeCellViewModel: ChallengeCellDisplayProtocol {
     
     private var challenge: Challenge
     
@@ -20,7 +28,7 @@ struct ChallengeViewModel {
         return challenge.title
     }
     
-    var categoryImage: UIImage? {
+    var categoryImage: UIImage {
         return challenge.category.image()
     }
     
@@ -34,7 +42,7 @@ struct ChallengeViewModel {
         return "- \(fee) XP"
     }
     
-    var progress: (aim: String?, crrnt: Float?) {
+    var progress: (String?, Float?) {
         var current = Float(0)
         let progress = challenge.progress ?? []
         current = Float(progress.count)
@@ -52,5 +60,4 @@ struct ChallengeViewModel {
                     current/Float(maxCount))
         }
     }
-    
 }

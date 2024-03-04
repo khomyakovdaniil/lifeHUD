@@ -99,7 +99,7 @@ extension ChallengeListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ChallengeCell.identifier) as! ChallengeCell
         let challenge = challenge(for: indexPath)
-        let viewModel = ChallengeViewModel(challenge: challenge)
+        let viewModel = ChallengeCellViewModel(challenge: challenge)
         cell.fill(with: viewModel) // Fills the cell with challenge info
         return cell
     }
