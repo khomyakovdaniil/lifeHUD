@@ -20,6 +20,8 @@ struct NetworkManager {
         
     }
     
+    // - MARK: Challenges
+    
     // Returns a URL for specific challenge using it's id
     static func updateChallengeURL(for challengeId: String) -> URL {
         let urlString = Urls.baseURL + "challenges/" + challengeId + ".json"
@@ -89,6 +91,39 @@ struct NetworkManager {
         request.httpMethod = HTTPMethod.delete.rawValue
         request.setValue("application/json; charset=UTF-8", forHTTPHeaderField: "Content-Type")
         AF.request(request).responseJSON { (response) in
+            print(response)
+        }
+    }
+    
+    // - MARK: Stats and history
+    
+    static func fetchRemoteHistory() {
+        let url = URL(string: NetworkManager.Urls.historyURL)!
+        var request = URLRequest(url: url)
+        request.httpMethod = HTTPMethod.get.rawValue
+        AF.request(request).responseJSON { (response) in
+            guard let data = response.data else {
+                return
+            }
+            print(data)
+            do {
+                let history = try JSONDecoder().decode([HistoryEntry].self, from: data)
+                ChallengesManager.shared.userStatsManager.history = history
+            } catch {
+               print(error)
+            }
+        }
+    }
+    
+    static func uploadHistory(_ history: [HistoryEntry]) {
+        let history = try? JSONEncoder().encode(history)
+        let url = URL(string: NetworkManager.Urls.historyURL)!
+        var request = URLRequest(url: url)
+        request.httpMethod = HTTPMethod.put.rawValue
+        request.setValue("application/json; charset=UTF-8", forHTTPHeaderField: "Content-Type")
+        request.httpBody = history
+        AF.request(request).responseJSON { (response) in
+
             print(response)
         }
     }

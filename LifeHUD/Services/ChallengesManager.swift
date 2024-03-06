@@ -12,12 +12,9 @@ protocol ChallengeManagingProtocol { // Behavior required to manage challenges D
     func fetchChallenges(responseHandler: ((Bool) -> Void)?) // Sync parameter to fetch from internet server
     func createChallenge(with parameters: [ChallengeParameters])
     func editChallenge(challengeId: String, with parameters: [ChallengeParameters])
+    func completeChallenge(challengeId: String)
+    func failChallenge(challengeId: String)
     func deleteChallenge(challengeId: String)
-}
-
-protocol HistoryManagingProtocol { // Behavior required to manage history of completed and failed challenges
-    func fetchHistory(sync: Bool) -> [HistoryEntry]
-    func add(entry: HistoryEntry)
 }
 
 protocol SortedChallengesProviderProtocol {
@@ -26,15 +23,9 @@ protocol SortedChallengesProviderProtocol {
 
 class ChallengesManager: ChallengeManagingProtocol, SortedChallengesProviderProtocol {
     
-    func fetchChallenges(responseHandler: ((Bool) -> Void)?) {
-        NetworkManager.fetchRemoteChallenges(responseHandler: responseHandler)
-    }
-    
-    func fetchSortedChallenges(responseHandler: ((Bool) -> Void)?) {
-        fetchChallenges(responseHandler: responseHandler)
-    }
-    
     static let shared = ChallengesManager()
+    
+    let userStatsManager = StatsManager()
     
     var challenges: [String: Challenge] = ["": Challenge()] {
         didSet {
@@ -47,22 +38,28 @@ class ChallengesManager: ChallengeManagingProtocol, SortedChallengesProviderProt
     var weeklyChallenges: [Challenge] = [Challenge()]
     var monthlyChallenges: [Challenge] = [Challenge()]
     
-    func completeChallenge(_ challengeId: String) {
+    func fetchChallenges(responseHandler: ((Bool) -> Void)?) {
+        NetworkManager.fetchRemoteChallenges(responseHandler: responseHandler)
+    }
+    
+    func fetchSortedChallenges(responseHandler: ((Bool) -> Void)?) {
+        fetchChallenges(responseHandler: responseHandler)
+    }
+    
+    func completeChallenge(challengeId: String) {
         guard let challenge = challenges[challengeId] else {
             return
         }
-        UserStats.addXP(from: challenge)
-        UserHistory.makeEntry(challengeId: challenge.id, date: Date(), success: true)
+        userStatsManager.handleChallengeResult(challenge: challenge, success: true)
         let newChallenge = self.updateStartDateDueDateAndProgress(challenge)
         NetworkManager.updateChallenge(newChallenge)
     }
     
-    func failChallenge(_ challengeId: String) {
+    func failChallenge(challengeId: String) {
         guard let challenge = challenges[challengeId] else {
             return
         }
-        UserStats.removeXP(from: challenge)
-        UserHistory.makeEntry(challengeId: challenge.id, date: challenge.dueDate, success: false)
+        userStatsManager.handleChallengeResult(challenge: challenge, success: false)
         let newChallenge = self.updateDueDate(challenge)
         NetworkManager.updateChallenge(newChallenge)
     }
@@ -160,7 +157,7 @@ class ChallengesManager: ChallengeManagingProtocol, SortedChallengesProviderProt
             challenge.dueDate.endOfDay < Date()
         }
         for challenge in failed {
-            failChallenge(challenge.id)
+            failChallenge(challengeId: challenge.id)
         }
         let expired = challenges.filter() { challenge in
             challenge.endDate.endOfDay < Date()

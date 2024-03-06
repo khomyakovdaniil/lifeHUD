@@ -76,6 +76,19 @@ enum ChallengeCategory: Int, CaseIterable, Codable {
             return UIImage(named: "HomeIcon") ?? UIImage()
         }
     }
+    
+    func xpStorageKey() -> String {
+        switch self {
+        case .health:
+            return "healthXP"
+        case .discipline:
+            return "disciplineXP"
+        case .work:
+            return "workXP"
+        case .home:
+            return "homeXP"
+        }
+    }
 }
 
 enum ChallengeDifficulty: Int, CaseIterable, Codable {

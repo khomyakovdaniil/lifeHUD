@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol UserStatsDisplay {
+    
+}
+
 class UserStatsViewController: UIViewController {
     
     
@@ -20,18 +24,19 @@ class UserStatsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        healthLabel.text = String(UserStats.getHealthXP())
-        workLabel.text = String(UserStats.getWorkXP())
-        disciplineLabel.text = String(UserStats.getDisciplineXP())
-        homeLabel.text = String(UserStats.getHomeXP())
         setupHistoryTableView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        healthLabel.text = String(UserStats.getHealthXP())
-        workLabel.text = String(UserStats.getWorkXP())
-        disciplineLabel.text = String(UserStats.getDisciplineXP())
-        homeLabel.text = String(UserStats.getHomeXP())
+        let defaults = UserDefaults.standard
+        let healthXP = defaults.value(forKey: ChallengeCategory.health.xpStorageKey()) as? Int ?? 0
+        healthLabel.text = String(healthXP)
+        let workXP = defaults.value(forKey: ChallengeCategory.work.xpStorageKey()) as? Int ?? 0
+        workLabel.text = String(workXP)
+        let disciplineXP = defaults.value(forKey: ChallengeCategory.discipline.xpStorageKey()) as? Int ?? 0
+        disciplineLabel.text = String(disciplineXP)
+        let homeXP = defaults.value(forKey: ChallengeCategory.home.xpStorageKey()) as? Int ?? 0
+        homeLabel.text = String(homeXP)
     }
     
     private func setupHistoryTableView() {
@@ -46,7 +51,7 @@ class UserStatsViewController: UIViewController {
     }
     
     @objc func refresh(_ sender: AnyObject) {
-        UserHistory.loadHistory()
+        NetworkManager.fetchRemoteHistory()
         historyTableView.reloadData()
         refreshControl.endRefreshing()
     }
@@ -56,11 +61,11 @@ class UserStatsViewController: UIViewController {
 extension UserStatsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return UserHistory.sortedHistoryDictionary.count
+        return ChallengesManager.shared.userStatsManager.sortedHistoryDictionary.count
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        let day = UserHistory.sortedHistoryDictionary[section]
+        let day = ChallengesManager.shared.userStatsManager.sortedHistoryDictionary[section]
         var formatter = DateFormatter()
         formatter.locale = .current
         formatter.dateFormat = "EEEE, MMM d, yyyy"
@@ -69,13 +74,13 @@ extension UserStatsViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let day = UserHistory.sortedHistoryDictionary[section].value
+        let day = ChallengesManager.shared.userStatsManager.sortedHistoryDictionary[section].value
         return day.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: HistoryCell.identifier) as! HistoryCell
-        let day = UserHistory.sortedHistoryDictionary[indexPath.section].value
+        let day = ChallengesManager.shared.userStatsManager.sortedHistoryDictionary[indexPath.section].value
         guard indexPath.row < day.count else { return cell }
         let entry = day[indexPath.row]
         cell.fill(with: entry) // Fills the cell with challenge info
