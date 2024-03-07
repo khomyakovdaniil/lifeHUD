@@ -66,7 +66,7 @@ extension UserStatsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         let day = ChallengesManager.shared.userStatsManager.sortedHistoryDictionary[section]
-        var formatter = DateFormatter()
+        let formatter = DateFormatter()
         formatter.locale = .current
         formatter.dateFormat = "EEEE, MMM d, yyyy"
         let title = formatter.string(from: day.key)
