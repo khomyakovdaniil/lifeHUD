@@ -54,8 +54,13 @@ struct ChallengeFullInfoViewModel: ChallengeFullInfoDisplayProtocol, ProgressTra
         return challenge.duration.string()
     }
     
-    var category: String {
-        return challenge.category.string()
+    var category: String { 
+        get {
+            return challenge.category.string()
+    }
+        set {
+            category = newValue
+        }
     }
     
     var categoryImage: UIImage {
@@ -67,20 +72,7 @@ struct ChallengeFullInfoViewModel: ChallengeFullInfoDisplayProtocol, ProgressTra
     }
     
     var reward: String {
-        var reward = 0
-        switch challenge.difficulty {
-        case .lowest:
-            reward = 5
-        case .low:
-            reward = 10
-        case .average:
-            reward = 50
-        case .high:
-            reward = 200
-        case .highest:
-            reward = 500
-        }
-        return "+ \(reward) XP"
+        return "+ \(challenge.difficulty.reward()) XP"
     }
     
     var type: ChallengeType {
@@ -88,16 +80,7 @@ struct ChallengeFullInfoViewModel: ChallengeFullInfoDisplayProtocol, ProgressTra
     }
     
     var failFee: String? {
-        var fee = 0
-        switch challenge.failFee {
-        case .none:
-            return nil
-        case .normal:
-            fee = 50
-        case .critical:
-            fee = 500
-        }
-        return "- \(fee) XP"
+        return "- \(challenge.failFee.fee()) XP"
     }
     
     var description: String {

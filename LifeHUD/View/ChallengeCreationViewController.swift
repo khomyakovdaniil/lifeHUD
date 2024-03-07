@@ -9,11 +9,7 @@ import UIKit
 
 class ChallengeCreationViewController: UIViewController {
     
-    var challenge = Challenge() {
-        didSet {
-            setupViews()
-        }
-    }
+    var challenge = ChallengeFullInfoViewModel(challenge: Challenge())
     
     @IBOutlet weak var categoryPickerButton: UIButton!
     @IBOutlet weak var durationPickerButton: UIButton!
@@ -146,22 +142,22 @@ class ChallengeCreationViewController: UIViewController {
     }
     
     private func setupCategoryPickerButton() {
-        let title = challenge.category.string()
+        let title = challenge.category
         categoryPickerButton.setTitle(title, for: .normal)
     }
     
     private func setupDurationPickerButton() {
-        let title = challenge.duration.string()
+        let title = challenge.duration
         durationPickerButton.setTitle(title, for: .normal)
     }
     
     private func setupDifficultyPickerButton() {
-        let title = challenge.difficulty.string()
+        let title = challenge.difficulty
         difficultyPickerButton.setTitle(title, for: .normal)
     }
     
     private func setupFailFeePickerButton() {
-        let title = challenge.failFee.string()
+        let title = challenge.failFee
         failFeePickerButton.setTitle(title, for: .normal)
     }
     
@@ -204,9 +200,7 @@ class ChallengeCreationViewController: UIViewController {
         let pickerView = UIPickerView(frame: CGRect(x: 0, y: 0, width: screenWidth, height:screenHeight))
         pickerView.dataSource = self
         pickerView.delegate = self
-        
-        pickerView.selectRow(selectedRow, inComponent: 0, animated: false)
-        //pickerView.selectRow(selectedRowTextColor, inComponent: 1, animated: false)
+        pickerView.selectRow(0, inComponent: 0, animated: false)
         
         vc.view.addSubview(pickerView)
         pickerView.centerXAnchor.constraint(equalTo: vc.view.centerXAnchor).isActive = true
@@ -214,34 +208,16 @@ class ChallengeCreationViewController: UIViewController {
         
         let alert = UIAlertController(title: setting.pickerName(), message: "", preferredStyle: .actionSheet)
         
-//        alert.popoverPresentationController?.sourceView = sender
-//        alert.popoverPresentationController?.sourceRect = sender.bounds
-        
         alert.setValue(vc, forKey: "contentViewController")
         alert.addAction(UIAlertAction(title: "Отмена", style: .cancel, handler: { (UIAlertAction) in
         }))
         
         alert.addAction(UIAlertAction(title: "Выбрать", style: .default, handler: { (UIAlertAction) in
             self.selectedRow = pickerView.selectedRow(inComponent: 0)
-            self.edit(setting, with: self.selectedRow)
+            sender.titleLabel?.text = pickerView.selectedRow(inComponent: 0).description
         }))
         
         self.present(alert, animated: true, completion: nil)
-    }
-    
-    private func edit(_ setting: Setting, with option: Int) {
-        switch setting {
-        case .category:
-            challenge.category = ChallengeCategory.init(rawValue: option) ?? .health
-        case .duration:
-            challenge.duration = ChallengeDuration.init(rawValue: option) ?? .daily
-        case .fee:
-            challenge.failFee = ChallengeFee.init(rawValue: option) ?? .none
-        case .difficulty:
-            challenge.difficulty = ChallengeDifficulty.init(rawValue: option) ?? .lowest
-        case .type:
-            challenge.type = ChallengeType.init(rawValue: option) ?? .singleAction
-        }
     }
     
     @IBAction func addToDoButtonTapped(_ sender: Any) {
@@ -251,6 +227,7 @@ class ChallengeCreationViewController: UIViewController {
     }
     
     @IBAction func createButtonTapped(_ sender: Any) {
+        var params: [ChallengeParameters] = []
         guard let title = titleField.text,
               title != "",
               let description = descriptionField.text,
@@ -267,24 +244,33 @@ class ChallengeCreationViewController: UIViewController {
         let startDate = startDatePicker.date
         let endDate = endDatePicker.date
         var dueDate = Date()
-        switch challenge.duration {
-        case .daily:
+        switch durationPickerButton.titleLabel?.text {
+        case ChallengeDuration.daily.string():
             dueDate = startDate.endOfDay
-        case .weekly:
+        case ChallengeDuration.weekly.string():
             dueDate = startDate.endOfWeek!
-        case .monthly:
+        case ChallengeDuration.monthly.string():
             dueDate = startDate.endOfMonth
+        default:
+            dueDate = startDate.endOfDay
         }
+        params = [
+        .id(value: String(Int.random(in: 100000..<999999))),
+        .title(value: title),
+        .description(value: description),
+//        .category(value: ChallengeCategory(rawValue: categoryPickerButton.titleLabel!.text)!),
+//        .duration(value: <#T##ChallengeDuration#>),
+//        .difficulty(value: <#T##ChallengeDifficulty#>),
+//        .type(value: <#T##ChallengeType#>),
+        .count(value: count),
+        .toDos(value: toDos),
+        .startDate(value: startDate),
+        .endDate(value: endDate),
+        .dueDate(value: dueDate)
+            ]
         
-        challenge.id = String(Int.random(in: 100000..<999999))
-        challenge.count = count
-        challenge.toDos = toDos
-        challenge.startDate = startDate
-        challenge.endDate = endDate
-        challenge.dueDate = dueDate
-        
-        ChallengesManager.shared.createChallenge(challenge)
-        challenge = Challenge()
+//        ChallengesManager.shared.createChallenge(challenge)
+//        challenge = Challenge()
         showAlert()
     }
     
@@ -299,17 +285,17 @@ class ChallengeCreationViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
-    @IBAction func saveTitle(_ sender: UITextField) {
-        if let text = sender.text, text != "", text != sender.placeholder {
-            challenge.title = text
-        }
-    }
-    
-    @IBAction func saveDescription(_ sender: UITextField) {
-        if let text = sender.text, text != "", text != sender.placeholder {
-            challenge.description = text
-        }
-    }
+//    @IBAction func saveTitle(_ sender: UITextField) {
+//        if let text = sender.text, text != "", text != sender.placeholder {
+//            challenge.title = text
+//        }
+//    }
+//    
+//    @IBAction func saveDescription(_ sender: UITextField) {
+//        if let text = sender.text, text != "", text != sender.placeholder {
+//            challenge.description = text
+//        }
+//    }
     
 }
 
@@ -353,8 +339,8 @@ extension ChallengeCreationViewController: UIPickerViewDataSource, UIPickerViewD
             label.text = ChallengeDifficulty(rawValue: row)?.string()
         case .fee:
             label.text =  ChallengeFee(rawValue: row)?.string()
-        case .type:
-            label.text =  ChallengeType(rawValue: row)?.string()
+//        case .type:
+//            label.text =  ChallengeType(rawValue: row)?.string()
         default:
             label.text = ""
         }

@@ -13,6 +13,6 @@ struct HistoryEntry: Codable {
 }
 
 struct DayStats: Codable, Equatable {
-    let challengeID: String
-    let success: Bool
+    let challengeTitle: String
+    let impact: Int
 }
