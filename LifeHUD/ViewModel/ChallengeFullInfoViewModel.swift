@@ -59,7 +59,6 @@ struct ChallengeFullInfoViewModel: ChallengeFullInfoDisplayProtocol, ProgressTra
             return challenge.category.string()
     }
         set {
-            category = newValue
         }
     }
     
@@ -100,22 +99,25 @@ struct ChallengeFullInfoViewModel: ChallengeFullInfoDisplayProtocol, ProgressTra
     }
     
     func trackProgressForChallenge(toDos: [Int]) {
-        print("progress tracked")
+        let progressParameter = ChallengeParameters.progress(value: toDos)
+        challengeManager.editChallenge(challengeId: challengeId, with: [progressParameter])
     }
     
     func trackProgressForChallenge(repetitions: Double) {
-        print("progress tracked")
+        let progressArray = Array(repeating: 1, count: Int(repetitions))
+        let progressParameter = ChallengeParameters.progress(value: progressArray)
+        challengeManager.editChallenge(challengeId: challengeId, with: [progressParameter])
     }
     
     func completeChallenge() {
-        print("challenge completed")
+        challengeManager.completeChallenge(challengeId: challengeId, success: true)
     }
     
     func failChallenge() {
-        print("challenge failed")
+        challengeManager.completeChallenge(challengeId: challengeId, success: false)
     }
     
     func deleteChallenge() {
-        print("challenge deleted")
+        challengeManager.deleteChallenge(challengeId: challengeId)
     }
 }
