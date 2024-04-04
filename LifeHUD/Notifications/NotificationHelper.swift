@@ -16,7 +16,7 @@ class NotificationHelper {
         content.body = body
            
         // Create the trigger as a repeating event.
-        let targetDate = Date(timeIntervalSinceNow: 10)
+        let targetDate = Date(timeIntervalSinceNow: 10000)
         let trigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.second], from: targetDate), repeats: true)
 
         // Create the request
@@ -49,10 +49,10 @@ final class NotificationOperation: Operation {
         guard !isCancelled else { return }
         print("Importing content..")
         
-        ChallengesManager.shared.fetchChallenges {_ in
-            let number = ChallengesManager.shared.dailyChallenges.count
-            NotificationHelper.createNotification(title: "Задания", body: "Невыполненных заданий: \(number)")
-        }
+//        ChallengesManager.shared.fetchChallenges {_ in
+//            let number = ChallengesManager.shared.dailyChallenges.count
+//            NotificationHelper.createNotification(title: "Задания", body: "Невыполненных заданий: \(number)")
+//        }
 
     }
 }

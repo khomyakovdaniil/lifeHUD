@@ -35,6 +35,11 @@
 		5FBC253B293F922400C7A7A6 /* CreateToDoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FBC2539293F922400C7A7A6 /* CreateToDoCell.swift */; };
 		5FBC253C293F922400C7A7A6 /* CreateToDoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FBC253A293F922400C7A7A6 /* CreateToDoCell.xib */; };
 		5FBC253E2940B71C00C7A7A6 /* NotificationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FBC253D2940B71C00C7A7A6 /* NotificationHelper.swift */; };
+		5FE9740A2BAF05DA00A1C02C /* TestCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE974092BAF05DA00A1C02C /* TestCreateViewController.swift */; };
+		5FE9740C2BAF064800A1C02C /* TestCreateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE9740B2BAF064800A1C02C /* TestCreateViewModel.swift */; };
+		5FE9740F2BB2DCCC00A1C02C /* LifeHudDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE9740E2BB2DCCC00A1C02C /* LifeHudDIContainer.swift */; };
+		5FE974122BB30E7C00A1C02C /* ChallengesListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE974112BB30E7C00A1C02C /* ChallengesListViewModel.swift */; };
+		5FE974142BB4208E00A1C02C /* ChallengeCreationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE974132BB4208E00A1C02C /* ChallengeCreationViewModel.swift */; };
 		5FFEACE028BF8556002C9F89 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFEACDF28BF8556002C9F89 /* DateExtension.swift */; };
 		F6CAA3F024CB75D25F57BB25 /* Pods_LifeHUD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E42EBA4390429EC955D3FDE /* Pods_LifeHUD.framework */; };
 /* End PBXBuildFile section */
@@ -72,6 +77,11 @@
 		5FBC2539293F922400C7A7A6 /* CreateToDoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateToDoCell.swift; sourceTree = "<group>"; };
 		5FBC253A293F922400C7A7A6 /* CreateToDoCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CreateToDoCell.xib; sourceTree = "<group>"; };
 		5FBC253D2940B71C00C7A7A6 /* NotificationHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationHelper.swift; sourceTree = "<group>"; };
+		5FE974092BAF05DA00A1C02C /* TestCreateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestCreateViewController.swift; sourceTree = "<group>"; };
+		5FE9740B2BAF064800A1C02C /* TestCreateViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestCreateViewModel.swift; sourceTree = "<group>"; };
+		5FE9740E2BB2DCCC00A1C02C /* LifeHudDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LifeHudDIContainer.swift; sourceTree = "<group>"; };
+		5FE974112BB30E7C00A1C02C /* ChallengesListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChallengesListViewModel.swift; sourceTree = "<group>"; };
+		5FE974132BB4208E00A1C02C /* ChallengeCreationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeCreationViewModel.swift; sourceTree = "<group>"; };
 		5FFEACDF28BF8556002C9F89 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		B0249011BC31BF8749D2300D /* Pods-LifeHUD.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LifeHUD.debug.xcconfig"; path = "Target Support Files/Pods-LifeHUD/Pods-LifeHUD.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -120,6 +130,7 @@
 				5F88823028AB8FE9006D5967 /* ChallengeFullInfoViewController.xib */,
 				5F88825428ACC9B5006D5967 /* ChallengeCreationViewController.swift */,
 				5F88825628AE3DA8006D5967 /* UserStatsViewController.swift */,
+				5FE974092BAF05DA00A1C02C /* TestCreateViewController.swift */,
 				5F88822528AB62FC006D5967 /* Cells */,
 			);
 			path = View;
@@ -148,6 +159,7 @@
 			children = (
 				5F88820A28AB5BAC006D5967 /* AppDelegate.swift */,
 				5F88820C28AB5BAC006D5967 /* SceneDelegate.swift */,
+				5FE9740D2BB2DCB700A1C02C /* DIContainer */,
 				5F88822028AB5E45006D5967 /* Model */,
 				5F1059F52B91C12800FBFD02 /* View */,
 				5F88822E28AB8FBD006D5967 /* ViewModel */,
@@ -192,8 +204,11 @@
 		5F88822E28AB8FBD006D5967 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				5FE974112BB30E7C00A1C02C /* ChallengesListViewModel.swift */,
 				5F1059F92B91E5CF00FBFD02 /* ChallengeCellViewModel.swift */,
 				5F1059FB2B9206ED00FBFD02 /* ChallengeFullInfoViewModel.swift */,
+				5FE974132BB4208E00A1C02C /* ChallengeCreationViewModel.swift */,
+				5FE9740B2BAF064800A1C02C /* TestCreateViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -205,6 +220,14 @@
 				5F88822A28AB65FD006D5967 /* ChallengesManager.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		5FE9740D2BB2DCB700A1C02C /* DIContainer */ = {
+			isa = PBXGroup;
+			children = (
+				5FE9740E2BB2DCCC00A1C02C /* LifeHudDIContainer.swift */,
+			);
+			path = DIContainer;
 			sourceTree = "<group>";
 		};
 		5FFEACDE28BF853A002C9F89 /* Notifications */ = {
@@ -345,13 +368,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5FE974142BB4208E00A1C02C /* ChallengeCreationViewModel.swift in Sources */,
 				5FFEACE028BF8556002C9F89 /* DateExtension.swift in Sources */,
 				5F88822D28AB6803006D5967 /* Challenge.swift in Sources */,
 				5F1059FC2B9206ED00FBFD02 /* ChallengeFullInfoViewModel.swift in Sources */,
 				5F88823128AB8FE9006D5967 /* ChallengeFullInfoViewController.swift in Sources */,
 				5F88822828AB633C006D5967 /* ChallengeCell.swift in Sources */,
 				5F88820F28AB5BAC006D5967 /* ChallengeListViewController.swift in Sources */,
+				5FE9740F2BB2DCCC00A1C02C /* LifeHudDIContainer.swift in Sources */,
 				5F062D6928CC8C4D000D4BAA /* HistoryCell.swift in Sources */,
+				5FE9740A2BAF05DA00A1C02C /* TestCreateViewController.swift in Sources */,
 				5F1059FA2B91E5CF00FBFD02 /* ChallengeCellViewModel.swift in Sources */,
 				5F88822B28AB65FD006D5967 /* ChallengesManager.swift in Sources */,
 				5F88825728AE3DA8006D5967 /* UserStatsViewController.swift in Sources */,
@@ -364,6 +390,8 @@
 				5F062D6628CB47B3000D4BAA /* UserHistory.swift in Sources */,
 				5FBC253E2940B71C00C7A7A6 /* NotificationHelper.swift in Sources */,
 				5F88821F28AB5E34006D5967 /* DemoDatabase.swift in Sources */,
+				5FE9740C2BAF064800A1C02C /* TestCreateViewModel.swift in Sources */,
+				5FE974122BB30E7C00A1C02C /* ChallengesListViewModel.swift in Sources */,
 				5F98CD6428BF5C4400C8AFA2 /* NetworkManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

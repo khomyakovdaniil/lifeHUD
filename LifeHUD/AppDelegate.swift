@@ -16,6 +16,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
+        LifeHudDIContainer.registerDependencies()
+        
         FirebaseApp.configure()
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound], completionHandler: { success, error in
             if success {
@@ -25,11 +28,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         })
         NotificationHelper.createNotification(title: "1", body: "1")
-        //registerBackgroundTasks()
-//        scheduleAppRefresh()
+        registerBackgroundTasks()
+        scheduleAppRefresh()
         // Override point for customization after application launch.
         return true
     }
+    
     private func registerBackgroundTasks() {
         
         
@@ -72,7 +76,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private func scheduleAppRefresh() {
         do {
             let request = BGAppRefreshTaskRequest(identifier: "com.Khomyakov.LifeHUD.refresh")
-            request.earliestBeginDate = Date(timeIntervalSinceNow: 10)
+            request.earliestBeginDate = Date(timeIntervalSinceNow: 10000)
             try BGTaskScheduler.shared.submit(request)
         } catch {
             print(error)
@@ -100,7 +104,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func submitBackgroundTasks() {
       // Declared at the "Permitted background task scheduler identifiers" in info.plist
       let backgroundAppRefreshTaskSchedulerIdentifier = "com.Khomyakov.LifeHUD.refresh"
-      let timeDelay = 10.0
+      let timeDelay = 60.0
 
       do {
         let backgroundAppRefreshTaskRequest = BGAppRefreshTaskRequest(identifier: backgroundAppRefreshTaskSchedulerIdentifier)

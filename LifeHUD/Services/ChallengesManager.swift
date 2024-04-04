@@ -8,24 +8,29 @@
 import Foundation
 import UIKit
 
-protocol ChallengeManagingProtocol { // Behavior required to manage challenges Database
+protocol ChallengesManagingProtocol { // Behavior required to manage challenges Database
     func fetchChallenges(responseHandler: ((Bool) -> Void)?)
-    func createChallenge(with parameters: [ChallengeParameters])
-    func editChallenge(challengeId: String, with parameters: [ChallengeParameters])
+    func saveCreatableChallenge()
+    func editChallenge(challengeId: String, with parameters: [ChallengeParameter])
     func completeChallenge(challengeId: String, success: Bool)
     func deleteChallenge(challengeId: String)
+    func editCreatableChallenge(with parameter: ChallengeParameter)
+    var dailyChallenges: [Challenge] { get }
+    var weeklyChallenges: [Challenge] { get }
+    var monthlyChallenges: [Challenge] { get }
+    var userStatsManager: StatsManager { get }
 }
 
 protocol SortedChallengesProviderProtocol {
     func fetchSortedChallenges(responseHandler: ((Bool) -> Void)?)
 }
 
-class ChallengesManager: ChallengeManagingProtocol, SortedChallengesProviderProtocol {
+class ChallengesManager: ChallengesManagingProtocol {
+    
     
     // - MARK: Properies
     
-    // Singletone
-    static let shared = ChallengesManager()
+    var creatableChallenge = Challenge()
     
     // User stats and history manager
     let userStatsManager = StatsManager()
@@ -47,7 +52,13 @@ class ChallengesManager: ChallengeManagingProtocol, SortedChallengesProviderProt
     
     // Fetches challenges from remote server
     func fetchChallenges(responseHandler: ((Bool) -> Void)?) {
-        NetworkManager.fetchRemoteChallenges(responseHandler: responseHandler)
+        NetworkManager.fetchRemoteChallenges(responseHandler: { [weak self] challengesDictionary in
+            guard let self else { return }
+            self.challenges = challengesDictionary
+            if let responseHandler {
+                responseHandler(true)
+            }
+        })
     }
     
     // Fetches challenges from remote server (used in ChallengesListViewController)
@@ -70,29 +81,47 @@ class ChallengesManager: ChallengeManagingProtocol, SortedChallengesProviderProt
         NetworkManager.updateChallenge(newChallenge)
     }
     
-    // Creates challenge based on given set of parameter
-    func createChallenge(with parameters: [ChallengeParameters]) {
-        
-        // Creates a blanc challenge template
-        var mutableChallenge = Challenge()
-        
-        // Iterates through given array of parameters and applies them to template
-        let dGroup = DispatchGroup()
-        for parameter in parameters {
-            dGroup.enter()
-            mutableChallenge.applyParameter(parameter)
-            dGroup.leave()
+    func saveCreatableChallenge() {
+        var dueDateParameter: ChallengeParameter
+        switch creatableChallenge.duration {
+        case .daily:
+            dueDateParameter = .dueDate(value: creatableChallenge.startDate.endOfDay)
+        case .weekly:
+            dueDateParameter = .dueDate(value: creatableChallenge.startDate.endOfWeek!)
+        case .monthly:
+            dueDateParameter = .dueDate(value: creatableChallenge.startDate.endOfMonth)
         }
-        
-        // After all the parameters are applied adds challenge to array and uploads it to remote server
-        dGroup.notify(queue: .main) {
-            self.challenges[mutableChallenge.id] = mutableChallenge
-            NetworkManager.createChallenge(mutableChallenge)
-        }
+        let id = String(Int.random(in: 100000..<999999))
+        var idParameter: ChallengeParameter = .id(value: id)
+        creatableChallenge.applyParameter(dueDateParameter)
+        creatableChallenge.applyParameter(idParameter)
+        self.challenges[id] = creatableChallenge
+        NetworkManager.createChallenge(creatableChallenge)
     }
     
+//    // Creates challenge based on given set of parameter
+//    func createChallenge(with parameters: [ChallengeParameter]) {
+//        
+//        // Creates a blanc challenge template
+//        var mutableChallenge = Challenge()
+//        
+//        // Iterates through given array of parameters and applies them to template
+//        let dGroup = DispatchGroup()
+//        for parameter in parameters {
+//            dGroup.enter()
+//            mutableChallenge.applyParameter(parameter)
+//            dGroup.leave()
+//        }
+//        
+//        // After all the parameters are applied adds challenge to array and uploads it to remote server
+//        dGroup.notify(queue: .main) {
+//            self.challenges[mutableChallenge.id] = mutableChallenge
+//            NetworkManager.createChallenge(mutableChallenge)
+//        }
+//    }
+    
     // Edits challenge with given set of parameters
-    func editChallenge(challengeId: String, with parameters: [ChallengeParameters]) {
+    func editChallenge(challengeId: String, with parameters: [ChallengeParameter]) {
         
         // Checks if the challenge for given ID exists
         guard let challenge = challenges[challengeId] else { return }
@@ -114,6 +143,11 @@ class ChallengesManager: ChallengeManagingProtocol, SortedChallengesProviderProt
             NetworkManager.updateChallenge(mutableChallenge)
         }
 
+    }
+    
+    // Edits challenge with given set of parameters
+    func editCreatableChallenge(with parameter: ChallengeParameter) {
+        creatableChallenge.applyParameter(parameter)
     }
     
     // Removes challenge from stored array and from remote server

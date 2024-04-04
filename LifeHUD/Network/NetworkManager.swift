@@ -28,7 +28,7 @@ struct NetworkManager {
         return URL(string: urlString)!
     }
     
-    static func fetchRemoteChallenges(responseHandler: ((Bool) -> Void)?) {
+    static func fetchRemoteChallenges(responseHandler: (([String : Challenge]) -> Void)?) {
         let url = URL(string: NetworkManager.Urls.challengesURL)!
         var request = URLRequest(url: url)
         request.httpMethod = HTTPMethod.get.rawValue
@@ -50,9 +50,8 @@ struct NetworkManager {
                 }
                 group.notify(queue: .main) {
                     let challengeDictionary = Dictionary(uniqueKeysWithValues: challenges.map{ ($0.id, $0) })
-                    ChallengesManager.shared.challenges = challengeDictionary
                     if let responseHandler = responseHandler {
-                        responseHandler(true)
+                        responseHandler(challengeDictionary)
                     }
                 }
             } catch {
@@ -108,7 +107,7 @@ struct NetworkManager {
             print(data)
             do {
                 let history = try JSONDecoder().decode([HistoryEntry].self, from: data)
-                ChallengesManager.shared.userStatsManager.history = history
+//                ChallengesManager.shared.userStatsManager.history = history
             } catch {
                print(error)
             }

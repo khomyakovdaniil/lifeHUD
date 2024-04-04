@@ -8,39 +8,46 @@
 import Foundation
 import UIKit
 
+typealias ChallengeFullInfoViewModelProtocol = ChallengeFullInfoDisplayProtocol & ProgressTrackingProtocol
+    
 protocol ChallengeFullInfoDisplayProtocol { // All the info required to display challenge full info
     var title: String { get }
+    var description: String { get }
     var categoryImage: UIImage { get }
     var reward: String { get }
     var failFee: String? { get }
     var progress: [Int]? { get }
+    var difficulty: String { get }
+    var category: String { get }
+    var type: ChallengeType { get } // TODO: dependency
+    var duration: String { get }
+    var count: Int { get }
+    func getNumberOfSubTasks() -> Int
+    func getSubtask(for index: Int) -> String
 }
 
 protocol ProgressTrackingProtocol { // Behavior required to track progress
-    var challengeManager: ChallengeManagingProtocol { get }
+    var challengesManager: ChallengesManagingProtocol { get }
     var challengeId: String { get }
-    func trackProgressForChallenge(toDos: [Int]) // For challenges with sub tasks
-    func trackProgressForChallenge(repetitions: Double) // For multi repetitions challenges
-    func completeChallenge()
-    func failChallenge()
-    func deleteChallenge()
+    func userDidSelectTask(at index: Int)
+    func userEntered(number repetitions: Double)
+    func userDidTapDoneButton()
+    func userDidTapFailButton()
+    func userDidTapDeleteButton()
 }
 
-protocol ChallengeCreationProtocol { // Behavior required to create challenge
-    var challengeManager: ChallengeManagingProtocol { get }
-    func createChallenge()
-}
-
-struct ChallengeFullInfoViewModel: ChallengeFullInfoDisplayProtocol, ProgressTrackingProtocol {
+struct ChallengeFullInfoViewModel: ChallengeFullInfoViewModelProtocol {
     
-    var challengeManager: ChallengeManagingProtocol
+    var challengesManager: ChallengesManagingProtocol
     
     private var challenge: Challenge
     
-    init(challenge: Challenge) {
+    init(challenge: Challenge, challengesManager: ChallengesManagingProtocol) {
         self.challenge = challenge
-        self.challengeManager = ChallengesManager.shared
+        self.challengesManager = challengesManager
     }
+    
+    // MARK: - ChallengeFullInfoDisplayProtocol
     
     var challengeId: String {
         return challenge.id
@@ -54,12 +61,8 @@ struct ChallengeFullInfoViewModel: ChallengeFullInfoDisplayProtocol, ProgressTra
         return challenge.duration.string()
     }
     
-    var category: String { 
-        get {
-            return challenge.category.string()
-    }
-        set {
-        }
+    var category: String {
+        return challenge.category.string()
     }
     
     var categoryImage: UIImage {
@@ -98,26 +101,51 @@ struct ChallengeFullInfoViewModel: ChallengeFullInfoDisplayProtocol, ProgressTra
         return challenge.progress
     }
     
-    func trackProgressForChallenge(toDos: [Int]) {
-        let progressParameter = ChallengeParameters.progress(value: toDos)
-        challengeManager.editChallenge(challengeId: challengeId, with: [progressParameter])
+    // MARK: -  ProgressTrackingProtocol
+    
+    func userDidSelectTask(at index: Int) {
+        var progress: [Int] = self.progress ?? []
+            if !progress.contains(index) {
+                progress.append(index)
+            } else {
+                let indx = progress.firstIndex(of: index)!
+                progress.remove(at: indx)
+            }
+        let progressParameter: ChallengeParameter = .progress(value: progress)
+        if progress.count == toDos?.count {
+            challengesManager.completeChallenge(challengeId: challengeId, success: true)
+        } else {
+            challengesManager.editChallenge(challengeId: challengeId, with: [progressParameter])
+        }
     }
     
-    func trackProgressForChallenge(repetitions: Double) {
+    func userDidTapDoneButton() {
+        challengesManager.completeChallenge(challengeId: challengeId, success: true)
+    }
+    
+    func getNumberOfSubTasks() -> Int {
+        challenge.toDos?.count ?? 0
+    }
+    
+    func getSubtask(for index: Int) -> String {
+        challenge.toDos?[index] ?? ""
+    }
+    
+    func userEntered(number repetitions: Double) {
         let progressArray = Array(repeating: 1, count: Int(repetitions))
-        let progressParameter = ChallengeParameters.progress(value: progressArray)
-        challengeManager.editChallenge(challengeId: challengeId, with: [progressParameter])
+        let progressParameter: ChallengeParameter = .progress(value: progressArray)
+        if progressArray.count == toDos?.count {
+            challengesManager.completeChallenge(challengeId: challengeId, success: true)
+        } else {
+            challengesManager.editChallenge(challengeId: challengeId, with: [progressParameter])
+        }
     }
     
-    func completeChallenge() {
-        challengeManager.completeChallenge(challengeId: challengeId, success: true)
+    func userDidTapFailButton() {
+        challengesManager.completeChallenge(challengeId: challengeId, success: false)
     }
     
-    func failChallenge() {
-        challengeManager.completeChallenge(challengeId: challengeId, success: false)
-    }
-    
-    func deleteChallenge() {
-        challengeManager.deleteChallenge(challengeId: challengeId)
+    func userDidTapDeleteButton() {
+        challengesManager.deleteChallenge(challengeId: challengeId)
     }
 }

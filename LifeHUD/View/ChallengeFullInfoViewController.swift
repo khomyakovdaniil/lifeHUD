@@ -11,7 +11,7 @@ class ChallengeFullInfoViewController: UIViewController {
     
     // MARK: - Properties
     
-    var challengeViewModel: ChallengeFullInfoViewModel
+    var challengeViewModel: ChallengeFullInfoViewModelProtocol
     
     // MARK: - Outlets
     
@@ -34,30 +34,23 @@ class ChallengeFullInfoViewController: UIViewController {
     // MARK: - Actions
     
     @IBAction func closeButtonTapped(_ sender: Any) {
-        if progressCounter.isHidden == false{ // multi repetitions challenge
-            let toDos = checkBoxTableView.indexPathsForSelectedRows?.map() { $0.row }
-            challengeViewModel.trackProgressForChallenge(toDos: toDos ?? [])
-        } else if checkBoxTableView.isHidden == false { // challenge with sub tasks
-            challengeViewModel.trackProgressForChallenge(repetitions: progressCounter.value)
-        } else if doneButton.isSelected {
-            challengeViewModel.completeChallenge()
-        }
         dismiss(animated: true, completion: nil)
     }
     
     @IBAction func doneButtonTapped(_ sender: UIButton) {
-        sender.isSelected = !sender.isSelected
+        challengeViewModel.userDidTapDoneButton()
     }
     
     @IBAction func failButtonTapped(_ sender: Any) {
-        challengeViewModel.failChallenge()
+        challengeViewModel.userDidTapFailButton()
     }
     
     @IBAction func deleteButtonTapped(_ sender: Any) {
-        challengeViewModel.deleteChallenge()
+        challengeViewModel.userDidTapDeleteButton()
     }
     
     @IBAction func progressChanged(_ sender: Any) {
+        challengeViewModel.userEntered(number: progressCounter.value)
         progressLabel.text = String(Int(progressCounter.value))
     }
     
@@ -68,11 +61,8 @@ class ChallengeFullInfoViewController: UIViewController {
         fill()
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-    }
-    
-    init(challenge: Challenge) {
-        self.challengeViewModel = ChallengeFullInfoViewModel(challenge: challenge)
+    init(challenge: Challenge, challengesManager: ChallengesManagingProtocol) {
+        self.challengeViewModel = ChallengeFullInfoViewModel(challenge: challenge, challengesManager: challengesManager)
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -122,7 +112,7 @@ class ChallengeFullInfoViewController: UIViewController {
         doneButton.isHidden = true
         progressCounter.minimumValue = 0
         progressCounter.maximumValue = Double(challengeViewModel.count)
-        progressCounter.value = Double(challengeViewModel.count)
+        progressCounter.value = Double(challengeViewModel.progress?.count ?? 0)
         progressLabel.text = String(Int(progressCounter.value))
     }
     
@@ -139,18 +129,22 @@ class ChallengeFullInfoViewController: UIViewController {
     }
 }
 
+    // MARK: - Progress Table View
+
 extension ChallengeFullInfoViewController: UITableViewDelegate {
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        challengeViewModel.userDidSelectTask(at: indexPath.row)
+    }
 }
 
 extension ChallengeFullInfoViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return challengeViewModel.toDos?.count ?? 0
+        challengeViewModel.getNumberOfSubTasks()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ToDoCell.identifier) as! ToDoCell
-        cell.titleLabel.text = challengeViewModel.toDos?[indexPath.row]
+        cell.titleLabel.text = challengeViewModel.getSubtask(for: indexPath.row)
         if challengeViewModel.progress != nil {
             cell.checkBox.isSelected = challengeViewModel.progress!.contains(indexPath.row)
         }

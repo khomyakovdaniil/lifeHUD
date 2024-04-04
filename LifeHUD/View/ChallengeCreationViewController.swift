@@ -9,7 +9,16 @@ import UIKit
 
 class ChallengeCreationViewController: UIViewController {
     
-    var challenge = ChallengeFullInfoViewModel(challenge: Challenge())
+    init?(coder: NSCoder, viewModel: ChallengeCreationViewModelProtocol) {
+        self.viewModel = viewModel
+        super.init(coder: coder)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("ChallengesManager is missing")
+    }
+    
+    var viewModel: ChallengeCreationViewModelProtocol
     
     @IBOutlet weak var categoryPickerButton: UIButton!
     @IBOutlet weak var durationPickerButton: UIButton!
@@ -82,7 +91,7 @@ class ChallengeCreationViewController: UIViewController {
     
     private func setupViews() {
         setupPickerButtons()
-        setupAdditionalInfoView()
+        setupAdditionalInfoView(for: .singleAction)
         setupTitleAndDescriptionFields()
         setupToDosTableView()
     }
@@ -101,8 +110,8 @@ class ChallengeCreationViewController: UIViewController {
         setupTypePickerButton()
     }
     
-    private func setupAdditionalInfoView() {
-        switch challenge.type {
+    private func setupAdditionalInfoView(for type: ChallengeType) { // TODO: dependency
+        switch type {
         case .singleAction:
             hideAdditionalInfoView()
         case .counter:
@@ -113,8 +122,8 @@ class ChallengeCreationViewController: UIViewController {
     }
     
     private func setupTitleAndDescriptionFields() {
-        titleField.text = (challenge.title == "") ? nil : challenge.title
-        descriptionField.text = (challenge.description == "") ? nil : challenge.description
+        titleField.delegate = self
+        descriptionField.delegate = self
     }
     
     private func hideAdditionalInfoView() {
@@ -142,28 +151,23 @@ class ChallengeCreationViewController: UIViewController {
     }
     
     private func setupCategoryPickerButton() {
-        let title = challenge.category
-        categoryPickerButton.setTitle(title, for: .normal)
+        categoryPickerButton.setTitle("Категория", for: .normal)
     }
     
     private func setupDurationPickerButton() {
-        let title = challenge.duration
-        durationPickerButton.setTitle(title, for: .normal)
+        durationPickerButton.setTitle("Длительность", for: .normal)
     }
     
     private func setupDifficultyPickerButton() {
-        let title = challenge.difficulty
-        difficultyPickerButton.setTitle(title, for: .normal)
+        difficultyPickerButton.setTitle("Сложность", for: .normal)
     }
     
     private func setupFailFeePickerButton() {
-        let title = challenge.failFee
-        failFeePickerButton.setTitle(title, for: .normal)
+        failFeePickerButton.setTitle("Штраф", for: .normal)
     }
     
     private func setupTypePickerButton() {
-        let title = challenge.type.string()
-        typePickerButton.setTitle(title, for: .normal)
+        typePickerButton.setTitle("Тип", for: .normal)
     }
     
     private func setupToDosTableView() {
@@ -212,9 +216,34 @@ class ChallengeCreationViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "Отмена", style: .cancel, handler: { (UIAlertAction) in
         }))
         
-        alert.addAction(UIAlertAction(title: "Выбрать", style: .default, handler: { (UIAlertAction) in
-            self.selectedRow = pickerView.selectedRow(inComponent: 0)
-            sender.titleLabel?.text = pickerView.selectedRow(inComponent: 0).description
+        alert.addAction(UIAlertAction(title: "Выбрать", style: .default, handler: { [weak self] (UIAlertAction) in
+            guard let self else { return }
+            switch self.currentEditingMode {
+            case .category:
+                self.viewModel.selectedItem(with: pickerView.selectedRow(inComponent: 0), of: .category())
+                let title = viewModel.getText(for: pickerView.selectedRow(inComponent: 0), of: .category())
+                categoryPickerButton.setTitle(title, for: .normal)
+            case .duration:
+                self.viewModel.selectedItem(with: pickerView.selectedRow(inComponent: 0), of: .duration())
+                let title = viewModel.getText(for: pickerView.selectedRow(inComponent: 0), of: .duration())
+                durationPickerButton.setTitle(title, for: .normal)
+            case .fee:
+                self.viewModel.selectedItem(with: pickerView.selectedRow(inComponent: 0), of: .failFee())
+                let title = viewModel.getText(for: pickerView.selectedRow(inComponent: 0), of: .failFee())
+                failFeePickerButton.setTitle(title, for: .normal)
+            case .difficulty:
+                self.viewModel.selectedItem(with: pickerView.selectedRow(inComponent: 0), of: .difficulty())
+                let title = viewModel.getText(for: pickerView.selectedRow(inComponent: 0), of: .difficulty())
+                difficultyPickerButton.setTitle(title, for: .normal)
+            case .type:
+                self.viewModel.selectedItem(with: pickerView.selectedRow(inComponent: 0), of: .type())
+                let title = viewModel.getText(for: pickerView.selectedRow(inComponent: 0), of: .type())
+                typePickerButton.setTitle(title, for: .normal)
+                let type = ChallengeType(rawValue: pickerView.selectedRow(inComponent: 0))! // TODO: dependency
+                setupAdditionalInfoView(for: type)
+            case nil:
+                return
+            }
         }))
         
         self.present(alert, animated: true, completion: nil)
@@ -226,52 +255,10 @@ class ChallengeCreationViewController: UIViewController {
         additionalInfoViewIsVisibleConstraint.constant = self.toDosTableView.contentSize.height + heightNeededForAddCellButton
     }
     
-    @IBAction func createButtonTapped(_ sender: Any) {
-        var params: [ChallengeParameters] = []
-        guard let title = titleField.text,
-              title != "",
-              let description = descriptionField.text,
-              description != ""
-        else { return }
-        var count = 0
-        var toDos: [String] = []
-        if challenge.type == .counter {
-            guard let number = numberOfRepsField.text, number != "0" else { return }
-            count = Int(number) ?? 1
-        } else if challenge.type == .checkbox {
-            toDos = self.toDos ?? [""]
-        }
-        let startDate = startDatePicker.date
-        let endDate = endDatePicker.date
-        var dueDate = Date()
-        switch durationPickerButton.titleLabel?.text {
-        case ChallengeDuration.daily.string():
-            dueDate = startDate.endOfDay
-        case ChallengeDuration.weekly.string():
-            dueDate = startDate.endOfWeek!
-        case ChallengeDuration.monthly.string():
-            dueDate = startDate.endOfMonth
-        default:
-            dueDate = startDate.endOfDay
-        }
-        params = [
-        .id(value: String(Int.random(in: 100000..<999999))),
-        .title(value: title),
-        .description(value: description),
-//        .category(value: ChallengeCategory(rawValue: categoryPickerButton.titleLabel!.text)!),
-//        .duration(value: <#T##ChallengeDuration#>),
-//        .difficulty(value: <#T##ChallengeDifficulty#>),
-//        .type(value: <#T##ChallengeType#>),
-        .count(value: count),
-        .toDos(value: toDos),
-        .startDate(value: startDate),
-        .endDate(value: endDate),
-        .dueDate(value: dueDate)
-            ]
-        
-//        ChallengesManager.shared.createChallenge(challenge)
-//        challenge = Challenge()
-        showAlert()
+    @IBAction func createButtonTapped(_ sender: Any) { // TODO: - move logic to view model
+        viewModel.userEntered(date: startDatePicker.date, for: .startDate())
+        viewModel.userEntered(date: endDatePicker.date, for: .endDate())
+        viewModel.userTappedCreateButton()
     }
     
     private func showAlert() {
@@ -285,21 +272,9 @@ class ChallengeCreationViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
-//    @IBAction func saveTitle(_ sender: UITextField) {
-//        if let text = sender.text, text != "", text != sender.placeholder {
-//            challenge.title = text
-//        }
-//    }
-//    
-//    @IBAction func saveDescription(_ sender: UITextField) {
-//        if let text = sender.text, text != "", text != sender.placeholder {
-//            challenge.description = text
-//        }
-//    }
-    
 }
 
-    //MARK: - PickerView
+    // MARK: - PickerViews
 
 extension ChallengeCreationViewController: UIPickerViewDataSource, UIPickerViewDelegate {
     
@@ -310,15 +285,15 @@ extension ChallengeCreationViewController: UIPickerViewDataSource, UIPickerViewD
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
             switch currentEditingMode {
             case .category:
-                return ChallengeCategory.allCases.count
+                return viewModel.getCount(for: .category())
             case .duration:
-                return ChallengeDuration.allCases.count
+                return viewModel.getCount(for: .duration())
             case .difficulty:
-                return ChallengeDifficulty.allCases.count
+                return viewModel.getCount(for: .difficulty())
             case .fee:
-                return ChallengeFee.allCases.count
+                return viewModel.getCount(for: .failFee())
             case .type:
-                return ChallengeType.allCases.count
+                return viewModel.getCount(for: .type())
             default:
                 return 0
             }
@@ -332,15 +307,15 @@ extension ChallengeCreationViewController: UIPickerViewDataSource, UIPickerViewD
         label.textAlignment = .center
         switch currentEditingMode {
         case .category:
-            label.text = ChallengeCategory(rawValue: row)?.string()
+            label.text = viewModel.getText(for: row, of: .category())
         case .duration:
-            label.text = ChallengeDuration(rawValue: row)?.string()
+            label.text = viewModel.getText(for: row, of: .duration())
         case .difficulty:
-            label.text = ChallengeDifficulty(rawValue: row)?.string()
+            label.text = viewModel.getText(for: row, of: .difficulty())
         case .fee:
-            label.text =  ChallengeFee(rawValue: row)?.string()
-//        case .type:
-//            label.text =  ChallengeType(rawValue: row)?.string()
+            label.text =  viewModel.getText(for: row, of: .failFee())
+        case .type:
+            label.text =  viewModel.getText(for: row, of: .type())
         default:
             label.text = ""
         }
@@ -351,6 +326,8 @@ extension ChallengeCreationViewController: UIPickerViewDataSource, UIPickerViewD
         return toDosTableViewRowHeight
     }
 }
+    
+    // MARK: - Subtasks tableView
 
 extension ChallengeCreationViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -399,4 +376,14 @@ extension ChallengeCreationViewController: UITableViewDataSource, UITableViewDel
         additionalInfoViewIsVisibleConstraint.constant = self.toDosTableView.contentSize.height + heightNeededForAddCellButton /// resizes additionalInfoView to fit toDosTableView
     }
 
+}
+
+extension ChallengeCreationViewController: UITextFieldDelegate {
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if textField == titleField {
+            viewModel.userEntered(text: textField.text ?? "", for: .title())
+        } else {
+            viewModel.userEntered(text: textField.text ?? "", for: .description())
+        }
+    }
 }

@@ -13,6 +13,16 @@ protocol UserStatsDisplay {
 
 class UserStatsViewController: UIViewController {
     
+    init?(coder: NSCoder, challengesManager: ChallengesManagingProtocol) {
+        self.challengesManager = challengesManager
+        super.init(coder: coder)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    var challengesManager: ChallengesManagingProtocol
     
     @IBOutlet weak var healthLabel: UILabel!
     @IBOutlet weak var workLabel: UILabel!
@@ -61,11 +71,11 @@ class UserStatsViewController: UIViewController {
 extension UserStatsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return ChallengesManager.shared.userStatsManager.sortedHistoryDictionary.count
+        return challengesManager.userStatsManager.sortedHistoryDictionary.count
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        let day = ChallengesManager.shared.userStatsManager.sortedHistoryDictionary[section]
+        let day = challengesManager.userStatsManager.sortedHistoryDictionary[section]
         let formatter = DateFormatter()
         formatter.locale = .current
         formatter.dateFormat = "EEEE, MMM d, yyyy"
@@ -74,13 +84,13 @@ extension UserStatsViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let day = ChallengesManager.shared.userStatsManager.sortedHistoryDictionary[section].value
+        let day = challengesManager.userStatsManager.sortedHistoryDictionary[section].value
         return day.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: HistoryCell.identifier) as! HistoryCell
-        let day = ChallengesManager.shared.userStatsManager.sortedHistoryDictionary[indexPath.section].value
+        let day = challengesManager.userStatsManager.sortedHistoryDictionary[indexPath.section].value
         guard indexPath.row < day.count else { return cell }
         let entry = day[indexPath.row]
         cell.fill(with: entry) // Fills the cell with challenge info

@@ -13,7 +13,7 @@
         <!--Задания-->
         <scene sceneID="UI3-Vg-SLw">
             <objects>
-                <viewController storyboardIdentifier="ChallengesListViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="GPC-f3-b39" customClass="ChallengesListViewController" customModule="LifeHUD" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="GPC-f3-b39" customClass="ChallengeListViewController" customModule="LifeHUD" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="cOb-Zl-5zp">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -54,7 +54,7 @@
         <!--Прогресс-->
         <scene sceneID="VcW-dE-rmK">
             <objects>
-                <viewController storyboardIdentifier="UserStatsViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="ZEQ-xk-Ijz" customClass="UserStatsViewController" customModule="LifeHUD" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="ZEQ-xk-Ijz" customClass="UserStatsViewController" customModule="LifeHUD" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="4ur-mu-7ak">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -166,7 +166,7 @@
         <!--Создание-->
         <scene sceneID="AU3-4k-Tmn">
             <objects>
-                <viewController storyboardIdentifier="ChallengeCreationViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="tzQ-2c-gYg" customClass="ChallengeCreationViewController" customModule="LifeHUD" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="tzQ-2c-gYg" customClass="ChallengeCreationViewController" customModule="LifeHUD" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="3kf-AB-NDM">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -187,6 +187,9 @@
                                                         </constraints>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
+                                                        <connections>
+                                                            <action selector="saveTitle:" destination="tzQ-2c-gYg" eventType="editingDidEnd" id="4z2-xU-X4I"/>
+                                                        </connections>
                                                     </textField>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Введите описание" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="EfB-fX-sY6">
                                                         <rect key="frame" x="16" y="100" width="382" height="50"/>
@@ -195,6 +198,9 @@
                                                         </constraints>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
+                                                        <connections>
+                                                            <action selector="saveDescription:" destination="tzQ-2c-gYg" eventType="editingDidEnd" id="oy2-rJ-qgL"/>
+                                                        </connections>
                                                     </textField>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Название задачи:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fBw-jV-XTS">
                                                         <rect key="frame" x="16" y="8.5" width="142" height="20.5"/>
@@ -422,7 +428,7 @@
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6XG-Of-gQf">
                                                         <rect key="frame" x="0.0" y="0.0" width="382" height="50"/>
                                                         <subviews>
-                                                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" contentViewInsetsToSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X6W-yt-fjH">
+                                                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" contentViewInsetsToSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X6W-yt-fjH">
                                                                 <rect key="frame" x="0.0" y="0.0" width="382" height="10"/>
                                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                             </tableView>
@@ -432,8 +438,8 @@
                                                                     <constraint firstAttribute="width" constant="32" id="hYQ-7x-ogW"/>
                                                                     <constraint firstAttribute="height" constant="32" id="lGD-6s-iRL"/>
                                                                 </constraints>
-                                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                                <state key="normal" image="plus" catalog="system"/>
+                                                                <state key="normal" title="Button"/>
+                                                                <buttonConfiguration key="configuration" style="plain" image="plus" catalog="system"/>
                                                                 <connections>
                                                                     <action selector="addToDoButtonTapped:" destination="tzQ-2c-gYg" eventType="touchUpInside" id="yu4-ZW-ewb"/>
                                                                 </connections>
@@ -618,24 +624,14 @@
         <!--Item-->
         <scene sceneID="FHl-za-swr">
             <objects>
-                <viewController id="X0D-Yo-5YA" customClass="TestCreateViewController" customModule="LifeHUD" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="X0D-Yo-5YA" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="eTV-Vk-8qp">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="tvB-TL-fZD">
-                                <rect key="frame" x="20" y="119" width="240" height="128"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                            </tableView>
-                        </subviews>
                         <viewLayoutGuide key="safeArea" id="rgk-r8-RJI"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Item" id="u4O-aV-Wxw"/>
-                    <connections>
-                        <outlet property="tableView" destination="tvB-TL-fZD" id="ovc-za-8pC"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LBp-zL-cgd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

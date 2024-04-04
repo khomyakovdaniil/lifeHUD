@@ -24,24 +24,29 @@ struct ChallengeCellViewModel: ChallengeCellDisplayProtocol {
         self.challenge = challenge
     }
     
+    // Challenge title
     var title: String {
         return challenge.title
     }
     
+    // Category is shown with corresponging image
     var categoryImage: UIImage {
         return challenge.category.image()
     }
     
+    // Text showing how much XP you get for completing the challenge successfully
     var reward: String {
         let reward = challenge.difficulty.reward()
-        return "+ \(reward) XP"
+        return "+ \(reward) XP" // TODO: собирать итоговые стринги - ответственность вью
     }
     
+    // Text showing how much XP you loose for failing the challenge
     var failFee: String? {
         let fee = challenge.failFee.fee()
         return "- \(fee) XP"
     }
     
+    // Progress according to challenge type (single action, repetitions, sub tasks). Only for showing the progress bar
     var progress: (String?, Float?) {
         var current = Float(0)
         let progress = challenge.progress ?? []

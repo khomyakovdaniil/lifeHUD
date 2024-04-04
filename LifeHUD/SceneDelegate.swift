@@ -16,7 +16,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-        guard let _ = (scene as? UIWindowScene) else { return }
+        guard let scene = (scene as? UIWindowScene) else { return }
+        self.window = UIWindow.init(windowScene: scene)
+        
+        let controller = makeTabBarController()
+        window?.rootViewController = controller
+        window?.makeKeyAndVisible()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -46,7 +51,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
     }
-
+    
+    private func makeTabBarController() -> UITabBarController {
+        let tabBarController = UITabBarController()
+        let listVC = LifeHudDIContainer.shared.resolve(ChallengesListViewController.self)
+        let statsVC = LifeHudDIContainer.shared.resolve(UserStatsViewController.self)
+        let createVC = LifeHudDIContainer.shared.resolve(ChallengeCreationViewController.self)
+        tabBarController.viewControllers = [listVC, statsVC, createVC]
+        return tabBarController
+    }
 
 }
 
